@@ -8,7 +8,6 @@ export default function LoginForm() {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const user = useSelector(store => store.session.user)
 
     if (user) return <Navigate to='/' />
@@ -34,7 +33,7 @@ export default function LoginForm() {
                 return dispatch(login({credential, password}))
                     .catch(async res => {
                         const data = await res.json()
-                        if (data.errors) setErrors(data.errors)
+                        if (data?.errors) setErrors(data.errors)
                     })
             }}
         >
