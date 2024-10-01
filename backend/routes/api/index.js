@@ -1,16 +1,8 @@
 const router = require('express').Router();
+const { restoreUser } = require('../../utils/auth.js');
 
-router.get('/csrf/restore', (req, res) => {
-  const csrfToken = req.csrfToken();
-  res.cookie('XSRF-TOKEN', csrfToken);
-  res.status(200).json({
-    'XSRF-Token': csrfToken,
-  });
-});
-
-router.post('/test', function (req, res) {
-  res.cookie('XSRF-TOKEN', req.csrfToken());
-  res.json({ requestBody: req.body });
-});
+// if current user session is valid, set req.user to that user in the database
+// if not, set req.user to null
+router.use(restoreUser);
 
 module.exports = router;
