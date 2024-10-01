@@ -2,14 +2,6 @@ const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
 
-// Add a XSRF-TOKEN cookie in development
-if (process.env.NODE_ENV !== 'production') {
-  router.get('/api/csrf/restore', (req, res) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
-    return res.json({});
-  });
-}
-
 router.use('/api', apiRouter);
 
 // Static routes
@@ -33,6 +25,14 @@ if (process.env.NODE_ENV === 'production') {
     return res.sendFile(
       path.resolve(__dirname, '../../frontend', 'build', 'index.html')
     );
+  });
+}
+
+// Add a XSRF-TOKEN cookie in development
+if (process.env.NODE_ENV !== 'production') {
+  router.get('/api/csrf/restore', (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    return res.json({});
   });
 }
 
