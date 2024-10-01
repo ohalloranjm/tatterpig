@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { restoreUser } from "./store/session";
 import SignupForm from "./components/SessionForms/SignupFormPage";
+import Navigation from "./components/Navigation";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -16,9 +17,10 @@ function Layout() {
   }, [dispatch]);
 
   return (
-    <div>
+    <>
+      <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
-    </div>
+    </>
   );
 }
 
