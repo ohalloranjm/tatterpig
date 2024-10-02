@@ -14,7 +14,7 @@ function Navigation({ isLoaded }) {
   const sessionLinks = sessionUser ? (
     <>
       <li>
-        <button onClick={logout}>Log Out</button>
+        <button onClick={logout}>Log Out!</button>
       </li>
     </>
   ) : (
