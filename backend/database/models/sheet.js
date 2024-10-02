@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING(50),
         allowNull: false,
+        validate: {
+          len: [1, 50],
+        },
       },
       public: {
         type: DataTypes.BOOLEAN,
@@ -25,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       description: {
         type: DataTypes.STRING(2000),
+        validate: {
+          len: [1, 2000],
+        },
       },
     },
     {
