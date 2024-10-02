@@ -17,6 +17,16 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING(50),
         allowNull: false,
+        validate: {
+          len: {
+            args: [1, 50],
+            msg: 'Name must be 50 or fewer characters',
+          },
+          notEmpty: {
+            args: true,
+            msg: 'Name is required',
+          },
+        },
       },
       public: {
         type: DataTypes.BOOLEAN,
@@ -25,6 +35,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       description: {
         type: DataTypes.STRING(2000),
+        validate: {
+          len: {
+            args: [1, 2000],
+            msg: 'Description must be 2000 or fewer characters',
+          },
+        },
       },
     },
     {

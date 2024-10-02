@@ -37,4 +37,16 @@ router.get('/', async (_req, res) => {
   return res.json({ sheets });
 });
 
+// create a new sheet
+router.post('/', requireAuth, async (req, res) => {
+  const { user, body } = req;
+  const { name, public, description } = body;
+
+  const sheet = await user.createSheet({ name, public, description });
+
+  res.status = 201;
+
+  return res.json({ message: 'Successfully created sheet', sheet });
+});
+
 module.exports = router;

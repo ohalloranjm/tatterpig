@@ -36,6 +36,9 @@ function Navigation({ isLoaded }) {
       <li>
         <NavLink to='/sheets'>Sheets</NavLink>
       </li>
+      <li>
+        <NavLink to='/sheets/new'>Create a Sheet</NavLink>
+      </li>
       {isLoaded && sessionLinks}
     </ul>
   );
