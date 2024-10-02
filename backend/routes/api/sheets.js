@@ -13,14 +13,17 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 // view the details of a specific sheet
-router.get('/:sheetId', async (req, res) => {
+router.get('/:sheetId', async (req, res, next) => {
   const { sheetId } = req.params;
   const sheet = await Sheet.findByPk(sheetId, {
     include: { model: SheetAttribute, include: Attribute },
   });
-  if (!sheet) throw Error('Not found');
+
+  if (!sheet) next(Error('Not found'));
+
   const authorized = sheet.public || req.user?.id === sheet.ownerId;
   if (!authorized) throw Error('Not authorized');
+
   return res.json({ sheet });
 });
 

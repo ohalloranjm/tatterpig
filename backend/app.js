@@ -6,7 +6,7 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
-const errorHandling = require('./error-handling');
+const handleErrors = require('./error-handling');
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
@@ -41,7 +41,8 @@ app.use(
   })
 );
 
+// use routes
 app.use(routes);
-app.use(errorHandling);
+app.use(handleErrors);
 
 module.exports = app;

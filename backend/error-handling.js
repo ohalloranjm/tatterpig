@@ -1,19 +1,19 @@
-const express = require('express');
 const { ValidationError } = require('sequelize');
+const { NotFoundError } = require('./utils/errors');
 
-const router = express.Router();
+const { environment } = require('./config');
+const { handle } = require('express/lib/router');
+const isProduction = environment === 'production';
+
+const handleErrors = [];
 
 // catch unhandled requests and forward to error handler
-router.use((_req, _res, next) => {
-  const err = new Error("The requested resource couldn't be found.");
-  err.title = 'Resource Not Found';
-  err.errors = { message: "The requested resource couldn't be found." };
-  err.status = 404;
-  next(err);
+handleErrors.push(() => {
+  throw new NotFoundError("The requested resource couldn't be found.");
 });
 
 // catch sequelize errors
-router.use((err, _req, _res, next) => {
+handleErrors.push((err, _req, _res, next) => {
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
@@ -26,7 +26,7 @@ router.use((err, _req, _res, next) => {
 });
 
 // error format
-router.use((err, _req, res, _next) => {
+handleErrors.push((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
   res.json({
@@ -37,4 +37,4 @@ router.use((err, _req, res, _next) => {
   });
 });
 
-module.exports = router;
+module.exports = handleErrors;
