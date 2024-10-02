@@ -2,7 +2,6 @@ const { ValidationError } = require('sequelize');
 const { NotFoundError } = require('./utils/errors');
 
 const { environment } = require('./config');
-const { handle } = require('express/lib/router');
 const isProduction = environment === 'production';
 
 const handleErrors = [];
@@ -21,6 +20,7 @@ handleErrors.push((err, _req, _res, next) => {
     }
     err.title = 'Validation Error';
     err.errors = errors;
+    err.status = 400;
   }
   next(err);
 });
