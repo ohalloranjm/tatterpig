@@ -10,9 +10,7 @@ export default function SheetForm() {
   const [makePublic, setMakePublic] = useState(false);
 
   const submit = useSubmit();
-  const errors = useActionData();
-
-  console.log('errors:', errors);
+  const { errors } = useActionData() ?? {};
 
   if (!user) throw Error('Only logged-in users may access this page.');
 
@@ -29,11 +27,15 @@ export default function SheetForm() {
         value={name}
         onChange={e => setName(e.target.value)}
       />
+      <p className='error'>{errors?.name}</p>
+
       <textarea
         placeholder='Description'
         value={description}
         onChange={e => setDescription(e.target.value)}
       />
+      <p className='error'>{errors?.description}</p>
+
       <label>
         <input
           type='checkbox'
@@ -42,6 +44,8 @@ export default function SheetForm() {
         />
         Public
       </label>
+      <p className='error'>{errors?.public}</p>
+
       <button type='submit'>Create Sheet</button>
     </form>
   );

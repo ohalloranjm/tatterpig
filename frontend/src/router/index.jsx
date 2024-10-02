@@ -4,7 +4,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import SheetsIndex from '../components/SheetsIndex';
 import api from '../api';
-import getPublicSheets from '../api/getPublicSheets';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
@@ -33,7 +32,7 @@ const router = createBrowserRouter([
             element: <SheetsIndex />,
             loader: api.collect(
               api.handleError(api.getCurrentSheets, false),
-              getPublicSheets
+              api.getPublicSheets
             ),
           },
           {
