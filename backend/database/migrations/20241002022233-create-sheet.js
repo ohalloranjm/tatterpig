@@ -15,7 +15,6 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
           type: Sequelize.INTEGER,
-          allowNull: false,
         },
         ownerId: {
           type: Sequelize.INTEGER,
