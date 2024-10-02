@@ -9,8 +9,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   SheetAttribute.init(
     {
-      sheetId: DataTypes.INTEGER,
-      attributeId: DataTypes.INTEGER,
+      sheetId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      attributeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       value: DataTypes.STRING,
     },
     {

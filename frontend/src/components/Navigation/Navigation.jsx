@@ -6,7 +6,7 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
-  const logout = (e) => {
+  const logout = e => {
     e.preventDefault();
     dispatch(sessionActions.logout());
   };
@@ -20,10 +20,10 @@ function Navigation({ isLoaded }) {
   ) : (
     <>
       <li>
-        <NavLink to="/login">Log In</NavLink>
+        <NavLink to='/login'>Log In</NavLink>
       </li>
       <li>
-        <NavLink to="/signup">Sign Up</NavLink>
+        <NavLink to='/signup'>Sign Up</NavLink>
       </li>
     </>
   );
@@ -31,7 +31,10 @@ function Navigation({ isLoaded }) {
   return (
     <ul>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to='/'>Home</NavLink>
+      </li>
+      <li>
+        <NavLink to='/sheets'>Sheets</NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
