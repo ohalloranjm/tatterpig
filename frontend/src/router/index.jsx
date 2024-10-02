@@ -3,6 +3,7 @@ import SignupForm from "../components/SessionForms/SignupFormPage";
 import {createBrowserRouter} from "react-router-dom";
 import Layout from "./Layout";
 import SheetsIndex from "../components/SheetsIndex";
+import getPublicSheets from "../api/getPublicSheets";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
         },
         {
             path: '/sheets',
-            element: <SheetsIndex />
+            element: <SheetsIndex />,
+            loader: getPublicSheets
         }
       ]
     }
