@@ -16,9 +16,7 @@ router.get('/current', requireAuth, async (req, res) => {
 // view the details of a specific sheet
 router.get('/:sheetId', async (req, res) => {
   const { sheetId } = req.params;
-  const sheet = await Sheet.findByPk(sheetId, {
-    include: { model: SheetAttribute, include: Attribute },
-  });
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetAttribute });
 
   if (!sheet) throw new NotFoundError('Sheet not found');
 
