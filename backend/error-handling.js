@@ -12,14 +12,14 @@ handleErrors.push(() => {
   throw new NotFoundError("The requested resource couldn't be found.");
 });
 
-// catch sequelize errors
+// catch and format sequelize errors
 handleErrors.push((err, _req, _res, next) => {
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
       errors[error.path] = error.message;
     }
-    err.title = 'Validation error';
+    err.title = 'Validation Error';
     err.errors = errors;
   }
   next(err);

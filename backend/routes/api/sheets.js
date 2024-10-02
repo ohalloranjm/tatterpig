@@ -1,6 +1,7 @@
 const express = require('express');
 const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
+const { AuthorizationError, NotFoundError } = require('../../utils/errors');
 
 const router = express.Router();
 
@@ -13,16 +14,16 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 // view the details of a specific sheet
-router.get('/:sheetId', async (req, res, next) => {
+router.get('/:sheetId', async (req, res) => {
   const { sheetId } = req.params;
   const sheet = await Sheet.findByPk(sheetId, {
     include: { model: SheetAttribute, include: Attribute },
   });
 
-  if (!sheet) next(Error('Not found'));
+  if (!sheet) throw new NotFoundError('Sheet not found');
 
   const authorized = sheet.public || req.user?.id === sheet.ownerId;
-  if (!authorized) throw Error('Not authorized');
+  if (!authorized) throw new AuthorizationError();
 
   return res.json({ sheet });
 });
