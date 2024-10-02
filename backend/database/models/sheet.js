@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Sheet extends Model {
     static associate(models) {
       Sheet.belongsTo(models.User, { foreignKey: 'ownerId' });
+      Sheet.hasMany(models.SheetAttribute, { foreignKey: 'sheetId' });
     }
   }
   Sheet.init(

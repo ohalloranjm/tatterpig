@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Attribute extends Model {
     static associate(models) {
       Attribute.belongsTo(models.User, { foreignKey: 'ownerId' });
+      Attribute.hasMany(models.SheetAttribute, { foreignKey: 'attributeId' });
     }
   }
   Attribute.init(
