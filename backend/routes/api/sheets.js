@@ -31,6 +31,19 @@ router.get('/:sheetId', async (req, res) => {
   return res.json({ sheet });
 });
 
+// delete a sheet
+router.delete('/:sheetId', requireAuth, async (req, res) => {
+  const { sheetId } = req.params;
+  const sheet = await Sheet.findByPk(sheetId);
+
+  if (!sheet) throw new NotFoundError('Sheet not found');
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  await sheet.destroy();
+
+  return res.json({ message: 'Successfully deleted', sheet });
+});
+
 // view all public sheets
 router.get('/', async (_req, res) => {
   const sheets = await Sheet.findAll({ where: { public: true } });

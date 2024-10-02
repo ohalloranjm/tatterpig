@@ -1,8 +1,20 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useSubmit } from 'react-router-dom';
 import SheetAttributeTile from './SheetAttributeTile';
+import { useSelector } from 'react-redux';
 
 export default function SheetDetailsPage() {
   const { sheet } = useLoaderData();
+  const submit = useSubmit();
+  const user = useSelector(store => store.session.user);
+  const isOwner = user?.id === sheet.ownerId;
+
+  const deleteSheet = () => {
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this sheet?'
+    );
+    if (confirmDelete) submit(null, { method: 'delete' });
+  };
+
   return (
     <>
       <h1>{sheet.name}</h1>
@@ -10,6 +22,11 @@ export default function SheetDetailsPage() {
       {sheet.SheetAttributes.map(a => (
         <SheetAttributeTile key={a.id} attribute={a} />
       ))}
+      {isOwner && (
+        <button type='button' onClick={deleteSheet}>
+          Delete Sheet
+        </button>
+      )}
     </>
   );
 }

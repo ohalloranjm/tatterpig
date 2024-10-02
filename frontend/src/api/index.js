@@ -1,3 +1,4 @@
+import deleteSheet from './deleteSheet';
 import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 import getSheetDetails from './getSheetDetails';
@@ -28,6 +29,7 @@ const api = {
   getPublicSheets,
   getSheetDetails,
   postSheet,
+  deleteSheet,
 };
 
 export default api;
