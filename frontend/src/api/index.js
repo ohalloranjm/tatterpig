@@ -1,3 +1,4 @@
+import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 
 const collect = (...routes) =>
@@ -9,6 +10,15 @@ const collect = (...routes) =>
     return result;
   };
 
-const api = { collect, getPublicSheets };
+const ignoreError = route =>
+  async function (...params) {
+    try {
+      return await route(...params);
+    } catch (err) {
+      return false;
+    }
+  };
+
+const api = { collect, ignoreError, getCurrentSheets, getPublicSheets };
 
 export default api;
