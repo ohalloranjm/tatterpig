@@ -32,14 +32,14 @@ const router = createBrowserRouter([
             path: '/sheets',
             element: <SheetsIndex />,
             loader: api.collect(
-              api.ignoreError(api.getCurrentSheets),
+              api.handleError(api.getCurrentSheets, false),
               getPublicSheets
             ),
           },
           {
             path: '/sheets/new',
             element: <SheetForm />,
-            action: api.postSheet,
+            action: api.handleError(api.postSheet),
           },
           {
             path: '/sheets/:sheetId',

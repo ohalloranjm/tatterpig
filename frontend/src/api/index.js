@@ -12,18 +12,18 @@ const collect = (...routes) =>
     return result;
   };
 
-const ignoreError = route =>
+const handleError = (route, returnError = true) =>
   async function (...params) {
     try {
       return await route(...params);
     } catch (err) {
-      return false;
+      return returnError ? err : false;
     }
   };
 
 const api = {
   collect,
-  ignoreError,
+  handleError,
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,
