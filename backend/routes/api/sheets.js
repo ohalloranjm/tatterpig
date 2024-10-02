@@ -37,7 +37,7 @@ router.delete('/:sheetId', requireAuth, async (req, res) => {
   const sheet = await Sheet.findByPk(sheetId);
 
   if (!sheet) throw new NotFoundError('Sheet not found');
-  if (!sheet.public) throw new AuthorizationError();
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
 
   await sheet.destroy();
 
