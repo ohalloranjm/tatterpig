@@ -44,6 +44,8 @@ router.post('/', requireAuth, async (req, res) => {
 
   const sheet = await user.createSheet({ name, public, description });
 
+  res.status = 201;
+
   return res.json({ message: 'Successfully created sheet', sheet });
 });
 
