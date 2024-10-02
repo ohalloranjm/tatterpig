@@ -39,10 +39,10 @@ router.get('/', async (_req, res) => {
 
 // create a new sheet
 router.post('/', requireAuth, async (req, res) => {
-  const { id: ownerId } = req.user;
-  const { name, public, description } = req.body;
+  const { user, body } = req;
+  const { name, public, description } = body;
 
-  const sheet = await Sheet.create({ ownerId, name, public, description });
+  const sheet = await user.createSheet({ name, public, description });
 
   return res.json({ message: 'Successfully created sheet', sheet });
 });
