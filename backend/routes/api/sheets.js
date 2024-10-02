@@ -23,6 +23,15 @@ router.get('/:sheetId', async (req, res) => {
   const authorized = sheet.public || req.user?.id === sheet.ownerId;
   if (!authorized) throw new AuthorizationError();
 
+  const { SheetAttributes } = sheet;
+  SheetAttributes.forEach(satt => {
+    const attribute = satt.dataValues.Attribute.dataValues;
+    satt.dataValues.name = attribute.name;
+    satt.dataValues.attributeOwnerId = attribute.ownerId;
+    satt.dataValues.dataType = attribute.dataType;
+    delete satt.dataValues.Attribute;
+  });
+
   return res.json({ sheet });
 });
 
