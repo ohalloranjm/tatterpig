@@ -1,3 +1,11 @@
+import { useLoaderData } from 'react-router-dom';
+
 export default function SheetDetailsPage() {
-  return <h1>Sheet Name</h1>;
+  const { sheet } = useLoaderData();
+  return (
+    <>
+      <h1>{sheet.name}</h1>
+      <p>{sheet.description}</p>
+    </>
+  );
 }
