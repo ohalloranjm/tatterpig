@@ -16,7 +16,8 @@ export default function SheetForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const body = { name, description, public: makePublic };
+    const body = { name, public: makePublic };
+    if (description) body.description = description;
     submit(body, { method: 'post', encType: 'application/json' });
   };
 
