@@ -7,6 +7,7 @@ import api from '../api';
 import getPublicSheets from '../api/getPublicSheets';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
+import SheetForm from '../components/SheetForm/SheetForm';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
               api.ignoreError(api.getCurrentSheets),
               getPublicSheets
             ),
+          },
+          {
+            path: '/sheets/new',
+            element: <SheetForm />,
           },
           {
             path: '/sheets/:sheetId',
