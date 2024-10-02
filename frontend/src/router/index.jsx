@@ -44,6 +44,7 @@ const router = createBrowserRouter([
             path: '/sheets/:sheetId',
             element: <SheetDetailsPage />,
             loader: api.getSheetDetails,
+            action: api.deleteSheet,
           },
         ],
       },
