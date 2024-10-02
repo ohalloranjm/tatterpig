@@ -1,7 +1,6 @@
 'use strict';
 
 const { User, Attribute } = require('../models');
-const bcrypt = require('bcryptjs');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -39,7 +38,7 @@ module.exports = {
   async up(_queryInterface, _Sequelize) {
     const owner = await User.findOne({ where: { username: 'demo' } });
     const ownerId = owner.id;
-    const finalAttributes = fakeAttributes.map(s => ({ ...s, ownerId }));
+    const finalAttributes = fakeAttributes.map(a => ({ ...a, ownerId }));
     await Attribute.bulkCreate(finalAttributes, { validate: true });
   },
 
@@ -59,4 +58,6 @@ module.exports = {
       {}
     );
   },
+
+  fakeAttributes,
 };
