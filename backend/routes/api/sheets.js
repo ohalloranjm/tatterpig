@@ -31,6 +31,20 @@ router.get('/:sheetId', async (req, res) => {
   return res.json({ sheet });
 });
 
+// update a sheet
+router.put('/:sheetId', requireAuth, async (req, res) => {
+  const { sheetId } = req.params;
+  const sheet = await Sheet.findByPk(sheetId);
+
+  if (!sheet) throw new NotFoundError();
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  const { name, description, public } = req.body;
+  sheet.set;
+  const updated = await sheet.update({ name, description, public });
+  return res.json({ sheet: updated });
+});
+
 // delete a sheet
 router.delete('/:sheetId', requireAuth, async (req, res) => {
   const { sheetId } = req.params;
