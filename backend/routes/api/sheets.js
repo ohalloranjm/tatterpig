@@ -1,20 +1,32 @@
 const express = require('express');
-const { User, Sheet } = require('../../database/models');
+const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
-
-// view all public sheets
-router.get('/', async (_req, res) => {
-  const sheets = await Sheet.findAll({ where: { public: true } });
-  return res.json({ sheets });
-});
 
 // view all sheets owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
   const { id: ownerId } = req.user;
   console.log(ownerId);
   const sheets = await Sheet.findAll({ where: { ownerId } });
+  return res.json({ sheets });
+});
+
+// view the details of a specific sheet
+router.get('/:sheetId', async (req, res) => {
+  const { sheetId } = req.params;
+  const sheet = await Sheet.findByPk(sheetId, {
+    include: { model: SheetAttribute, include: Attribute },
+  });
+  if (!sheet) throw Error('Not found');
+  const authorized = sheet.public || req.user?.id === sheet.ownerId;
+  if (!authorized) throw Error('Not authorized');
+  return res.json({ sheet });
+});
+
+// view all public sheets
+router.get('/', async (_req, res) => {
+  const sheets = await Sheet.findAll({ where: { public: true } });
   return res.json({ sheets });
 });
 
