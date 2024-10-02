@@ -1,6 +1,7 @@
 import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 import getSheetDetails from './getSheetDetails';
+import postSheet from './postSheet';
 
 const collect = (...routes) =>
   async function (...params) {
@@ -26,6 +27,7 @@ const api = {
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,
+  postSheet,
 };
 
 export default api;

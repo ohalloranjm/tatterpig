@@ -39,6 +39,7 @@ const router = createBrowserRouter([
           {
             path: '/sheets/new',
             element: <SheetForm />,
+            action: api.postSheet,
           },
           {
             path: '/sheets/:sheetId',
