@@ -12,13 +12,7 @@ export default function SheetDetailsPage() {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this sheet?'
     );
-    if (confirmDelete) {
-      console.log('over the river and through the woods');
-      submit();
-      console.log(
-        'the horse knows the way to carry the sleight over white and drifting snow'
-      );
-    }
+    if (confirmDelete) submit(null, { method: 'delete' });
   };
 
   return (
