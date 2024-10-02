@@ -6,13 +6,14 @@ import SheetsIndex from '../components/SheetsIndex';
 import api from '../api';
 import getPublicSheets from '../api/getPublicSheets';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
+import DefaultError from '../components/DefaultError/DefaultError';
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
       {
-        errorElement: <h1>Uh oh, something went wrong.</h1>,
+        errorElement: <DefaultError />,
         children: [
           {
             path: '/',
