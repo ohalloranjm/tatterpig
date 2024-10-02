@@ -1,7 +1,10 @@
 const express = require('express');
-const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
+const { Sheet, SheetAttribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
 const { AuthorizationError, NotFoundError } = require('../../utils/errors');
+const {
+  formatSheetAttributesMutate,
+} = require('../../utils/response-formatting');
 
 const router = express.Router();
 
@@ -23,14 +26,7 @@ router.get('/:sheetId', async (req, res) => {
   const authorized = sheet.public || req.user?.id === sheet.ownerId;
   if (!authorized) throw new AuthorizationError();
 
-  const { SheetAttributes } = sheet;
-  SheetAttributes.forEach(satt => {
-    const attribute = satt.dataValues.Attribute.dataValues;
-    satt.dataValues.name = attribute.name;
-    satt.dataValues.attributeOwnerId = attribute.ownerId;
-    satt.dataValues.dataType = attribute.dataType;
-    delete satt.dataValues.Attribute;
-  });
+  formatSheetAttributesMutate(sheet.SheetAttributes);
 
   return res.json({ sheet });
 });
