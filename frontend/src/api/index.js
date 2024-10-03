@@ -4,6 +4,7 @@ import getCurrentAttributes from './getCurrentAttributes';
 import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 import getSheetDetails from './getSheetDetails';
+import postAttribute from './postAttribute';
 import postSheet from './postSheet';
 import putSheet from './putSheet';
 
@@ -30,6 +31,7 @@ const api = {
   handleError,
   getCurrentAttributes,
   getAttributeDetails,
+  postAttribute,
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,

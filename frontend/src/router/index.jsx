@@ -1,9 +1,9 @@
+import { createBrowserRouter } from 'react-router-dom';
+import api from '../api';
 import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
-import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import SheetsIndex from '../components/SheetsIndex';
-import api from '../api';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
@@ -38,6 +38,7 @@ const router = createBrowserRouter([
           {
             path: '/attributes/new',
             element: <AttributeForm />,
+            action: api.postAttribute,
           },
           {
             path: '/attributes/:attributeId',
