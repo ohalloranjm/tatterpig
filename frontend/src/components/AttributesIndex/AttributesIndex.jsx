@@ -1,3 +1,15 @@
+import { useLoaderData } from 'react-router-dom';
+import AttributeTile from './AttributeTile';
+
 export default function AttributesIndex() {
-  return <h1>Attributes Index</h1>;
+  const { attributes } = useLoaderData();
+  console.log(attributes);
+  return (
+    <>
+      <h1>My Attributes</h1>
+      {attributes.map(a => (
+        <AttributeTile key={a.id} attribute={a} />
+      ))}
+    </>
+  );
 }
