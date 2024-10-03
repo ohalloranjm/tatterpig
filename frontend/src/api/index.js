@@ -1,4 +1,6 @@
 import deleteSheet from './deleteSheet';
+import getAttributeDetails from './getAttributeDetails';
+import getCurrentAttributes from './getCurrentAttributes';
 import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 import getSheetDetails from './getSheetDetails';
@@ -26,6 +28,8 @@ const handleError = (route, returnError = true) =>
 const api = {
   collect,
   handleError,
+  getCurrentAttributes,
+  getAttributeDetails,
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,

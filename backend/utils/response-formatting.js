@@ -8,4 +8,15 @@ const formatSheetAttributesMutate = function (SheetAttributes) {
   });
 };
 
-module.exports = { formatSheetAttributesMutate };
+const formatAttributeSheetsMutate = function (SheetAttributes) {
+  SheetAttributes.forEach(satt => {
+    const sheet = satt.dataValues.Sheet.dataValues;
+    satt.dataValues.name = sheet.name;
+    satt.dataValues.sheetOwnerId = sheet.ownerId;
+    satt.dataValues.public = sheet.public;
+    satt.dataValues.description = sheet.description;
+    delete satt.dataValues.Sheet;
+  });
+};
+
+module.exports = { formatSheetAttributesMutate, formatAttributeSheetsMutate };

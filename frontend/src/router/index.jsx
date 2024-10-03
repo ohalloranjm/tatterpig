@@ -7,6 +7,8 @@ import api from '../api';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
+import AttributesIndex from '../components/AttributesIndex';
+import AttributeDetailsPage from '../components/AttributeDetailsPage/AttributeDetailsPage';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,16 @@ const router = createBrowserRouter([
           {
             path: '/signup',
             element: <SignupForm />,
+          },
+          {
+            path: '/attributes',
+            element: <AttributesIndex />,
+            loader: api.getCurrentAttributes,
+          },
+          {
+            path: '/attributes/:attributeId',
+            element: <AttributeDetailsPage />,
+            loader: api.getAttributeDetails,
           },
           {
             path: '/sheets',
