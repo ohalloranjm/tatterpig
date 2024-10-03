@@ -45,6 +45,7 @@ const router = createBrowserRouter([
             path: '/attributes/:attributeId',
             element: <AttributeDetailsPage />,
             loader: api.getAttributeDetails,
+            action: api.deleteAttribute,
           },
           {
             path: '/sheets',
