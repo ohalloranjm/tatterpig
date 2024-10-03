@@ -31,8 +31,7 @@ export default function LoginForm() {
         type='submit'
         onClick={e => {
           e.preventDefault();
-          return dispatch(login({ credential, password })).catch(async res => {
-            const data = await res.json();
+          return dispatch(login({ credential, password })).catch(async data => {
             if (data?.errors) setErrors(data.errors);
           });
         }}

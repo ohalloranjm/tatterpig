@@ -15,8 +15,7 @@ export default function SignupForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    return dispatch(signup({ username, email, password })).catch(async res => {
-      const data = await res.json();
+    return dispatch(signup({ username, email, password })).catch(async data => {
       if (data?.errors) setErrors(data.errors);
     });
   };
