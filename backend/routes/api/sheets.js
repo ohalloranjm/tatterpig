@@ -1,7 +1,11 @@
 const express = require('express');
 const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
-const { AuthorizationError, NotFoundError } = require('../../utils/errors');
+const {
+  AuthorizationError,
+  BadRequestError,
+  NotFoundError,
+} = require('../../utils/errors');
 const {
   formatSheetAttributesMutate,
 } = require('../../utils/response-formatting');
@@ -34,7 +38,10 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
     sa => sa.Attribute.id === attributeId
   );
 
-  if (alreadyTaken) throw Error('Sheet and attribute already associated');
+  if (alreadyTaken)
+    throw new BadRequestError({
+      attribute: 'Sheet and attribute already associated',
+    });
 
   // process value
   let { value } = req.body;
@@ -42,11 +49,12 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
     value = String(value);
     switch (attribute.dataType) {
       case 'number':
-        if (isNaN(value)) throw new Error('Value must be a number');
+        if (isNaN(value))
+          throw new BadRequestError({ value: 'Value must be a number' });
         break;
       case 'boolean':
         if (!['true', 'false'].includes(value.toLowerCase())) {
-          throw new Error('Value must be true or false');
+          throw new BadRequestError({ value: 'Value must be true or false' });
         }
         break;
     }
@@ -57,7 +65,7 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
     value,
   });
 
-  res.statusCode = 201;
+  res.status(201);
   return res.json({ message: 'Success', sheetAttribute });
 });
 
@@ -126,7 +134,7 @@ router.post('/', requireAuth, async (req, res) => {
 
   const sheet = await user.createSheet({ name, public, description });
 
-  res.statusCode = 201;
+  res.status(201);
 
   return res.json({ message: 'Successfully created sheet', sheet });
 });

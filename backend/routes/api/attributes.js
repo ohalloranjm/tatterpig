@@ -38,7 +38,7 @@ router.post('/', requireAuth, async (req, res) => {
 
   const attribute = await user.createAttribute({ name, dataType });
 
-  res.statusCode = 201;
+  res.status(201);
 
   return res.json({ message: 'Successfully created attribute', attribute });
 });
