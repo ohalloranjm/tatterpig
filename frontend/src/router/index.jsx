@@ -10,6 +10,7 @@ import SheetForm from '../components/SheetForm/SheetForm';
 import AttributesIndex from '../components/AttributesIndex';
 import AttributeDetailsPage from '../components/AttributeDetailsPage/AttributeDetailsPage';
 import AttributeForm from '../components/AttributeForm/AttributeForm';
+import ValueForm from '../components/ValueForm/ValueForm';
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,11 @@ const router = createBrowserRouter([
             element: <SheetForm edit={true} />,
             loader: api.getSheetDetails,
             action: api.handleError(api.putSheet),
+          },
+          {
+            path: '/sheets/:sheetId/attributes/add',
+            element: <ValueForm />,
+            loader: api.getSheetDetails,
           },
         ],
       },
