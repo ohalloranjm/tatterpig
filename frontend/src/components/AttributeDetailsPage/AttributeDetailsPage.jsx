@@ -1,4 +1,8 @@
+import { useLoaderData } from 'react-router-dom';
+
 export default function AttributeDetailsPage() {
+  const attribute = useLoaderData();
+  console.log(attribute);
   return (
     <>
       <h1>attribute.name</h1>

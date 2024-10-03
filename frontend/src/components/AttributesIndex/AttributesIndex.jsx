@@ -3,7 +3,6 @@ import AttributeTile from './AttributeTile';
 
 export default function AttributesIndex() {
   const { attributes } = useLoaderData();
-  console.log(attributes);
   return (
     <>
       <h1>My Attributes</h1>

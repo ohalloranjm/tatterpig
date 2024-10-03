@@ -37,6 +37,7 @@ const router = createBrowserRouter([
           {
             path: '/attributes/:attributeId',
             element: <AttributeDetailsPage />,
+            loader: api.getAttributeDetails,
           },
           {
             path: '/sheets',

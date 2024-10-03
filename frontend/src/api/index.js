@@ -1,4 +1,5 @@
 import deleteSheet from './deleteSheet';
+import getAttributeDetails from './getAttributeDetails';
 import getCurrentAttributes from './getCurrentAttributes';
 import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
@@ -28,6 +29,7 @@ const api = {
   collect,
   handleError,
   getCurrentAttributes,
+  getAttributeDetails,
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,
