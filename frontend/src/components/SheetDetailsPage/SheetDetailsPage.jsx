@@ -1,10 +1,12 @@
-import { useLoaderData, useSubmit } from 'react-router-dom';
+import { useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
 import SheetAttributeTile from './SheetAttributeTile';
 import { useSelector } from 'react-redux';
 
 export default function SheetDetailsPage() {
   const { sheet } = useLoaderData();
   const submit = useSubmit();
+  const navigate = useNavigate();
+
   const user = useSelector(store => store.session.user);
   const isOwner = user?.id === sheet.ownerId;
 
@@ -23,9 +25,14 @@ export default function SheetDetailsPage() {
         <SheetAttributeTile key={a.id} attribute={a} />
       ))}
       {isOwner && (
-        <button type='button' onClick={deleteSheet}>
-          Delete Sheet
-        </button>
+        <>
+          <button type='button' onClick={deleteSheet}>
+            Delete Sheet
+          </button>
+          <button type='button' onClick={() => navigate('edit')}>
+            Edit Sheet
+          </button>
+        </>
       )}
     </>
   );
