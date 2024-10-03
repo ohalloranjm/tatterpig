@@ -3,6 +3,7 @@ import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 import getSheetDetails from './getSheetDetails';
 import postSheet from './postSheet';
+import putSheet from './putSheet';
 
 const collect = (...routes) =>
   async function (...params) {
@@ -29,6 +30,7 @@ const api = {
   getPublicSheets,
   getSheetDetails,
   postSheet,
+  putSheet,
   deleteSheet,
 };
 

@@ -5,6 +5,8 @@ const { AuthorizationError, NotFoundError } = require('../../utils/errors');
 const {
   formatSheetAttributesMutate,
 } = require('../../utils/response-formatting');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -29,6 +31,30 @@ router.get('/:sheetId', async (req, res) => {
   formatSheetAttributesMutate(sheet.SheetAttributes);
 
   return res.json({ sheet });
+});
+
+const validateUpdateSheet = [
+  check('name')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Name is required'),
+  check('description').exists().withMessage('Description is required'),
+  check('public').exists().withMessage('Public is required'),
+  handleValidationErrors,
+];
+
+// update a sheet
+router.put('/:sheetId', requireAuth, validateUpdateSheet, async (req, res) => {
+  const { sheetId } = req.params;
+  const sheet = await Sheet.findByPk(sheetId);
+
+  if (!sheet) throw new NotFoundError();
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  const { name, description, public } = req.body;
+
+  const updated = await sheet.update({ name, description, public });
+  return res.json({ sheet: updated });
 });
 
 // delete a sheet

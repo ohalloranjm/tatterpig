@@ -37,7 +37,7 @@ const router = createBrowserRouter([
           },
           {
             path: '/sheets/new',
-            element: <SheetForm />,
+            element: <SheetForm edit={false} />,
             action: api.handleError(api.postSheet),
           },
           {
@@ -45,6 +45,12 @@ const router = createBrowserRouter([
             element: <SheetDetailsPage />,
             loader: api.getSheetDetails,
             action: api.deleteSheet,
+          },
+          {
+            path: '/sheets/:sheetId/edit',
+            element: <SheetForm edit={true} />,
+            loader: api.getSheetDetails,
+            action: api.handleError(api.putSheet),
           },
         ],
       },

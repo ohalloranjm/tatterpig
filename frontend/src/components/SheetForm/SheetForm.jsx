@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useActionData, useSubmit } from 'react-router-dom';
+import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
 
-export default function SheetForm() {
+export default function SheetForm(params) {
   const user = useSelector(store => store.session.user);
 
   const [name, setName] = useState('');
@@ -11,18 +11,37 @@ export default function SheetForm() {
 
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
+  const { sheet } = useLoaderData() ?? {};
 
-  if (!user) throw Error('Only logged-in users may access this page.');
+  useEffect(() => {
+    if (sheet) {
+      setName(sheet.name);
+      setDescription(sheet.description ?? '');
+      setMakePublic(sheet.public);
+    }
+  }, []);
 
-  const handleSubmit = e => {
+  const { edit } = params;
+
+  if (!user) throw Error('You must be logged in to access this page.');
+  if (edit && sheet?.ownerId !== user.id)
+    throw Error('You do not have permission to edit this sheet.');
+
+  const post = e => {
     e.preventDefault();
     const body = { name, public: makePublic };
     if (description) body.description = description;
     submit(body, { method: 'post', encType: 'application/json' });
   };
 
+  const put = e => {
+    e.preventDefault();
+    const body = { name, public: makePublic, description: description || null };
+    submit(body, { method: 'put', encType: 'application/json' });
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={edit ? put : post}>
       <input
         placeholder='Sheet Name'
         value={name}
@@ -47,7 +66,7 @@ export default function SheetForm() {
       </label>
       <p className='error'>{errors?.public}</p>
 
-      <button type='submit'>Create Sheet</button>
+      <button type='submit'>{edit ? 'Update' : 'Create'} Sheet</button>
     </form>
   );
 }
