@@ -1,16 +1,15 @@
 const express = require('express');
 const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
-const {
-  AuthorizationError,
-  BadRequestError,
-  NotFoundError,
-} = require('../../utils/errors');
+const { AuthorizationError, NotFoundError } = require('../../utils/errors');
 const {
   formatSheetAttributesMutate,
 } = require('../../utils/response-formatting');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const {
+  handleValidationErrors,
+  validateAttributeValue,
+} = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -34,21 +33,9 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
   if (!sheet) throw new NotFoundError('Sheet not found');
   if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
 
-  // process value
   let { value } = req.body;
   if ('value' in req.body) {
-    value = String(value);
-    switch (attribute.dataType) {
-      case 'number':
-        if (isNaN(value))
-          throw new BadRequestError({ value: 'Value must be a number' });
-        break;
-      case 'boolean':
-        if (!['true', 'false'].includes(value.toLowerCase())) {
-          throw new BadRequestError({ value: 'Value must be true or false' });
-        }
-        break;
-    }
+    value = validateAttributeValue(value, attribute);
   }
 
   const sheetAttribute = await sheet.createSheetAttribute({

@@ -15,6 +15,23 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+const validateAttributeValue = (value, { dataType }) => {
+  value = String(value);
+  switch (dataType) {
+    case 'number':
+      if (isNaN(value))
+        throw new BadRequestError({ value: 'Value must be a number' });
+      break;
+    case 'boolean':
+      if (!['true', 'false'].includes(value.toLowerCase())) {
+        throw new BadRequestError({ value: 'Value must be true or false' });
+      }
+      value = value.toLowerCase();
+  }
+  return value;
+};
+
 module.exports = {
   handleValidationErrors,
+  validateAttributeValue,
 };
