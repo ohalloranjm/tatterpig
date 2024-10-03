@@ -50,6 +50,7 @@ const router = createBrowserRouter([
             path: '/sheets/:sheetId/edit',
             element: <SheetForm edit={true} />,
             loader: api.getSheetDetails,
+            action: api.handleError(api.putSheet),
           },
         ],
       },

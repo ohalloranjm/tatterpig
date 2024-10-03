@@ -16,7 +16,7 @@ export default function SheetForm(params) {
   useEffect(() => {
     if (sheet) {
       setName(sheet.name);
-      setDescription(sheet.description);
+      setDescription(sheet.description ?? '');
       setMakePublic(sheet.public);
     }
   }, []);
@@ -36,7 +36,7 @@ export default function SheetForm(params) {
 
   const put = e => {
     e.preventDefault();
-    const body = { name, public: makePublic, body: body || null };
+    const body = { name, public: makePublic, description: description || null };
     submit(body, { method: 'put', encType: 'application/json' });
   };
 
