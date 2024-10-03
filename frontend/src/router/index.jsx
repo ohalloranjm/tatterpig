@@ -75,6 +75,7 @@ const router = createBrowserRouter([
             path: '/sheets/:sheetId/attributes/add',
             element: <ValueForm />,
             loader: api.collect(api.getSheetDetails, api.getCurrentAttributes),
+            action: api.handleError(api.postValue),
           },
         ],
       },

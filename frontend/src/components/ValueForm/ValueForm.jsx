@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLoaderData } from 'react-router-dom';
+import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
 
 export default function ValueForm() {
   const [{ sheet }, { attributes }] = useLoaderData();
+  const submit = useSubmit();
+  const errors = useActionData() ?? {};
 
   const [selectedAttribute, setSelectedAttribute] = useState(0);
   const [numberValue, setNumberValue] = useState('');
@@ -33,7 +35,26 @@ export default function ValueForm() {
       stringValue,
       booleanValue,
     });
+
+    const lookup = {
+      string: stringValue || null,
+      number: numberValue === '' ? null : numberValue,
+      boolean: booleanValue,
+    };
+
+    const body = {
+      attributeId: +selectedAttribute,
+      value: lookup[dataType],
+    };
+
+    if (body.value === null) delete body.value;
+
+    console.log(body);
+
+    submit(body, { method: 'post', encType: 'application/json' });
   };
+
+  console.log(errors);
 
   return (
     <>
@@ -62,6 +83,7 @@ export default function ValueForm() {
             {dataType === 'number' ? (
               <input
                 placeholder='Number Value'
+                type='number'
                 value={numberValue}
                 onChange={e => setNumberValue(e.target.value)}
               />
