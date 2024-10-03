@@ -5,9 +5,9 @@ import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
 export default function ValueForm() {
   const [{ sheet }, { attributes }] = useLoaderData();
   const submit = useSubmit();
-  const errors = useActionData() ?? {};
+  const { errors } = useActionData() ?? {};
 
-  const [selectedAttribute, setSelectedAttribute] = useState(0);
+  const [selectedAttribute, setSelectedAttribute] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
   const [booleanValue, setBooleanValue] = useState(true);
@@ -49,12 +49,8 @@ export default function ValueForm() {
 
     if (body.value === null) delete body.value;
 
-    console.log(body);
-
     submit(body, { method: 'post', encType: 'application/json' });
   };
-
-  console.log(errors);
 
   return (
     <>
@@ -78,34 +74,37 @@ export default function ValueForm() {
         </select>
 
         {selectedAttribute ? (
-          <label>
-            {dataType}:{' '}
-            {dataType === 'number' ? (
-              <input
-                placeholder='Number Value'
-                type='number'
-                value={numberValue}
-                onChange={e => setNumberValue(e.target.value)}
-              />
-            ) : null}
-            {dataType === 'boolean' ? (
-              <input
-                type='checkbox'
-                checked={booleanValue}
-                onChange={() => setBooleanValue(prev => !prev)}
-              />
-            ) : null}
-            {dataType === 'string' ? (
-              <input
-                placeholder='Text Value'
-                value={stringValue}
-                onChange={e => setStringValue(e.target.value)}
-              />
-            ) : null}
-          </label>
+          <>
+            <label>
+              {dataType}:{' '}
+              {dataType === 'number' ? (
+                <input
+                  placeholder='Number Value'
+                  type='number'
+                  value={numberValue}
+                  onChange={e => setNumberValue(e.target.value)}
+                />
+              ) : null}
+              {dataType === 'boolean' ? (
+                <input
+                  type='checkbox'
+                  checked={booleanValue}
+                  onChange={() => setBooleanValue(prev => !prev)}
+                />
+              ) : null}
+              {dataType === 'string' ? (
+                <input
+                  placeholder='Text Value'
+                  value={stringValue}
+                  onChange={e => setStringValue(e.target.value)}
+                />
+              ) : null}
+            </label>
+            <p className='error'>{errors?.value}</p>
+          </>
         ) : null}
 
-        <button type='submit' disabled={selectedAttribute === '0'}>
+        <button type='submit' disabled={!selectedAttribute}>
           Add Attribute
         </button>
       </form>
