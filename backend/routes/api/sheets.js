@@ -30,18 +30,9 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
   if (!attribute) throw new NotFoundError('Attribute not found');
   if (attribute.ownerId !== req.user.id) throw new AuthorizationError();
 
-  const sheet = await Sheet.findByPk(sheetId, { include: SheetAttribute });
+  const sheet = await Sheet.findByPk(sheetId);
   if (!sheet) throw new NotFoundError('Sheet not found');
   if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
-
-  const alreadyTaken = sheet.SheetAttributes.some(
-    sa => sa.Attribute.id === attributeId
-  );
-
-  if (alreadyTaken)
-    throw new BadRequestError({
-      attribute: 'Sheet and attribute already associated',
-    });
 
   // process value
   let { value } = req.body;
