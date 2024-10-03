@@ -17,7 +17,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      value: DataTypes.STRING,
+      value: {
+        type: DataTypes.STRING(500),
+        validate: {
+          len: {
+            args: [1, 500],
+            msg: 'Value must be 500 or fewer characters',
+          },
+        },
+      },
     },
     {
       sequelize,

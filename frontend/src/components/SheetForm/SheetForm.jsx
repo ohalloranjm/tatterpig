@@ -19,7 +19,7 @@ export default function SheetForm(params) {
       setDescription(sheet.description ?? '');
       setMakePublic(sheet.public);
     }
-  }, []);
+  }, [sheet]);
 
   const { edit } = params;
 

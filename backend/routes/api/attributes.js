@@ -31,4 +31,16 @@ router.get('/:attributeId', requireAuth, async (req, res) => {
   return res.json({ attribute });
 });
 
+// create a new attribute
+router.post('/', requireAuth, async (req, res) => {
+  const { user, body } = req;
+  const { name, dataType } = body;
+
+  const attribute = await user.createAttribute({ name, dataType });
+
+  res.status(201);
+
+  return res.json({ message: 'Successfully created attribute', attribute });
+});
+
 module.exports = router;

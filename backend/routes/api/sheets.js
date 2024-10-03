@@ -1,12 +1,15 @@
 const express = require('express');
-const { Sheet, SheetAttribute } = require('../../database/models');
+const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
 const { AuthorizationError, NotFoundError } = require('../../utils/errors');
 const {
   formatSheetAttributesMutate,
 } = require('../../utils/response-formatting');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const {
+  handleValidationErrors,
+  validateAttributeValue,
+} = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -15,6 +18,33 @@ router.get('/current', requireAuth, async (req, res) => {
   const { id: ownerId } = req.user;
   const sheets = await Sheet.findAll({ where: { ownerId } });
   return res.json({ sheets });
+});
+
+// associate an attribute with a sheet
+router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
+  const { sheetId } = req.params;
+  const { attributeId } = req.body;
+
+  const attribute = await Attribute.findByPk(attributeId);
+  if (!attribute) throw new NotFoundError('Attribute not found');
+  if (attribute.ownerId !== req.user.id) throw new AuthorizationError();
+
+  const sheet = await Sheet.findByPk(sheetId);
+  if (!sheet) throw new NotFoundError('Sheet not found');
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  let { value } = req.body;
+  if ('value' in req.body) {
+    value = validateAttributeValue(value, attribute);
+  }
+
+  const sheetAttribute = await sheet.createSheetAttribute({
+    attributeId,
+    value,
+  });
+
+  res.status(201);
+  return res.json({ message: 'Success', sheetAttribute });
 });
 
 // view the details of a specific sheet
@@ -82,7 +112,7 @@ router.post('/', requireAuth, async (req, res) => {
 
   const sheet = await user.createSheet({ name, public, description });
 
-  res.status = 201;
+  res.status(201);
 
   return res.json({ message: 'Successfully created sheet', sheet });
 });

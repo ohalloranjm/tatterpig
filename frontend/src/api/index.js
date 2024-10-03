@@ -4,7 +4,9 @@ import getCurrentAttributes from './getCurrentAttributes';
 import getCurrentSheets from './getCurrentSheets';
 import getPublicSheets from './getPublicSheets';
 import getSheetDetails from './getSheetDetails';
+import postAttribute from './postAttribute';
 import postSheet from './postSheet';
+import postValue from './postValue';
 import putSheet from './putSheet';
 
 const collect = (...routes) =>
@@ -30,12 +32,14 @@ const api = {
   handleError,
   getCurrentAttributes,
   getAttributeDetails,
+  postAttribute,
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,
   postSheet,
   putSheet,
   deleteSheet,
+  postValue,
 };
 
 export default api;

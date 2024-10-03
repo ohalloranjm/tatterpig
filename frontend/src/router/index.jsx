@@ -1,14 +1,16 @@
+import { createBrowserRouter } from 'react-router-dom';
+import api from '../api';
 import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
-import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import SheetsIndex from '../components/SheetsIndex';
-import api from '../api';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
 import AttributesIndex from '../components/AttributesIndex';
 import AttributeDetailsPage from '../components/AttributeDetailsPage/AttributeDetailsPage';
+import AttributeForm from '../components/AttributeForm/AttributeForm';
+import ValueForm from '../components/ValueForm/ValueForm';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,11 @@ const router = createBrowserRouter([
             path: '/attributes',
             element: <AttributesIndex />,
             loader: api.getCurrentAttributes,
+          },
+          {
+            path: '/attributes/new',
+            element: <AttributeForm />,
+            action: api.handleError(api.postAttribute),
           },
           {
             path: '/attributes/:attributeId',
@@ -63,6 +70,12 @@ const router = createBrowserRouter([
             element: <SheetForm edit={true} />,
             loader: api.getSheetDetails,
             action: api.handleError(api.putSheet),
+          },
+          {
+            path: '/sheets/:sheetId/attributes/add',
+            element: <ValueForm />,
+            loader: api.collect(api.getSheetDetails, api.getCurrentAttributes),
+            action: api.handleError(api.postValue),
           },
         ],
       },
