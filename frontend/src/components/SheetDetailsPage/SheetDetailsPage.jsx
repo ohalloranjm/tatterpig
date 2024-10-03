@@ -26,11 +26,14 @@ export default function SheetDetailsPage() {
       ))}
       {isOwner && (
         <>
-          <button type='button' onClick={deleteSheet}>
-            Delete Sheet
+          <button type='button' onClick={() => navigate('attributes/add')}>
+            Add an Attribute
           </button>
           <button type='button' onClick={() => navigate('edit')}>
             Edit Sheet
+          </button>
+          <button type='button' onClick={deleteSheet}>
+            Delete Sheet
           </button>
         </>
       )}
