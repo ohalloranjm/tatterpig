@@ -9,6 +9,7 @@ import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
 import AttributesIndex from '../components/AttributesIndex';
 import AttributeDetailsPage from '../components/AttributeDetailsPage/AttributeDetailsPage';
+import AttributeForm from '../components/AttributeForm/AttributeForm';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             path: '/attributes',
             element: <AttributesIndex />,
             loader: api.getCurrentAttributes,
+          },
+          {
+            path: '/attributes/new',
+            element: <AttributeForm />,
           },
           {
             path: '/attributes/:attributeId',
