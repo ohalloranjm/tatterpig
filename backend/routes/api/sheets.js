@@ -1,5 +1,5 @@
 const express = require('express');
-const { Sheet, SheetAttribute } = require('../../database/models');
+const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
 const { AuthorizationError, NotFoundError } = require('../../utils/errors');
 const {
@@ -15,6 +15,50 @@ router.get('/current', requireAuth, async (req, res) => {
   const { id: ownerId } = req.user;
   const sheets = await Sheet.findAll({ where: { ownerId } });
   return res.json({ sheets });
+});
+
+// associate an attribute with a sheet
+router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
+  const { sheetId } = req.params;
+  const { attributeId } = req.body;
+
+  const attribute = await Attribute.findByPk(attributeId);
+  if (!attribute) throw new NotFoundError('Attribute not found');
+  if (attribute.ownerId !== req.user.id) throw new AuthorizationError();
+
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetAttribute });
+  if (!sheet) throw new NotFoundError('Sheet not found');
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  const alreadyTaken = sheet.SheetAttributes.some(
+    sa => sa.Attribute.id === attributeId
+  );
+
+  if (alreadyTaken) throw Error('Sheet and attribute already associated');
+
+  // process value
+  let { value } = req.body;
+  if ('value' in req.body) {
+    value = String(value);
+    switch (attribute.dataType) {
+      case 'number':
+        if (isNaN(value)) throw new Error('Value must be a number');
+        break;
+      case 'boolean':
+        if (!['true', 'false'].includes(value.toLowerCase())) {
+          throw new Error('Value must be true or false');
+        }
+        break;
+    }
+  }
+
+  const sheetAttribute = await sheet.createSheetAttribute({
+    attributeId,
+    value,
+  });
+
+  res.statusCode = 201;
+  return res.json({ message: 'Success', sheetAttribute });
 });
 
 // view the details of a specific sheet
@@ -82,7 +126,7 @@ router.post('/', requireAuth, async (req, res) => {
 
   const sheet = await user.createSheet({ name, public, description });
 
-  res.status = 201;
+  res.statusCode = 201;
 
   return res.json({ message: 'Successfully created sheet', sheet });
 });
