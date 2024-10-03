@@ -6,9 +6,7 @@ export default function AttributeForm() {
   const [dataType, setDataType] = useState('number');
 
   const submit = useSubmit();
-  const errors = useActionData() ?? {};
-
-  console.log(errors);
+  const { errors } = useActionData() ?? {};
 
   const post = e => {
     e.preventDefault();
@@ -25,6 +23,7 @@ export default function AttributeForm() {
           value={name}
           onChange={e => setName(e.target.value)}
         />
+        <p className='error'>{errors?.name}</p>
         <select value={dataType} onChange={e => setDataType(e.target.value)}>
           <option value='number'>Number</option>
           <option value='string'>String</option>
