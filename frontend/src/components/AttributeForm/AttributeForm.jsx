@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { useSubmit } from 'react-router-dom';
+import { useActionData, useSubmit } from 'react-router-dom';
 
 export default function AttributeForm() {
   const [name, setName] = useState('');
   const [dataType, setDataType] = useState('number');
 
   const submit = useSubmit();
+  const errors = useActionData() ?? {};
+
+  console.log(errors);
 
   const post = e => {
     e.preventDefault();

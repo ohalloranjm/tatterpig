@@ -38,7 +38,7 @@ const router = createBrowserRouter([
           {
             path: '/attributes/new',
             element: <AttributeForm />,
-            action: api.postAttribute,
+            action: api.handleError(api.postAttribute),
           },
           {
             path: '/attributes/:attributeId',

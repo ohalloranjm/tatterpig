@@ -17,6 +17,16 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING(50),
         allowNull: false,
+        validate: {
+          len: {
+            args: [1, 50],
+            msg: 'Name must be 50 or fewer characters',
+          },
+          notEmpty: {
+            args: true,
+            msg: 'Attribute name is required',
+          },
+        },
       },
       ephemeral: {
         type: DataTypes.BOOLEAN,
