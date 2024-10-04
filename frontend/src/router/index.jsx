@@ -11,6 +11,7 @@ import AttributesIndex from '../components/AttributesIndex';
 import AttributeDetailsPage from '../components/AttributeDetailsPage/AttributeDetailsPage';
 import AttributeForm from '../components/AttributeForm/AttributeForm';
 import ValueForm from '../components/ValueForm/ValueForm';
+import ActionNavigator from '../utils/ActionNavigator';
 
 const router = createBrowserRouter([
   {
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
           },
           {
             path: '/sheets/:sheetId/attributes/:attributeId',
-            element: <DefaultError />,
+            element: <ActionNavigator />,
             action: api.deleteValue,
           },
           {
