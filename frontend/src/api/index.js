@@ -1,4 +1,6 @@
+import deleteAttribute from './deleteAttribute';
 import deleteSheet from './deleteSheet';
+import deleteValue from './deleteValue';
 import getAttributeDetails from './getAttributeDetails';
 import getCurrentAttributes from './getCurrentAttributes';
 import getCurrentSheets from './getCurrentSheets';
@@ -33,6 +35,7 @@ const api = {
   getCurrentAttributes,
   getAttributeDetails,
   postAttribute,
+  deleteAttribute,
   getCurrentSheets,
   getPublicSheets,
   getSheetDetails,
@@ -40,6 +43,7 @@ const api = {
   putSheet,
   deleteSheet,
   postValue,
+  deleteValue,
 };
 
 export default api;

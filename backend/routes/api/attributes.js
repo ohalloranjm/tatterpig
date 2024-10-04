@@ -17,7 +17,6 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // view the details of a specific attribute
 router.get('/:attributeId', requireAuth, async (req, res) => {
-  console.log('hitting it');
   const { attributeId } = req.params;
   const attribute = await Attribute.findByPk(attributeId, {
     include: { model: SheetAttribute, include: Sheet },
@@ -29,6 +28,19 @@ router.get('/:attributeId', requireAuth, async (req, res) => {
   formatAttributeSheetsMutate(attribute.SheetAttributes);
 
   return res.json({ attribute });
+});
+
+// delete an attribute
+router.delete('/:attributeId', requireAuth, async (req, res) => {
+  const { attributeId } = req.params;
+  const attribute = await Attribute.findByPk(attributeId);
+
+  if (!attribute) throw new NotFoundError('Attribute not found');
+  if (attribute.ownerId !== req.user.id) throw new AuthorizationError();
+
+  await attribute.destroy();
+
+  return res.json({ message: 'Successfully deleted', attribute });
 });
 
 // create a new attribute
