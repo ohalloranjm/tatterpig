@@ -98,7 +98,7 @@ router.put('/:sheetId', requireAuth, validateUpdateSheet, async (req, res) => {
   const { sheetId } = req.params;
   const sheet = await Sheet.findByPk(sheetId);
 
-  if (!sheet) throw new NotFoundError();
+  if (!sheet) throw new NotFoundError('Sheet not found');
   if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
 
   const { name, description, public } = req.body;
