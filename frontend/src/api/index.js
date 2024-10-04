@@ -12,35 +12,10 @@ import postValue from './postValue';
 import putAttribute from './putAttribute';
 import putSheet from './putSheet';
 import putValue from './putValue';
-
-const collect = (...routes) =>
-  async function (...params) {
-    const result = [];
-    for (const route of routes) {
-      result.push(await route(...params));
-    }
-    return result;
-  };
-
-const handleError = (route, returnError = true) =>
-  async function (...params) {
-    try {
-      return await route(...params);
-    } catch (err) {
-      return returnError ? err : false;
-    }
-  };
-
-const sendRoute = methodLookup =>
-  async function (...params) {
-    const { method } = params[0].request;
-    return await methodLookup[method](...params);
-  };
+import * as utils from './utils';
 
 const api = {
-  collect,
-  handleError,
-  sendRoute,
+  utils,
   getCurrentAttributes,
   getAttributeDetails,
   postAttribute,

@@ -13,6 +13,8 @@ import AttributeForm from '../components/AttributeForm/AttributeForm';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
 
+const { collect, handleError, mapRoute } = api.utils;
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -40,7 +42,7 @@ const router = createBrowserRouter([
           {
             path: '/attributes/new',
             element: <AttributeForm edit={false} />,
-            action: api.handleError(api.postAttribute),
+            action: handleError(api.postAttribute),
           },
           {
             path: '/attributes/:attributeId',
@@ -52,20 +54,20 @@ const router = createBrowserRouter([
             path: '/attributes/:attributeId/edit',
             element: <AttributeForm edit={true} />,
             loader: api.getAttributeDetails,
-            action: api.handleError(api.putAttribute),
+            action: handleError(api.putAttribute),
           },
           {
             path: '/sheets',
             element: <SheetsIndex />,
-            loader: api.collect(
-              api.handleError(api.getCurrentSheets, false),
+            loader: collect(
+              handleError(api.getCurrentSheets, false),
               api.getPublicSheets
             ),
           },
           {
             path: '/sheets/new',
             element: <SheetForm edit={false} />,
-            action: api.handleError(api.postSheet),
+            action: handleError(api.postSheet),
           },
           {
             path: '/sheets/:sheetId',
@@ -76,7 +78,7 @@ const router = createBrowserRouter([
           {
             path: '/sheets/:sheetId/attributes/:attributeId',
             element: <ActionNavigator />,
-            action: api.sendRoute({
+            action: mapRoute({
               DELETE: api.deleteValue,
               PUT: api.putValue,
             }),
@@ -85,13 +87,13 @@ const router = createBrowserRouter([
             path: '/sheets/:sheetId/edit',
             element: <SheetForm edit={true} />,
             loader: api.getSheetDetails,
-            action: api.handleError(api.putSheet),
+            action: handleError(api.putSheet),
           },
           {
             path: '/sheets/:sheetId/attributes/add',
             element: <ValueForm />,
-            loader: api.collect(api.getSheetDetails, api.getCurrentAttributes),
-            action: api.handleError(api.postValue),
+            loader: collect(api.getSheetDetails, api.getCurrentAttributes),
+            action: handleError(api.postValue),
           },
         ],
       },
