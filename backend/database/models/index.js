@@ -51,4 +51,8 @@ db.SheetAttribute.addScope('defaultScope', {
   include: db.Attribute,
 });
 
+db.SheetAttribute.addScope('reversed', {
+  include: db.Sheet,
+});
+
 module.exports = db;

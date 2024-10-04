@@ -21,7 +21,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:attributeId', requireAuth, async (req, res) => {
   const { attributeId } = req.params;
   const attribute = await Attribute.findByPk(attributeId, {
-    include: { model: SheetAttribute, include: Sheet },
+    include: SheetAttribute.scope('reversed'),
   });
 
   if (!attribute) throw new NotFoundError('Attribute not found');
@@ -52,7 +52,7 @@ router.put(
   async (req, res) => {
     const { attributeId } = req.params;
     const attribute = await Attribute.findByPk(attributeId, {
-      include: SheetAttribute,
+      include: SheetAttribute.scope('reversed'),
     });
 
     if (!attribute) throw new NotFoundError('Attribute not found');
