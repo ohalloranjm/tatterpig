@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
+import {
+  useActionData,
+  useLoaderData,
+  useNavigate,
+  useSubmit,
+} from 'react-router-dom';
 
 export default function AttributeForm({ edit }) {
   const user = useSelector(store => store.session.user);
@@ -9,6 +14,7 @@ export default function AttributeForm({ edit }) {
   const [dataType, setDataType] = useState('number');
 
   const submit = useSubmit();
+  const navigate = useNavigate();
   const { errors } = useActionData() ?? {};
   const { attribute } = useLoaderData() ?? {};
 
@@ -58,6 +64,14 @@ export default function AttributeForm({ edit }) {
           <option value='boolean'>Boolean</option>
         </select>
         <button type='submit'>{edit ? 'Update' : 'Create'} Attribute</button>
+        {edit ? (
+          <button
+            type='button'
+            onClick={() => navigate(`/attributes/${attribute.id}`)}
+          >
+            Cancel
+          </button>
+        ) : null}
       </form>
     </>
   );
