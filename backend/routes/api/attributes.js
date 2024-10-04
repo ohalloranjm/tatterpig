@@ -13,7 +13,10 @@ const router = express.Router();
 // view all attributes owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
   const { id: ownerId } = req.user;
-  const attributes = await Attribute.findAll({ where: { ownerId } });
+  const attributes = await Attribute.findAll({
+    where: { ownerId },
+    include: SheetAttribute.scope('reversed'),
+  });
   return res.json({ attributes });
 });
 

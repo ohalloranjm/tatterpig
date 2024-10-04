@@ -12,11 +12,6 @@ import AttributeDetailsPage from '../components/AttributesIndex/AttributeDetails
 import AttributeForm from '../components/AttributeForm/AttributeForm';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
-import AttributesProvider, {
-  useAttributes,
-} from '../context/AttributesContext';
-import Attributes from '../components/Attributes';
-import { csrfFetch } from '../store/csrf';
 
 const { collect, handleError, map } = api.utils;
 
@@ -24,24 +19,6 @@ const pages = [
   {
     path: '/',
     element: <h1>Landing page</h1>,
-  },
-  {
-    path: '/test',
-    element: (
-      <AttributesProvider>
-        <Attributes />
-      </AttributesProvider>
-    ),
-    loader: async () => {
-      const { setAttributes } = useAttributes();
-      const { attributes: fetched } = await csrfFetch(
-        `/api/attributes/current`
-      );
-      const newAttributes = {};
-      for (const attribute of fetched) newAttributes[attribute.id] = attribute;
-      setAttributes(fetched);
-      return null;
-    },
   },
   {
     path: '/login',

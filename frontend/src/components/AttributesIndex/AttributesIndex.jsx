@@ -4,7 +4,7 @@ import AttributeForm from '../AttributeForm/AttributeForm';
 import { useState } from 'react';
 
 export default function AttributesIndex() {
-  const [{ attributes }] = useLoaderData();
+  const { attributes } = useLoaderData();
   const [create, setCreate] = useState(false);
 
   return (
