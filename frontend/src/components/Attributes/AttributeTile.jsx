@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AttributeDetailsPage from './AttributeDetailsPage';
+import AttributeDetailsPage from './AttributeDetails';
 
 export default function AttributeTile({ attribute }) {
   const [showDetails, setShowDetails] = useState(false);

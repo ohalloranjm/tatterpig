@@ -1,9 +1,9 @@
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import AttributeTile from './AttributeTile';
-import AttributeForm from '../AttributeForm/AttributeForm';
+import AttributeForm from './AttributeForm';
 import { useState } from 'react';
 
-export default function AttributesIndex() {
+export default function Attributes() {
   const { attributes } = useLoaderData();
   const [create, setCreate] = useState(false);
 

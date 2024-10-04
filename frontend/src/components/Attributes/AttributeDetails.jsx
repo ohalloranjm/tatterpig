@@ -1,5 +1,5 @@
 import { useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
-import AttributeSheetTile from '../AttributeDetailsPage/AttributeSheetTile';
+import AttributeSheetTile from './AttributeSheetTile';
 
 export default function AttributeDetailsPage({ attribute }) {
   const submit = useSubmit();

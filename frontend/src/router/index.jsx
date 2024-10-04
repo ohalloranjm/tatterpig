@@ -7,9 +7,7 @@ import SheetsIndex from '../components/SheetsIndex';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
-import AttributesIndex from '../components/AttributesIndex';
-import AttributeDetailsPage from '../components/AttributesIndex/AttributeDetailsPage';
-import AttributeForm from '../components/AttributeForm/AttributeForm';
+import Attributes from '../components/Attributes';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
 
@@ -30,26 +28,9 @@ const pages = [
   },
   {
     path: '/attributes',
-    element: <AttributesIndex />,
+    element: <Attributes />,
     loader: get.attributes.current,
     action: handleError(api.postAttribute),
-  },
-  {
-    path: '/attributes/new',
-    element: <AttributeForm edit={false} />,
-    action: handleError(api.postAttribute),
-  },
-  {
-    path: '/attributes/:attributeId',
-    element: <AttributeDetailsPage />,
-    loader: api.getAttributeDetails,
-    action: api.deleteAttribute,
-  },
-  {
-    path: '/attributes/:attributeId/edit',
-    element: <AttributeForm edit={true} />,
-    loader: api.getAttributeDetails,
-    action: handleError(api.putAttribute),
   },
   {
     path: '/sheets',
