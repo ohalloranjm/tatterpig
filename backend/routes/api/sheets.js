@@ -47,6 +47,27 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
   return res.json({ message: 'Success', sheetAttribute });
 });
 
+// disassociate an attribute from a sheet
+router.delete(
+  '/:sheetId/attributes/:attributeId',
+  requireAuth,
+  async (req, res) => {
+    const { sheetId, attributeId } = req.params;
+    const sheetAttribute = await SheetAttribute.findOne({
+      where: { sheetId, attributeId },
+      include: [Sheet, Attribute],
+    });
+
+    if (!sheetAttribute) throw new NotFoundError();
+    if (sheetAttribute.Sheet.ownerId !== req.user.id) {
+      throw new AuthorizationError();
+    }
+
+    await sheetAttribute.destroy();
+    return res.json({ message: 'Successfully deleted', sheetAttribute });
+  }
+);
+
 // view the details of a specific sheet
 router.get('/:sheetId', async (req, res) => {
   const { sheetId } = req.params;
