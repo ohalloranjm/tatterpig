@@ -28,13 +28,6 @@ export default function ValueForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log({
-      selectedAttribute,
-      dataType,
-      numberValue,
-      stringValue,
-      booleanValue,
-    });
 
     const lookup = {
       string: stringValue || null,

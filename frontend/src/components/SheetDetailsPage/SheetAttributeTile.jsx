@@ -17,20 +17,14 @@ export default function SheetAttributeTile({ attribute }) {
 
   const editValue = e => {
     e.preventDefault();
-    submit({ value: value || null }, { action, method: 'POST' });
+    submit(
+      { value: value || null },
+      { action, method: 'PUT', encType: 'application/json' }
+    );
     setEdit(false);
   };
 
   const { dataType } = attribute;
-  const inputLookup = {
-    number: (
-      <input
-        type='number'
-        value={value}
-        onChange={e => setValue(e.target.value)}
-      />
-    ),
-  };
 
   return (
     <div>

@@ -33,8 +33,8 @@ const handleError = (route, returnError = true) =>
 
 const sendRoute = methodLookup =>
   async function (...params) {
-    const { method } = params[0];
-    return await methodLookup[method];
+    const { method } = params[0].request;
+    return await methodLookup[method](...params);
   };
 
 const api = {
