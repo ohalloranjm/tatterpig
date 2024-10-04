@@ -16,14 +16,14 @@ const handleValidationErrors = (req, _res, next) => {
 };
 
 const validateAttributeValue = (value, { dataType }) => {
-  value = String(value);
+  if (value !== null) value = String(value);
   switch (dataType) {
     case 'number':
       if (isNaN(value))
         throw new BadRequestError({ value: 'Value must be a number' });
       break;
     case 'boolean':
-      if (!['true', 'false'].includes(value.toLowerCase())) {
+      if (!['true', 'false'].includes(value?.toLowerCase())) {
         throw new BadRequestError({ value: 'Value must be true or false' });
       }
       value = value.toLowerCase();

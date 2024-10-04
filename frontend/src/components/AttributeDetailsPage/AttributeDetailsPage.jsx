@@ -1,9 +1,10 @@
-import { useLoaderData, useSubmit } from 'react-router-dom';
+import { useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
 import AttributeSheetTile from './AttributeSheetTile';
 
 export default function AttributeDetailsPage() {
   const { attribute } = useLoaderData();
   const submit = useSubmit();
+  const navigate = useNavigate();
 
   const deleteAttribute = () => {
     const confirmDelete = window.confirm(
@@ -22,11 +23,15 @@ export default function AttributeDetailsPage() {
           {attribute.SheetAttributes.map(sa => (
             <AttributeSheetTile key={sa.id} sheet={sa} />
           ))}
-          <button type='button' onClick={deleteAttribute}>
-            Delete
-          </button>
         </>
       ) : null}
+
+      <button type='button' onClick={() => navigate('edit')}>
+        Edit
+      </button>
+      <button type='button' onClick={deleteAttribute}>
+        Delete
+      </button>
     </>
   );
 }

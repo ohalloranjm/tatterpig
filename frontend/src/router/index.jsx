@@ -39,7 +39,7 @@ const router = createBrowserRouter([
           },
           {
             path: '/attributes/new',
-            element: <AttributeForm />,
+            element: <AttributeForm edit={false} />,
             action: api.handleError(api.postAttribute),
           },
           {
@@ -47,6 +47,12 @@ const router = createBrowserRouter([
             element: <AttributeDetailsPage />,
             loader: api.getAttributeDetails,
             action: api.deleteAttribute,
+          },
+          {
+            path: '/attributes/:attributeId/edit',
+            element: <AttributeForm edit={true} />,
+            loader: api.getAttributeDetails,
+            action: api.handleError(api.putAttribute),
           },
           {
             path: '/sheets',
@@ -70,7 +76,10 @@ const router = createBrowserRouter([
           {
             path: '/sheets/:sheetId/attributes/:attributeId',
             element: <ActionNavigator />,
-            action: api.deleteValue,
+            action: api.sendRoute({
+              DELETE: api.deleteValue,
+              PUT: api.putValue,
+            }),
           },
           {
             path: '/sheets/:sheetId/edit',

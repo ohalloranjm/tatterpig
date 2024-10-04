@@ -24,8 +24,9 @@ export default function SheetForm(params) {
   const { edit } = params;
 
   if (!user) throw Error('You must be logged in to access this page.');
-  if (edit && sheet?.ownerId !== user.id)
+  if (edit && sheet?.ownerId !== user.id) {
     throw Error('You do not have permission to edit this sheet.');
+  }
 
   const post = e => {
     e.preventDefault();
