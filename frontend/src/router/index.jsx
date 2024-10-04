@@ -76,7 +76,10 @@ const router = createBrowserRouter([
           {
             path: '/sheets/:sheetId/attributes/:attributeId',
             element: <ActionNavigator />,
-            action: api.deleteValue,
+            action: api.sendRoute({
+              DELETE: api.deleteValue,
+              PUT: api.putValue,
+            }),
           },
           {
             path: '/sheets/:sheetId/edit',

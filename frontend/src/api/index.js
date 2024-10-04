@@ -11,6 +11,7 @@ import postSheet from './postSheet';
 import postValue from './postValue';
 import putAttribute from './putAttribute';
 import putSheet from './putSheet';
+import putValue from './putValue';
 
 const collect = (...routes) =>
   async function (...params) {
@@ -30,9 +31,16 @@ const handleError = (route, returnError = true) =>
     }
   };
 
+const sendRoute = methodLookup =>
+  async function (...params) {
+    const { method } = params[0];
+    return await methodLookup[method];
+  };
+
 const api = {
   collect,
   handleError,
+  sendRoute,
   getCurrentAttributes,
   getAttributeDetails,
   postAttribute,
@@ -45,6 +53,7 @@ const api = {
   putSheet,
   deleteSheet,
   postValue,
+  putValue,
   deleteValue,
 };
 
