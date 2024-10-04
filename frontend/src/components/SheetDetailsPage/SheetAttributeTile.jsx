@@ -7,6 +7,8 @@ export default function SheetAttributeTile({ attribute }) {
   const [value, setValue] = useState(attribute.value ?? '');
 
   const action = `/sheets/${attribute.sheetId}/attributes/${attribute.attributeId}`;
+  const { dataType } = attribute;
+  const isBoolean = dataType === 'boolean';
 
   const removeAttribute = () => {
     const confirmDelete = window.confirm(
@@ -24,7 +26,14 @@ export default function SheetAttributeTile({ attribute }) {
     setEdit(false);
   };
 
-  const { dataType } = attribute;
+  const changeBooleanValue = () => {
+    if (!isBoolean) return;
+    const newValue = attribute.value === 'true' ? false : true;
+    submit(
+      { value: newValue },
+      { action, method: 'PUT', encType: 'application/json' }
+    );
+  };
 
   return (
     <div>
@@ -33,7 +42,7 @@ export default function SheetAttributeTile({ attribute }) {
           {attribute.name}
         </Link>
       </p>
-      {edit ? (
+      {edit && (
         <form onSubmit={editValue}>
           <input
             type={dataType === 'number' ? 'number' : 'text'}
@@ -45,7 +54,18 @@ export default function SheetAttributeTile({ attribute }) {
             Cancel
           </button>
         </form>
-      ) : (
+      )}
+
+      {isBoolean && (
+        <>
+          <p>{attribute.value}</p>
+          <button type='button' onClick={changeBooleanValue}>
+            change
+          </button>
+        </>
+      )}
+
+      {!edit && !isBoolean && (
         <>
           <p>{attribute.value}</p>
           <button type='button' onClick={() => setEdit(true)}>
@@ -53,6 +73,7 @@ export default function SheetAttributeTile({ attribute }) {
           </button>
         </>
       )}
+
       <button type='button' onClick={removeAttribute}>
         Remove Attribute
       </button>
