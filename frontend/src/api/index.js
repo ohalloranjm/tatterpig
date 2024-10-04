@@ -14,6 +14,12 @@ import putSheet from './putSheet';
 import putValue from './putValue';
 import * as utils from './utils';
 
+export const get = {
+  attributes: {
+    current: getCurrentAttributes,
+  },
+};
+
 const api = {
   utils,
   getCurrentAttributes,

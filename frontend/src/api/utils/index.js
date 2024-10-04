@@ -18,7 +18,7 @@ export function handleError(route, returnError = true) {
   };
 }
 
-export function mapRoute(methodLookup) {
+export function map(methodLookup) {
   return async function (...params) {
     const { method } = params[0].request;
     return await methodLookup[method](...params);

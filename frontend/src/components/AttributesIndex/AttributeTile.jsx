@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import AttributeDetailsPage from './AttributeDetailsPage';
 
 export default function AttributeTile({ attribute }) {
+  const [showDetails, setShowDetails] = useState(false);
   return (
     <div>
-      <p>
-        <Link to={String(attribute.id)}>
-          {attribute.name} ({attribute.dataType})
-        </Link>
+      <p onClick={() => setShowDetails(true)}>
+        {attribute.name} ({attribute.dataType})
       </p>
+      {showDetails && <AttributeDetailsPage attribute={attribute} />}
     </div>
   );
 }

@@ -1,8 +1,7 @@
 import { useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
-import AttributeSheetTile from './AttributeSheetTile';
+import AttributeSheetTile from '../AttributeDetailsPage/AttributeSheetTile';
 
-export default function AttributeDetailsPage() {
-  const { attribute } = useLoaderData();
+export default function AttributeDetailsPage({ attribute }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 

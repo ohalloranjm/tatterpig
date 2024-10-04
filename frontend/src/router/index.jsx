@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import api from '../api';
+import api, { get } from '../api';
 import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
@@ -8,12 +8,112 @@ import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
 import AttributesIndex from '../components/AttributesIndex';
-import AttributeDetailsPage from '../components/AttributeDetailsPage/AttributeDetailsPage';
+import AttributeDetailsPage from '../components/AttributesIndex/AttributeDetailsPage';
 import AttributeForm from '../components/AttributeForm/AttributeForm';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
+import AttributesProvider, {
+  useAttributes,
+} from '../context/AttributesContext';
+import Attributes from '../components/Attributes';
+import { csrfFetch } from '../store/csrf';
 
-const { collect, handleError, mapRoute } = api.utils;
+const { collect, handleError, map } = api.utils;
+
+const pages = [
+  {
+    path: '/',
+    element: <h1>Landing page</h1>,
+  },
+  {
+    path: '/test',
+    element: (
+      <AttributesProvider>
+        <Attributes />
+      </AttributesProvider>
+    ),
+    loader: async () => {
+      const { setAttributes } = useAttributes();
+      const { attributes: fetched } = await csrfFetch(
+        `/api/attributes/current`
+      );
+      const newAttributes = {};
+      for (const attribute of fetched) newAttributes[attribute.id] = attribute;
+      setAttributes(fetched);
+      return null;
+    },
+  },
+  {
+    path: '/login',
+    element: <LoginForm />,
+  },
+  {
+    path: '/signup',
+    element: <SignupForm />,
+  },
+  {
+    path: '/attributes',
+    element: <AttributesIndex />,
+    loader: get.attributes.current,
+    action: handleError(api.postAttribute),
+  },
+  {
+    path: '/attributes/new',
+    element: <AttributeForm edit={false} />,
+    action: handleError(api.postAttribute),
+  },
+  {
+    path: '/attributes/:attributeId',
+    element: <AttributeDetailsPage />,
+    loader: api.getAttributeDetails,
+    action: api.deleteAttribute,
+  },
+  {
+    path: '/attributes/:attributeId/edit',
+    element: <AttributeForm edit={true} />,
+    loader: api.getAttributeDetails,
+    action: handleError(api.putAttribute),
+  },
+  {
+    path: '/sheets',
+    element: <SheetsIndex />,
+    loader: collect(
+      handleError(api.getCurrentSheets, false),
+      api.getPublicSheets
+    ),
+  },
+  {
+    path: '/sheets/new',
+    element: <SheetForm edit={false} />,
+    action: handleError(api.postSheet),
+  },
+  {
+    path: '/sheets/:sheetId',
+    element: <SheetDetailsPage />,
+    loader: api.getSheetDetails,
+    action: api.deleteSheet,
+  },
+  {
+    path: '/sheets/:sheetId/attributes/:attributeId',
+    element: <ActionNavigator />,
+    action: map({
+      DELETE: api.deleteValue,
+      PUT: api.putValue,
+    }),
+  },
+  {
+    path: '/sheets/:sheetId/edit',
+    element: <SheetForm edit={true} />,
+    loader: api.getSheetDetails,
+    action: handleError(api.putSheet),
+  },
+  {
+    path: '/sheets/:sheetId/attributes/add',
+    element: <ValueForm />,
+    loader: collect(api.getSheetDetails, api.getCurrentAttributes),
+    action: handleError(api.postValue),
+  },
+];
 
 const router = createBrowserRouter([
   {
@@ -21,81 +121,7 @@ const router = createBrowserRouter([
     children: [
       {
         errorElement: <DefaultError />,
-        children: [
-          {
-            path: '/',
-            element: <h1>Landing page</h1>,
-          },
-          {
-            path: '/login',
-            element: <LoginForm />,
-          },
-          {
-            path: '/signup',
-            element: <SignupForm />,
-          },
-          {
-            path: '/attributes',
-            element: <AttributesIndex />,
-            loader: api.getCurrentAttributes,
-          },
-          {
-            path: '/attributes/new',
-            element: <AttributeForm edit={false} />,
-            action: handleError(api.postAttribute),
-          },
-          {
-            path: '/attributes/:attributeId',
-            element: <AttributeDetailsPage />,
-            loader: api.getAttributeDetails,
-            action: api.deleteAttribute,
-          },
-          {
-            path: '/attributes/:attributeId/edit',
-            element: <AttributeForm edit={true} />,
-            loader: api.getAttributeDetails,
-            action: handleError(api.putAttribute),
-          },
-          {
-            path: '/sheets',
-            element: <SheetsIndex />,
-            loader: collect(
-              handleError(api.getCurrentSheets, false),
-              api.getPublicSheets
-            ),
-          },
-          {
-            path: '/sheets/new',
-            element: <SheetForm edit={false} />,
-            action: handleError(api.postSheet),
-          },
-          {
-            path: '/sheets/:sheetId',
-            element: <SheetDetailsPage />,
-            loader: api.getSheetDetails,
-            action: api.deleteSheet,
-          },
-          {
-            path: '/sheets/:sheetId/attributes/:attributeId',
-            element: <ActionNavigator />,
-            action: mapRoute({
-              DELETE: api.deleteValue,
-              PUT: api.putValue,
-            }),
-          },
-          {
-            path: '/sheets/:sheetId/edit',
-            element: <SheetForm edit={true} />,
-            loader: api.getSheetDetails,
-            action: handleError(api.putSheet),
-          },
-          {
-            path: '/sheets/:sheetId/attributes/add',
-            element: <ValueForm />,
-            loader: collect(api.getSheetDetails, api.getCurrentAttributes),
-            action: handleError(api.postValue),
-          },
-        ],
+        children: pages,
       },
     ],
   },
