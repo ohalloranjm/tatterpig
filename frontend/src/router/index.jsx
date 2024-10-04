@@ -52,6 +52,7 @@ const router = createBrowserRouter([
             path: '/attributes/:attributeId/edit',
             element: <AttributeForm edit={true} />,
             loader: api.getAttributeDetails,
+            action: api.putAttribute,
           },
           {
             path: '/sheets',

@@ -9,6 +9,7 @@ import getSheetDetails from './getSheetDetails';
 import postAttribute from './postAttribute';
 import postSheet from './postSheet';
 import postValue from './postValue';
+import putAttribute from './putAttribute';
 import putSheet from './putSheet';
 
 const collect = (...routes) =>
@@ -35,6 +36,7 @@ const api = {
   getCurrentAttributes,
   getAttributeDetails,
   postAttribute,
+  putAttribute,
   deleteAttribute,
   getCurrentSheets,
   getPublicSheets,

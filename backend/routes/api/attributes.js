@@ -71,7 +71,7 @@ router.put(
       }
     }
 
-    return res.json(updated);
+    return res.json({ message: 'Success', attribute: updated });
   }
 );
 
