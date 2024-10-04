@@ -67,6 +67,11 @@ const router = createBrowserRouter([
             action: api.deleteSheet,
           },
           {
+            path: '/sheets/:sheetId/attributes/:attributeId',
+            element: <DefaultError />,
+            action: api.deleteValue,
+          },
+          {
             path: '/sheets/:sheetId/edit',
             element: <SheetForm edit={true} />,
             loader: api.getSheetDetails,
