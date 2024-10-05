@@ -17,7 +17,7 @@ export default function AttributeForm() {
   };
 
   return (
-    <>
+    <div className='modal'>
       <h2>Create an Attribute</h2>
 
       <form onSubmit={post}>
@@ -36,6 +36,6 @@ export default function AttributeForm() {
 
         <button type='submit'>Create Attribute</button>
       </form>
-    </>
+    </div>
   );
 }
