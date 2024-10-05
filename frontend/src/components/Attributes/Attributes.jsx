@@ -14,7 +14,7 @@ export default function Landing() {
   // state to track whether the Create New Attribute form is open
   // close the form whenever a new attribute is successfully created
   useEffect(() => {
-    open(null);
+    if (contentId === 'create') display()();
   }, [attributes.length]);
 
   return (
