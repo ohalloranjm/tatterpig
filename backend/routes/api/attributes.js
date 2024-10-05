@@ -17,6 +17,11 @@ router.get('/current', requireAuth, async (req, res) => {
     where: { ownerId },
     include: SheetAttribute.scope('reversed'),
   });
+
+  for (const attribute of attributes) {
+    formatAttributeSheetsMutate(attribute.SheetAttributes);
+  }
+
   return res.json({ attributes });
 });
 

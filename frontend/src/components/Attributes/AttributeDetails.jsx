@@ -28,7 +28,13 @@ export default function AttributeDetailsPage({ attribute }) {
       <button type='button' onClick={() => navigate('edit')}>
         Edit
       </button>
-      <button type='button' onClick={deleteAttribute}>
+      <button
+        type='button'
+        onClick={e => {
+          e.stopPropagation();
+          deleteAttribute();
+        }}
+      >
         Delete
       </button>
     </>
