@@ -10,6 +10,7 @@ import SheetForm from '../components/SheetForm/SheetForm';
 import Attributes from '../components/Attributes';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
+import { Modal, ModalProvider } from '../context/Modal';
 
 const { collect, handleError, map } = api.utils;
 
@@ -75,7 +76,12 @@ const pages = [
 
 const router = createBrowserRouter([
   {
-    element: <Layout />,
+    element: (
+      <ModalProvider>
+        <Layout />
+        <Modal />
+      </ModalProvider>
+    ),
     children: [
       {
         errorElement: <DefaultError />,

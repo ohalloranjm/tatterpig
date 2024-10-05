@@ -2,6 +2,7 @@ import { useLoaderData } from 'react-router-dom';
 import AttributeTile from './AttributeTile';
 import AttributeForm from './AttributeForm';
 import { useState } from 'react';
+import OpenModalButton from '../OpenModalButton';
 
 export default function Attributes() {
   const { attributes } = useLoaderData();
@@ -10,10 +11,12 @@ export default function Attributes() {
   return (
     <>
       <h1>My Attributes</h1>
-      <button onClick={() => setCreate(prev => !prev)}>
-        {create ? 'Cancel' : 'Create a New Attribute'}
-      </button>
-      {create && <AttributeForm edit={false} />}
+      {
+        <OpenModalButton
+          modalComponent={<AttributeForm />}
+          buttonText={'clickAButton'}
+        />
+      }
       {attributes.map(a => (
         <AttributeTile key={a.id} attribute={a} />
       ))}
