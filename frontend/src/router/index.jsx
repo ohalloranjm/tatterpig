@@ -32,6 +32,12 @@ const pages = [
     element: <Attributes />,
     loader: get.attributes.current,
     action: handleError(api.postAttribute),
+    children: [
+      {
+        path: ':attributeId',
+        action: api.deleteAttribute,
+      },
+    ],
   },
   {
     path: '/sheets',
