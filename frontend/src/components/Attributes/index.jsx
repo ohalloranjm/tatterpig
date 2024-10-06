@@ -17,10 +17,12 @@ export default function Attributes() {
     if (searchParams.has('id')) {
       const attributeId = Number(searchParams.get('id'));
       const attribute = attributes.find(a => a.id === attributeId);
-      if (searchParams.get('edit') === 'true') {
+      if (attribute && searchParams.get('edit') === 'true') {
         setMainContent(<FormView attribute={attribute} />);
-      } else {
+      } else if (attribute) {
         setMainContent(<DetailView attribute={attribute} />);
+      } else {
+        setMainContent(null);
       }
     } else if (searchParams.get('new') === 'true') {
       setMainContent(<FormView />);
