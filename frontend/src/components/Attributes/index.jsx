@@ -10,7 +10,6 @@ export default function Attributes() {
   const [searchParams] = useSearchParams();
   const [mainContent, setMainContent] = useState(null);
 
-  // context to track which element is open
   const navigate = useNavigate();
 
   useEffect(() => {
