@@ -27,5 +27,26 @@ export default function SheetsPage() {
     }
   }, [searchParams, sheets]);
 
-  return <p>{mainContent}</p>;
+  return (
+    <div className='sheets'>
+      <h1 className='sheets-title'>My Sheets</h1>
+
+      <div className='sheets-list'>
+        <button
+          onClick={() => {
+            if (searchParams.get('new') === 'true') navigate('/sheets');
+            else navigate('/sheets?new=true');
+          }}
+        >
+          {searchParams.get('new') === 'true' ? 'Cancel' : 'Create a New Sheet'}
+        </button>
+
+        {sheets.map(s => (
+          <p>Placeholder: {s.name}</p>
+        ))}
+      </div>
+
+      <div className='sheets-view'>{mainContent}</div>
+    </div>
+  );
 }
