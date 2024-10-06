@@ -1,7 +1,7 @@
 import { useNavigate, useSubmit } from 'react-router-dom';
-import AttributeSheetTile from './AttributeSheetTile';
+import ValueTile from './ValueTile';
 
-export default function AttributeDetailsPage({ attribute }) {
+export default function AttributeDetailView({ attribute }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -14,7 +14,6 @@ export default function AttributeDetailsPage({ attribute }) {
         method: 'delete',
         action: `/attributes?id=${attribute.id}`,
       });
-      navigate(`/attributes?deleted=success`);
     }
   };
 
@@ -26,7 +25,7 @@ export default function AttributeDetailsPage({ attribute }) {
         <>
           <h2>Associated Sheets</h2>
           {attribute.SheetAttributes.map(sa => (
-            <AttributeSheetTile key={sa.id} sheet={sa} />
+            <ValueTile key={sa.id} sheet={sa} />
           ))}
         </>
       ) : null}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useActionData, useSearchParams, useSubmit } from 'react-router-dom';
 
-export default function AttributeForm({ attribute }) {
+export default function AttributeFormView({ attribute }) {
   const [name, setName] = useState('');
   const [dataType, setDataType] = useState('number');
 
