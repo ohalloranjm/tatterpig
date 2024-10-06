@@ -6,7 +6,6 @@ import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
-import SheetForm from '../components/SheetForm/SheetForm';
 import AttributesPage from '../components/AttributesPage';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
@@ -39,12 +38,10 @@ const pages = [
   {
     path: '/sheets',
     element: <SheetsPage />,
-    loader: handleError(api.sheet.getCurrent, false),
-  },
-  {
-    path: '/sheets/new',
-    element: <SheetForm edit={false} />,
-    action: handleError(api.sheet.post),
+    loader: api.sheet.getCurrent,
+    action: map({
+      POST: handleError(api.sheet.post),
+    }),
   },
   {
     path: '/sheets/:sheetId',
@@ -59,12 +56,6 @@ const pages = [
       DELETE: api.value.del,
       PUT: api.value.put,
     }),
-  },
-  {
-    path: '/sheets/:sheetId/edit',
-    element: <SheetForm edit={true} />,
-    loader: api.sheet.getOne,
-    action: handleError(api.sheet.put),
   },
   {
     path: '/sheets/:sheetId/attributes/add',

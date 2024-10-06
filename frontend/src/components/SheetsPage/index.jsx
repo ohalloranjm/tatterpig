@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import './Sheets.css';
+import SheetFormView from './SheetFormView';
 
 export default function SheetsPage() {
   const { sheets } = useLoaderData();
@@ -21,7 +22,7 @@ export default function SheetsPage() {
         setMainContent(<p>Placeholder: Default</p>);
       }
     } else if (searchParams.get('new') === 'true') {
-      setMainContent(<p>Placeholder: Create Sheet</p>);
+      setMainContent(<SheetFormView />);
     } else {
       setMainContent(<p>Placeholder: Default</p>);
     }

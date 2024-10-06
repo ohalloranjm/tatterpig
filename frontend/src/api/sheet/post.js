@@ -8,5 +8,5 @@ export default async function postSheet({ request }) {
     body: JSON.stringify(data),
   });
   const { sheet } = await res.json();
-  return redirect(`/sheets/${sheet.id}`);
+  return redirect(`/sheets?id=${sheet.id}`);
 }
