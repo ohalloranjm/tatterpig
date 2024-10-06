@@ -1,15 +1,32 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import AttributeTile from './AttributeTile';
 import AttributeForm from './AttributeForm';
 import { useEffect } from 'react';
 import { useAttributeSelection } from './context';
 import './Attributes.css';
+import AttributeDetailsPage from './AttributeDetails';
 
 export default function Landing() {
   const { attributes } = useLoaderData();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // context to track which element is open
-  const { content, contentId, display, toggle } = useAttributeSelection();
+  const { content, contentId, display, toggle, show } = useAttributeSelection();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchParams.has('id')) {
+      const attributeId = Number(searchParams.get('id'));
+      const attribute = attributes.find(a => a.id === attributeId);
+      if (searchParams.get('edit') === 'true') {
+        show(<AttributeForm attribute={attribute} />);
+      } else {
+        show(<AttributeDetailsPage attribute={attribute} />);
+      }
+    } else if (searchParams.get('new') === 'true') {
+      show(<AttributeForm />);
+    }
+  }, [searchParams]);
 
   // state to track whether the Create New Attribute form is open
   // close the form whenever a new attribute is successfully created
@@ -22,7 +39,7 @@ export default function Landing() {
       <h1 className='attributes-title'>My Attributes</h1>
 
       <div className='attributes-list'>
-        <button onClick={toggle(<AttributeForm />, 'create')}>
+        <button onClick={() => navigate('/attributes?new=true')}>
           {contentId === 'create' ? 'Cancel' : 'Create a New Attribute'}
         </button>
         {attributes.map(a => (

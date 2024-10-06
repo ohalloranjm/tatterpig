@@ -7,10 +7,14 @@ export default function AttributeProvider(props) {
   const [contentId, setContentId] = useState(null);
   const [content, setContent] = useState(null);
 
+  const show = function (component = null, id = null) {
+    setContent(component);
+    setContentId(id);
+  };
+
   const display = function (component = null, id = null) {
     return function () {
-      setContent(component);
-      setContentId(id);
+      show(component, id);
     };
   };
 
@@ -28,6 +32,7 @@ export default function AttributeProvider(props) {
     display,
     contentId,
     setContentId,
+    show,
   };
 
   return (
