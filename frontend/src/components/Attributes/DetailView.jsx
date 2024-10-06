@@ -1,8 +1,7 @@
-import { useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
-import AttributeSheetTile from './AttributeSheetTile';
+import { useNavigate, useSubmit } from 'react-router-dom';
+import ValueTile from './ValueTile';
 
-export default function AttributeDetailsPage() {
-  const { attribute } = useLoaderData();
+export default function AttributeDetailView({ attribute }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -10,7 +9,12 @@ export default function AttributeDetailsPage() {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this attribute? It will be removed from all associated sheets.'
     );
-    if (confirmDelete) submit(null, { method: 'delete' });
+    if (confirmDelete) {
+      submit(null, {
+        method: 'delete',
+        action: `/attributes?id=${attribute.id}`,
+      });
+    }
   };
 
   return (
@@ -21,15 +25,24 @@ export default function AttributeDetailsPage() {
         <>
           <h2>Associated Sheets</h2>
           {attribute.SheetAttributes.map(sa => (
-            <AttributeSheetTile key={sa.id} sheet={sa} />
+            <ValueTile key={sa.id} sheet={sa} />
           ))}
         </>
       ) : null}
 
-      <button type='button' onClick={() => navigate('edit')}>
+      <button
+        type='button'
+        onClick={() => navigate(`/attributes?id=${attribute.id}&edit=true`)}
+      >
         Edit
       </button>
-      <button type='button' onClick={deleteAttribute}>
+      <button
+        type='button'
+        onClick={e => {
+          e.stopPropagation();
+          deleteAttribute();
+        }}
+      >
         Delete
       </button>
     </>
