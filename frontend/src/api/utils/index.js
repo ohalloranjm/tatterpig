@@ -24,3 +24,11 @@ export function map(methodLookup) {
     return await methodLookup[method](...params);
   };
 }
+
+export function parseQuery(url, key) {
+  return url
+    .split('?')[1]
+    .split('&')
+    .find(q => q.startsWith(`${key}=`))
+    .split('=')[1];
+}

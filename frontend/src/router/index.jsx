@@ -33,16 +33,8 @@ const pages = [
     action: map({
       POST: handleError(api.postAttribute),
       PUT: handleError(api.putAttribute),
+      DELETE: api.deleteAttribute,
     }),
-    children: [
-      {
-        path: ':attributeId',
-        element: <Navigate to='/attributes' />,
-        action: map({
-          DELETE: api.deleteAttribute,
-        }),
-      },
-    ],
   },
   {
     path: '/sheets',

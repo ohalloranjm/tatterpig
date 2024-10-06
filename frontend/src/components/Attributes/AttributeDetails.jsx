@@ -10,8 +10,11 @@ export default function AttributeDetailsPage({ attribute }) {
       'Are you sure you want to delete this attribute? It will be removed from all associated sheets.'
     );
     if (confirmDelete) {
-      submit(null, { method: 'delete', action: `/attributes/${attribute.id}` });
-      navigate(`/attributes`);
+      submit(null, {
+        method: 'delete',
+        action: `/attributes?id=${attribute.id}`,
+      });
+      navigate(`/attributes?deleted=success`);
     }
   };
 
