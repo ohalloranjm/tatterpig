@@ -1,11 +1,9 @@
-import { useSubmit } from 'react-router-dom';
+import { useNavigate, useSubmit } from 'react-router-dom';
 import AttributeSheetTile from './AttributeSheetTile';
-import { useAttributeSelection } from './context';
-import AttributeForm from './AttributeForm';
 
 export default function AttributeDetailsPage({ attribute }) {
   const submit = useSubmit();
-  const { display } = useAttributeSelection();
+  const navigate = useNavigate();
 
   const deleteAttribute = () => {
     const confirmDelete = window.confirm(
@@ -13,7 +11,7 @@ export default function AttributeDetailsPage({ attribute }) {
     );
     if (confirmDelete) {
       submit(null, { method: 'delete', action: `/attributes/${attribute.id}` });
-      display()();
+      navigate(`/attributes`);
     }
   };
 
@@ -30,10 +28,7 @@ export default function AttributeDetailsPage({ attribute }) {
         </>
       ) : null}
 
-      <button
-        type='button'
-        onClick={display(<AttributeForm attribute={attribute} />)}
-      >
+      <button type='button' onClick={() => navigate('&edit=true')}>
         Edit
       </button>
       <button

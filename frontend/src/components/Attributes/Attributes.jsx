@@ -1,17 +1,16 @@
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import AttributeTile from './AttributeTile';
 import AttributeForm from './AttributeForm';
-import { useEffect } from 'react';
-import { useAttributeSelection } from './context';
+import { useEffect, useState } from 'react';
 import './Attributes.css';
 import AttributeDetailsPage from './AttributeDetails';
 
 export default function Landing() {
   const { attributes } = useLoaderData();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const [mainContent, setMainContent] = useState(null);
 
   // context to track which element is open
-  const { content, contentId, display, toggle, show } = useAttributeSelection();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,28 +18,40 @@ export default function Landing() {
       const attributeId = Number(searchParams.get('id'));
       const attribute = attributes.find(a => a.id === attributeId);
       if (searchParams.get('edit') === 'true') {
-        show(<AttributeForm attribute={attribute} />);
+        setMainContent(<AttributeForm attribute={attribute} />);
       } else {
-        show(<AttributeDetailsPage attribute={attribute} />);
+        setMainContent(<AttributeDetailsPage attribute={attribute} />);
       }
     } else if (searchParams.get('new') === 'true') {
-      show(<AttributeForm />);
+      setMainContent(<AttributeForm />);
+    } else {
+      setMainContent(null);
     }
-  }, [searchParams]);
+  }, [searchParams, attributes]);
 
   return (
     <div className='attributes'>
       <h1 className='attributes-title'>My Attributes</h1>
 
       <div className='attributes-list'>
-        <button onClick={() => navigate('/attributes?new=true')}>
-          {contentId === 'create' ? 'Cancel' : 'Create a New Attribute'}
+        <button
+          onClick={() => {
+            if (searchParams.get('new') === 'true') {
+              navigate('/attributes');
+            } else {
+              navigate('/attributes?new=true');
+            }
+          }}
+        >
+          {searchParams.get('new') === 'true'
+            ? 'Cancel'
+            : 'Create a New Attribute'}
         </button>
         {attributes.map(a => (
           <AttributeTile key={a.id} attribute={a} />
         ))}
       </div>
-      <div className='attributes-panel'>{content}</div>
+      <div className='attributes-panel'>{mainContent}</div>
     </div>
   );
 }

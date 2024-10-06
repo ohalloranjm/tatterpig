@@ -1,9 +1,8 @@
-import AttributeDetailsPage from './AttributeDetails';
-import { useAttributeSelection } from './context';
+import { useNavigate } from 'react-router-dom';
 
 export default function AttributeTile({ attribute }) {
-  const { display } = useAttributeSelection();
-  const showDetails = display(<AttributeDetailsPage attribute={attribute} />);
+  const navigate = useNavigate();
+  const showDetails = () => navigate(`/attributes?id=${attribute.id}`);
 
   return <p onClick={showDetails}>{attribute.name}</p>;
 }

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useActionData, useSubmit } from 'react-router-dom';
-import { useAttributeSelection } from './context';
-import AttributeDetailsPage from './AttributeDetails';
 
 export default function AttributeForm({ attribute }) {
   const [name, setName] = useState('');
@@ -10,8 +8,6 @@ export default function AttributeForm({ attribute }) {
   const submit = useSubmit();
   const data = useActionData();
   const [submitted, setSubmitted] = useState(false);
-
-  const { display } = useAttributeSelection();
 
   useEffect(() => {
     if (attribute) {

@@ -1,9 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 export const AttributeContext = createContext();
 
 export default function AttributeProvider(props) {
-  const [opened, open] = useState(null);
   const [contentId, setContentId] = useState(null);
   const [content, setContent] = useState(null);
 
@@ -42,6 +41,6 @@ export default function AttributeProvider(props) {
   );
 }
 
-export function useAttributeSelection() {
-  return useContext(AttributeContext);
-}
+// export function useAttributeSelection() {
+//   return useContext(AttributeContext);
+// }
