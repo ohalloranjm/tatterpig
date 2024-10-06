@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import api, { get } from '../api';
 import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
@@ -34,7 +34,11 @@ const pages = [
     children: [
       {
         path: ':attributeId',
-        action: map({ PUT: api.putAttribute, DELETE: api.deleteAttribute }),
+        element: <Navigate to='/attributes' />,
+        action: map({
+          PUT: handleError(api.putAttribute),
+          DELETE: api.deleteAttribute,
+        }),
       },
     ],
   },

@@ -9,5 +9,5 @@ export default async function putAttribute({ request, params }) {
     body: JSON.stringify(data),
   });
   const { attribute } = await res.json();
-  return redirect(`/attributes/${attribute.id}`);
+  return redirect(`/attributes?id=${attribute.id}`);
 }

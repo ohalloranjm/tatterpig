@@ -16,12 +16,6 @@ export default function AttributeForm({ attribute }) {
     }
   }, [attribute]);
 
-  // useEffect(() => {
-  //   if (submitted) {
-  //     display(<AttributeDetailsPage attribute={attribute} />, attribute.id)();
-  //   }
-  // }, [attribute?.name, attribute?.dataType, display, attribute, submitted]);
-
   const errors = submitted ? data?.errors : {};
 
   const post = e => {
@@ -47,6 +41,7 @@ export default function AttributeForm({ attribute }) {
         action: `/attributes/${attribute.id}`,
       }
     );
+    setSubmitted(true);
   };
 
   return (

@@ -28,7 +28,10 @@ export default function AttributeDetailsPage({ attribute }) {
         </>
       ) : null}
 
-      <button type='button' onClick={() => navigate('&edit=true')}>
+      <button
+        type='button'
+        onClick={() => navigate(`/attributes?id=${attribute.id}&edit=true`)}
+      >
         Edit
       </button>
       <button
