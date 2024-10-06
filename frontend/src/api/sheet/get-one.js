@@ -1,4 +1,4 @@
-import { csrfFetch } from '../store/csrf';
+import { csrfFetch } from '../../store/csrf';
 
 export default async function getSheetDetails({ params }) {
   const { sheetId } = params;

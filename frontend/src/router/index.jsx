@@ -1,5 +1,5 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import api, { get } from '../api';
+import { createBrowserRouter } from 'react-router-dom';
+import api from '../api';
 import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
@@ -29,51 +29,51 @@ const pages = [
   {
     path: '/attributes',
     element: <Attributes />,
-    loader: get.attributes.current,
+    loader: api.attribute.getCurrent,
     action: map({
-      POST: handleError(api.postAttribute),
-      PUT: handleError(api.putAttribute),
-      DELETE: api.deleteAttribute,
+      POST: handleError(api.attribute.post),
+      PUT: handleError(api.attribute.put),
+      DELETE: api.attribute.del,
     }),
   },
   {
     path: '/sheets',
     element: <SheetsIndex />,
     loader: collect(
-      handleError(api.getCurrentSheets, false),
-      api.getPublicSheets
+      handleError(api.sheet.getCurrent, false),
+      api.sheet.getPublic
     ),
   },
   {
     path: '/sheets/new',
     element: <SheetForm edit={false} />,
-    action: handleError(api.postSheet),
+    action: handleError(api.sheet.post),
   },
   {
     path: '/sheets/:sheetId',
     element: <SheetDetailsPage />,
-    loader: api.getSheetDetails,
-    action: api.deleteSheet,
+    loader: api.sheet.getOne,
+    action: api.sheet.del,
   },
   {
     path: '/sheets/:sheetId/attributes/:attributeId',
     element: <ActionNavigator />,
     action: map({
-      DELETE: api.deleteValue,
-      PUT: api.putValue,
+      DELETE: api.value.del,
+      PUT: api.value.put,
     }),
   },
   {
     path: '/sheets/:sheetId/edit',
     element: <SheetForm edit={true} />,
-    loader: api.getSheetDetails,
-    action: handleError(api.putSheet),
+    loader: api.sheet.getOne,
+    action: handleError(api.sheet.put),
   },
   {
     path: '/sheets/:sheetId/attributes/add',
     element: <ValueForm />,
-    loader: collect(api.getSheetDetails, api.getCurrentAttributes),
-    action: handleError(api.postValue),
+    loader: collect(api.sheet.getOne, api.attribute.getCurrent),
+    action: handleError(api.value.post),
   },
 ];
 
