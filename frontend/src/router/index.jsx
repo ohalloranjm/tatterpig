@@ -7,7 +7,7 @@ import SheetsIndex from '../components/SheetsIndex';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
-import Attributes from '../components/Attributes';
+import AttributesPage from '../components/AttributesPage';
 import ValueForm from '../components/ValueForm/ValueForm';
 import ActionNavigator from '../utils/ActionNavigator';
 
@@ -28,7 +28,7 @@ const pages = [
   },
   {
     path: '/attributes',
-    element: <Attributes />,
+    element: <AttributesPage />,
     loader: api.attribute.getCurrent,
     action: map({
       POST: handleError(api.attribute.post),

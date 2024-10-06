@@ -6,7 +6,7 @@ import './Attributes.css';
 import DetailView from './DetailView';
 import DefaultView from './DefaultView';
 
-export default function Attributes() {
+export default function AttributesPage() {
   const { attributes } = useLoaderData();
   const [searchParams] = useSearchParams();
   const [mainContent, setMainContent] = useState(null);
