@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useActionData, useSubmit } from 'react-router-dom';
+import { useActionData, useSearchParams, useSubmit } from 'react-router-dom';
 
 export default function AttributeForm({ attribute }) {
   const [name, setName] = useState('');
@@ -8,13 +8,22 @@ export default function AttributeForm({ attribute }) {
   const submit = useSubmit();
   const data = useActionData();
   const [submitted, setSubmitted] = useState(false);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    if (attribute) {
+    const paramsName = searchParams.has('name');
+    const paramsDataType = searchParams.has('datatype');
+    if (paramsName || paramsDataType) {
+      if (paramsName) setName(searchParams.get('name'));
+      if (paramsDataType) setDataType(searchParams.get('datatype'));
+    } else if (attribute) {
       setName(attribute.name);
       setDataType(attribute.dataType);
+    } else {
+      setName('');
+      setDataType('number');
     }
-  }, [attribute]);
+  }, [attribute, searchParams]);
 
   const errors = submitted ? data?.errors : {};
 
@@ -38,7 +47,7 @@ export default function AttributeForm({ attribute }) {
       {
         method: 'PUT',
         encType: 'application/json',
-        action: `/attributes?id=${attribute.id}&edit=true`,
+        action: `/attributes?id=${attribute.id}&edit=true&name=${name}&datatype=${dataType}`,
       }
     );
     setSubmitted(true);
