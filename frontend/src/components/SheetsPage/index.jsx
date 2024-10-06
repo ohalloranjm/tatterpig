@@ -1,7 +1,31 @@
-import { useLoaderData } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function SheetsPage() {
   const { sheets } = useLoaderData();
+  const [searchParams] = useSearchParams();
+  const [mainContent, setMainContent] = useState(null);
+
+  const navigate = useNavigate();
   console.log(sheets);
-  return <p>{sheets.length}</p>;
+
+  useEffect(() => {
+    if (searchParams.has('id')) {
+      const sheetId = Number(searchParams.get('id'));
+      const sheet = sheets.find(s => s.id === sheetId);
+      if (sheet && searchParams.get('edit') === 'true') {
+        setMainContent(<p>Placeholder: Edit a Sheet</p>);
+      } else if (sheet) {
+        setMainContent(<p>Placeholder: Sheet Details</p>);
+      } else {
+        setMainContent(<p>Placeholder: Default</p>);
+      }
+    } else if (searchParams.get('new') === 'true') {
+      setMainContent(<p>Placeholder: Create Sheet</p>);
+    } else {
+      setMainContent(<p>Placeholder: Default</p>);
+    }
+  }, [searchParams, sheets]);
+
+  return <p>{mainContent}</p>;
 }
