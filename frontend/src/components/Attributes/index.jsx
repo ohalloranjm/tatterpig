@@ -4,6 +4,7 @@ import FormView from './FormView';
 import { useEffect, useState } from 'react';
 import './Attributes.css';
 import DetailView from './DetailView';
+import DefaultView from './DefaultView';
 
 export default function Attributes() {
   const { attributes } = useLoaderData();
@@ -21,12 +22,12 @@ export default function Attributes() {
       } else if (attribute) {
         setMainContent(<DetailView attribute={attribute} />);
       } else {
-        setMainContent(null);
+        setMainContent(<DefaultView />);
       }
     } else if (searchParams.get('new') === 'true') {
       setMainContent(<FormView />);
     } else {
-      setMainContent(null);
+      setMainContent(<DefaultView />);
     }
   }, [searchParams, attributes]);
 
