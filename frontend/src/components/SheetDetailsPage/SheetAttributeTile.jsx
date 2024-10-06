@@ -38,10 +38,11 @@ export default function SheetAttributeTile({ attribute }) {
   return (
     <div>
       <p>
-        <Link to={`/attributes/${attribute.attributeId}`}>
+        <Link to={`/attributes?id=${attribute.attributeId}`}>
           {attribute.name}
         </Link>
       </p>
+
       {edit && (
         <form onSubmit={editValue}>
           <input
