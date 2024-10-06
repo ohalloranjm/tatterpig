@@ -30,13 +30,15 @@ const pages = [
     path: '/attributes',
     element: <Attributes />,
     loader: get.attributes.current,
-    action: handleError(api.postAttribute),
+    action: map({
+      POST: handleError(api.postAttribute),
+      PUT: handleError(api.putAttribute),
+    }),
     children: [
       {
         path: ':attributeId',
         element: <Navigate to='/attributes' />,
         action: map({
-          PUT: handleError(api.putAttribute),
           DELETE: api.deleteAttribute,
         }),
       },

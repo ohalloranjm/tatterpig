@@ -38,7 +38,7 @@ export default function AttributeForm({ attribute }) {
       {
         method: 'PUT',
         encType: 'application/json',
-        action: `/attributes/${attribute.id}`,
+        action: `/attributes?id=${attribute.id}&edit=true`,
       }
     );
     setSubmitted(true);
