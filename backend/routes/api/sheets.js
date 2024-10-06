@@ -16,7 +16,15 @@ const router = express.Router();
 // view all sheets owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
   const { id: ownerId } = req.user;
-  const sheets = await Sheet.findAll({ where: { ownerId } });
+  const sheets = await Sheet.findAll({
+    where: { ownerId },
+    include: SheetAttribute,
+  });
+
+  for (const sheet of sheets) {
+    formatSheetAttributesMutate(sheet.SheetAttributes);
+  }
+
   return res.json({ sheets });
 });
 

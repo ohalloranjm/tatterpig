@@ -3,7 +3,7 @@ import api from '../api';
 import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
-import SheetsIndex from '../components/SheetsIndex';
+import SheetsPage from '../components/SheetsPage';
 import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import SheetForm from '../components/SheetForm/SheetForm';
@@ -38,11 +38,8 @@ const pages = [
   },
   {
     path: '/sheets',
-    element: <SheetsIndex />,
-    loader: collect(
-      handleError(api.sheet.getCurrent, false),
-      api.sheet.getPublic
-    ),
+    element: <SheetsPage />,
+    loader: handleError(api.sheet.getCurrent, false),
   },
   {
     path: '/sheets/new',
