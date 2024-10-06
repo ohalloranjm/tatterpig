@@ -1,3 +1,4 @@
+import { redirect } from 'react-router-dom';
 import { csrfFetch } from '../store/csrf';
 
 export default async function postAttribute({ request }) {
@@ -6,5 +7,6 @@ export default async function postAttribute({ request }) {
     method: 'POST',
     body: JSON.stringify(data),
   });
-  return await res.json();
+  const { attribute } = await res.json();
+  return redirect(`/attributes?id=${attribute.id}`);
 }
