@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
+import './Sheets.css';
 
 export default function SheetsPage() {
   const { sheets } = useLoaderData();
@@ -7,7 +8,6 @@ export default function SheetsPage() {
   const [mainContent, setMainContent] = useState(null);
 
   const navigate = useNavigate();
-  console.log(sheets);
 
   useEffect(() => {
     if (searchParams.has('id')) {
@@ -42,7 +42,7 @@ export default function SheetsPage() {
         </button>
 
         {sheets.map(s => (
-          <p>Placeholder: {s.name}</p>
+          <p key={s.id}>Placeholder: {s.name}</p>
         ))}
       </div>
 

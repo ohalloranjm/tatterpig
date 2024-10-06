@@ -1,0 +1,19 @@
+.sheets {
+  display: grid;
+  grid-template-areas:
+    'title title'
+    'list panel';
+}
+
+.sheets-title {
+  grid-area: title;
+  text-align: center;
+}
+
+.sheets-list {
+  grid-area: list;
+}
+
+.sheets-view {
+  grid-area: panel;
+}
