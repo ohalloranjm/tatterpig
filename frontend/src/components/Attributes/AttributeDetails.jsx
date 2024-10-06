@@ -1,10 +1,10 @@
-import { useNavigate, useSubmit } from 'react-router-dom';
+import { useSubmit } from 'react-router-dom';
 import AttributeSheetTile from './AttributeSheetTile';
 import { useAttributeSelection } from './context';
+import AttributeForm from './AttributeForm';
 
 export default function AttributeDetailsPage({ attribute }) {
   const submit = useSubmit();
-  const navigate = useNavigate();
   const { display } = useAttributeSelection();
 
   const deleteAttribute = () => {
@@ -30,7 +30,10 @@ export default function AttributeDetailsPage({ attribute }) {
         </>
       ) : null}
 
-      <button type='button' onClick={() => navigate('edit')}>
+      <button
+        type='button'
+        onClick={display(<AttributeForm attribute={attribute} />)}
+      >
         Edit
       </button>
       <button

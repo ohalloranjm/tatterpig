@@ -35,7 +35,7 @@ const pages = [
     children: [
       {
         path: ':attributeId',
-        action: api.deleteAttribute,
+        action: map({ PUT: api.putAttribute, DELETE: api.deleteAttribute }),
       },
     ],
   },

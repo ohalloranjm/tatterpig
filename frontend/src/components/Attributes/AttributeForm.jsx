@@ -1,13 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useActionData, useSubmit } from 'react-router-dom';
+import { useAttributeSelection } from './context';
+import AttributeDetailsPage from './AttributeDetails';
 
-export default function AttributeForm() {
+export default function AttributeForm({ attribute }) {
   const [name, setName] = useState('');
   const [dataType, setDataType] = useState('number');
 
   const submit = useSubmit();
   const data = useActionData();
   const [submitted, setSubmitted] = useState(false);
+
+  const { display } = useAttributeSelection();
+
+  useEffect(() => {
+    if (attribute) {
+      setName(attribute.name);
+      setDataType(attribute.dataType);
+    }
+  }, [attribute]);
+
+  // useEffect(() => {
+  //   if (submitted) {
+  //     display(<AttributeDetailsPage attribute={attribute} />, attribute.id)();
+  //   }
+  // }, [attribute?.name, attribute?.dataType, display, attribute, submitted]);
+
   const errors = submitted ? data?.errors : {};
 
   const post = e => {
@@ -16,11 +34,30 @@ export default function AttributeForm() {
     setSubmitted(true);
   };
 
-  return (
-    <div className='modal'>
-      <h2>Create an Attribute</h2>
+  const put = e => {
+    e.preventDefault();
 
-      <form onSubmit={post}>
+    if (dataType !== attribute.dataType) {
+      const confirmChange = window.confirm(
+        "Are you sure you want to change the data type of this attribute? Doing so will reset the attribute's value on every associated sheet."
+      );
+      if (!confirmChange) return setDataType(attribute.dataType);
+    }
+    submit(
+      { name, dataType },
+      {
+        method: 'PUT',
+        encType: 'application/json',
+        action: `/attributes/${attribute.id}`,
+      }
+    );
+  };
+
+  return (
+    <div>
+      <h2>{attribute ? `Editing ${attribute.name}` : 'Create an Attribute'}</h2>
+
+      <form onSubmit={attribute ? put : post}>
         <input
           placeholder='Attribute Name'
           value={name}
@@ -34,7 +71,9 @@ export default function AttributeForm() {
           <option value='boolean'>Boolean</option>
         </select>
 
-        <button type='submit'>Create Attribute</button>
+        <button type='submit'>
+          {attribute ? 'Confirm Changes' : 'Create Attribute'}
+        </button>
       </form>
     </div>
   );

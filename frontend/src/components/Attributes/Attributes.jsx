@@ -15,7 +15,7 @@ export default function Landing() {
   // close the form whenever a new attribute is successfully created
   useEffect(() => {
     if (contentId === 'create') display()();
-  }, [attributes.length]);
+  }, [attributes]);
 
   return (
     <div className='attributes'>
