@@ -8,18 +8,28 @@
 
 #navigation > div {
   display: flex;
+  background-color: var(--three);
+  column-gap: 1px;
 }
 
 #navigation > div > a {
   color: var(--two);
   background-color: var(--one);
   padding: 5px 10px 10px;
-  border-left: 1px solid var(--txt);
+  font-size: 1.2em;
+}
+
+#navigation > div > a:hover {
+  text-decoration: none;
+  background-color: inherit;
+  color: var(--txt);
 }
 
 #navigation > div > a.active {
   color: var(--txt);
-  font-weight: bold;
   background-color: var(--two);
-  border-left: 0;
+}
+
+#navigation > div > a.active:hover {
+  background-color: inherit;
 }
