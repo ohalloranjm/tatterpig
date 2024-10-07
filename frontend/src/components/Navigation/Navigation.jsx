@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
@@ -11,42 +12,33 @@ function Navigation({ isLoaded }) {
     dispatch(sessionActions.logout());
   };
 
+  const userTabs = sessionUser && (
+    <>
+      <NavLink to='/sheets'>Sheets</NavLink>
+      <NavLink to='/attributes'>Attributes</NavLink>
+    </>
+  );
+
   const sessionLinks = sessionUser ? (
     <>
-      <li>
-        <NavLink to='/sheets'>Sheets</NavLink>
-      </li>
-      <li>
-        <NavLink to='/attributes'>Attributes</NavLink>
-      </li>
-      <li>
-        <NavLink to='/sheets/public'>Public Sheets</NavLink>
-      </li>
-      <li>
-        <button onClick={logout}>Log Out!</button>
-      </li>
+      <button onClick={logout}>Log Out</button>
     </>
   ) : (
     <>
-      <li>
-        <NavLink to='/sheets/public'>Public Sheets</NavLink>
-      </li>
-      <li>
-        <NavLink to='/login'>Log In</NavLink>
-      </li>
-      <li>
-        <NavLink to='/signup'>Sign Up</NavLink>
-      </li>
+      <NavLink to='/login'>Log In</NavLink>
+      <NavLink to='/signup'>Sign Up</NavLink>
     </>
   );
 
   return (
-    <ul>
-      <li>
+    <div id='navigation'>
+      <div className='nav-tabs'>
         <NavLink to='/'>Home</NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+        {isLoaded && userTabs}
+        <NavLink to='/sheets/public'>Browse</NavLink>
+      </div>
+      <div className='nav-session'>{isLoaded && sessionLinks}</div>
+    </div>
   );
 }
 

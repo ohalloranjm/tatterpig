@@ -1,0 +1,12 @@
+#navigation {
+  display: flex;
+  column-gap: 10px;
+}
+
+#navigation > div > a {
+  background-color: red;
+}
+
+#navigation > div > a.active {
+  background-color: black;
+}
