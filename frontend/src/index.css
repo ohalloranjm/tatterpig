@@ -2,7 +2,7 @@
 
 :root {
   --txt: rgb(8, 8, 8);
-  --one: rgb(234, 51, 0);
+  --one: rgb(193, 42, 0);
   --two: rgb(255, 236, 201);
 }
 
@@ -21,6 +21,10 @@ h5,
 h6,
 a {
   color: var(--one);
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 button {
