@@ -56,9 +56,13 @@
   column-gap: 5px;
 }
 
-.svt-value > p {
-}
-
 .svt-value > button {
   font-size: 0.7em;
+}
+
+.boolean-icon,
+.boolean-icon:hover {
+  background-color: inherit;
+  color: var(--one);
+  border: 0;
 }

@@ -10,17 +10,23 @@ import {
   faX,
   faCheck,
   faPencil,
+  faToggleOff,
+  faToggleOn,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
+import { faCircle as faCircleRegular } from '@fortawesome/free-regular-svg-icons';
 
 export default function SheetLabelTile({ label }) {
   const submit = useSubmit();
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const stringNumInputRef = useRef(null);
+  const booleanInputRef = useRef(null);
 
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(label.value ?? '');
   const [searchParams] = useSearchParams();
+
+  const [filledCircle, setFilledCircle] = useState(label.value === 'true');
 
   const { sheetId, labelId } = label;
 
@@ -36,8 +42,14 @@ export default function SheetLabelTile({ label }) {
   }, [labelId, searchParams]);
 
   useEffect(() => {
-    if (inputRef.current) inputRef.current.select();
-  }, [inputRef, edit]);
+    setFilledCircle(label.value === 'true');
+  }, [setFilledCircle, label.value]);
+
+  const booleanIcon = filledCircle ? faToggleOn : faToggleOff;
+
+  useEffect(() => {
+    if (stringNumInputRef.current) stringNumInputRef.current.select();
+  }, [stringNumInputRef, edit]);
 
   const action = `/sheets?id=${sheetId}&labelId=${labelId}`;
   const { dataType } = label;
@@ -74,12 +86,32 @@ export default function SheetLabelTile({ label }) {
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
 
+      {/* static view for number and string values */}
+      {!edit && !isBoolean && (
+        <div className='svt-value'>
+          <p>{label.value}</p>
+          <button
+            type='button'
+            className='icon'
+            onClick={() =>
+              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
+            }
+          >
+            <FontAwesomeIcon icon={faPencil} />
+          </button>
+          <button type='button' className='icon' onClick={removeLabel}>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </div>
+      )}
+
+      {/* edit view for number and string values */}
       {edit && (
         <form className='svt-value' onSubmit={editValue}>
           <input
             type={dataType === 'number' ? 'number' : 'text'}
             value={value}
-            ref={inputRef}
+            ref={stringNumInputRef}
             onChange={e => setValue(e.target.value)}
           />
 
@@ -99,30 +131,22 @@ export default function SheetLabelTile({ label }) {
         </form>
       )}
 
+      {/* dynamic view for boolean values */}
       {isBoolean && (
-        <>
-          <p>{label.value}</p>
-          <button type='button' onClick={changeBooleanValue}>
-            change
-          </button>
-          <button type='button' className='icon' onClick={removeLabel}>
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
-        </>
-      )}
-
-      {!edit && !isBoolean && (
         <div className='svt-value'>
           <p>{label.value}</p>
+
           <button
             type='button'
-            className='icon'
-            onClick={() =>
-              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-            }
+            className='boolean-icon'
+            ref={booleanInputRef}
+            onClick={changeBooleanValue}
+            onMouseEnter={() => setFilledCircle(prev => !prev)}
+            onMouseLeave={() => setFilledCircle(prev => !prev)}
           >
-            <FontAwesomeIcon icon={faPencil} />
+            <FontAwesomeIcon icon={booleanIcon} />
           </button>
+
           <button type='button' className='icon' onClick={removeLabel}>
             <FontAwesomeIcon icon={faTrash} />
           </button>
