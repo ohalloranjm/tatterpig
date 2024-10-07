@@ -95,6 +95,7 @@ export default function SheetLabelTile({ label }) {
             <p>{label.value}</p>
             <button
               type='button'
+              className='icon'
               onClick={() =>
                 navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
               }
@@ -104,7 +105,7 @@ export default function SheetLabelTile({ label }) {
           </>
         )}
 
-        <button type='button' onClick={removeLabel}>
+        <button type='button' className='icon' onClick={removeLabel}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>

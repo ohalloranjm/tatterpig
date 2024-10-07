@@ -1,3 +1,5 @@
+@import url(vars.css);
+
 .block {
   background-color: var(--three);
   padding: 10px;
@@ -10,4 +12,16 @@
 
 .center {
   text-align: center;
+}
+
+button.icon {
+  background-color: inherit;
+  color: var(--one);
+  border: 0;
+}
+
+button.icon:hover {
+  background-color: var(--one);
+  color: var(--two);
+  border: 0;
 }
