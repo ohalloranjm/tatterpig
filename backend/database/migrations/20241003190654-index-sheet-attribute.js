@@ -1,20 +1,18 @@
 'use strict';
 
+let options = { tableName: 'SheetAttributes' };
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+
 module.exports = {
   async up(queryInterface, _Sequelize) {
-    await queryInterface.addIndex(
-      'SheetAttributes',
-      ['sheetId', 'attributeId'],
-      {
-        unique: true,
-      }
-    );
+    await queryInterface.addIndex(options, ['sheetId', 'attributeId'], {
+      unique: true,
+    });
   },
 
   async down(queryInterface, _Sequelize) {
-    await queryInterface.removeIndex('SheetAttributes', [
-      'sheetId',
-      'attributeId',
-    ]);
+    await queryInterface.removeIndex(options, ['sheetId', 'attributeId']);
   },
 };
