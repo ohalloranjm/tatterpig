@@ -44,7 +44,7 @@ const pages = [
         handleError(api.sheet.post)
       ),
       PUT: handleError(api.sheet.put),
-      DELETE: api.sheet.del,
+      DELETE: checkQuery('attributeId', null, api.value.del, api.sheet.del),
     }),
   },
 ];

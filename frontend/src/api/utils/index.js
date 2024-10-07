@@ -29,7 +29,11 @@ export function checkQuery(queryKey, queryValue, routeIfMatch, routeIfNoMatch) {
   return async function (...params) {
     const { url } = params[0].request;
     const queryParams = url.split('?')[1].split('&');
-    const match = queryParams.some(qp => qp === `${queryKey}=${queryValue}`);
+    const match = queryParams.some(qp =>
+      queryValue
+        ? qp === `${queryKey}=${queryValue}`
+        : qp.startsWith(`${queryKey}=`)
+    );
     const route = match ? routeIfMatch : routeIfNoMatch;
     return await route(...params);
   };

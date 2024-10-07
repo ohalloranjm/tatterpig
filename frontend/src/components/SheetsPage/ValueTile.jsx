@@ -6,7 +6,7 @@ export default function SheetAttributeTile({ attribute }) {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(attribute.value ?? '');
 
-  const action = `/sheets/${attribute.sheetId}/attributes/${attribute.attributeId}`;
+  const action = `/sheets?id=${attribute.sheetId}&attributeId=${attribute.attributeId}`;
   const { dataType } = attribute;
   const isBoolean = dataType === 'boolean';
 
@@ -14,7 +14,7 @@ export default function SheetAttributeTile({ attribute }) {
     const confirmDelete = window.confirm(
       `Are you sure you want to remove the ${attribute.name} attribute from this sheet?`
     );
-    if (confirmDelete) submit(null, { action, method: 'DELETE' });
+    if (confirmDelete) submit(null, { method: 'DELETE', action });
   };
 
   const editValue = e => {
