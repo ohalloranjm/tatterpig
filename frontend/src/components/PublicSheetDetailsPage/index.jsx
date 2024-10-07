@@ -18,7 +18,7 @@ export default function PublicSheetDetailsPage() {
       {isOwner && (
         <Link to={`/sheets?id=${sheet.id}`}>View & Edit on My Dashboard</Link>
       )}
-      <Link to='/sheets/public'>Back to Browse</Link>
+      <Link to='/public'>Back to Browse</Link>
     </>
   );
 }
