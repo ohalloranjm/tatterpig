@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Link,
   useNavigate,
@@ -16,6 +16,8 @@ import {
 export default function SheetLabelTile({ label }) {
   const submit = useSubmit();
   const navigate = useNavigate();
+  const inputRef = useRef(null);
+
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(label.value ?? '');
   const [searchParams] = useSearchParams();
@@ -32,6 +34,10 @@ export default function SheetLabelTile({ label }) {
       setEdit(false);
     }
   }, [labelId, searchParams]);
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.select();
+  }, [inputRef, edit]);
 
   const action = `/sheets?id=${sheetId}&labelId=${labelId}`;
   const { dataType } = label;
@@ -73,6 +79,7 @@ export default function SheetLabelTile({ label }) {
           <input
             type={dataType === 'number' ? 'number' : 'text'}
             value={value}
+            ref={inputRef}
             onChange={e => setValue(e.target.value)}
           />
 
