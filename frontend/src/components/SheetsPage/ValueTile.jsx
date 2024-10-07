@@ -1,12 +1,32 @@
-import { useState } from 'react';
-import { Link, useSubmit } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {
+  Link,
+  useNavigate,
+  useSearchParams,
+  useSubmit,
+} from 'react-router-dom';
 
 export default function SheetAttributeTile({ attribute }) {
   const submit = useSubmit();
+  const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(attribute.value ?? '');
+  const [searchParams] = useSearchParams();
 
-  const action = `/sheets?id=${attribute.sheetId}&attributeId=${attribute.attributeId}`;
+  const { sheetId, attributeId } = attribute;
+
+  useEffect(() => {
+    if (
+      searchParams.get('edit') === 'attribute' &&
+      Number(searchParams.get('attributeId')) === attributeId
+    ) {
+      setEdit(true);
+    } else {
+      setEdit(false);
+    }
+  }, [attributeId, searchParams]);
+
+  const action = `/sheets?id=${sheetId}&attributeId=${attributeId}`;
   const { dataType } = attribute;
   const isBoolean = dataType === 'boolean';
 
@@ -19,11 +39,12 @@ export default function SheetAttributeTile({ attribute }) {
 
   const editValue = e => {
     e.preventDefault();
+    console.log('yedol');
+    if (isBoolean) return;
     submit(
       { value: value || null },
       { action, method: 'PUT', encType: 'application/json' }
     );
-    setEdit(false);
   };
 
   const changeBooleanValue = () => {
@@ -51,7 +72,10 @@ export default function SheetAttributeTile({ attribute }) {
             onChange={e => setValue(e.target.value)}
           />
           <button type='submit'>Confirm</button>
-          <button type='button' onClick={() => setEdit(false)}>
+          <button
+            type='button'
+            onClick={() => navigate(`/sheets?id=${sheetId}`)}
+          >
             Cancel
           </button>
         </form>
@@ -69,7 +93,14 @@ export default function SheetAttributeTile({ attribute }) {
       {!edit && !isBoolean && (
         <>
           <p>{attribute.value}</p>
-          <button type='button' onClick={() => setEdit(true)}>
+          <button
+            type='button'
+            onClick={() =>
+              navigate(
+                `/sheets?id=${sheetId}&edit=attribute&attributeId=${attributeId}`
+              )
+            }
+          >
             Edit
           </button>
         </>
