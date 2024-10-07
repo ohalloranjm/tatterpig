@@ -27,7 +27,7 @@ export default function SheetDetailsView({ sheet }) {
 
   return (
     <>
-      <h1>{sheet.name}</h1>
+      <h2>{sheet.name}</h2>
       <p>{sheet.description}</p>
       {sheet.SheetAttributes.map(a => (
         <ValueTile key={a.id} attribute={a} />

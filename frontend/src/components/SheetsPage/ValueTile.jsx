@@ -39,7 +39,6 @@ export default function SheetAttributeTile({ attribute }) {
 
   const editValue = e => {
     e.preventDefault();
-    console.log('yedol');
     if (isBoolean) return;
     submit(
       { value: value || null },

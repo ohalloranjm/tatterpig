@@ -21,12 +21,22 @@ export default function SheetsPage() {
       } else if (sheet) {
         setMainContent(<DetailsView sheet={sheet} />);
       } else {
-        setMainContent(<p>Placeholder: Default</p>);
+        setMainContent(
+          <p>
+            <strong>Sheets</strong> can be used to represent characters,
+            monsters, locations, or just about anything else you need.
+          </p>
+        );
       }
     } else if (searchParams.get('new') === 'true') {
       setMainContent(<SheetFormView />);
     } else {
-      setMainContent(<p>Placeholder: Default</p>);
+      setMainContent(
+        <p>
+          <strong>Sheets</strong> can be used to represent characters, monsters,
+          locations, or just about anything else you need.
+        </p>
+      );
     }
   }, [searchParams, sheets]);
 

@@ -51,7 +51,7 @@ export default function ValueForm({ sheet }) {
 
   return (
     <>
-      <h1>Add an Attribute to {sheet.name}</h1>
+      <h3>Add Attribute</h3>
       <form onSubmit={handleSubmit}>
         <select
           value={selectedAttribute}
