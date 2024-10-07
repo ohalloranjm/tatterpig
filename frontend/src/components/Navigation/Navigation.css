@@ -33,3 +33,8 @@
 #navigation > div > a.active:hover {
   background-color: inherit;
 }
+
+.logout-button {
+  margin: 3px;
+  font-size: 1em;
+}

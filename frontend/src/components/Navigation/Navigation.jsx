@@ -12,16 +12,10 @@ function Navigation({ isLoaded }) {
     dispatch(sessionActions.logout());
   };
 
-  const userTabs = sessionUser && (
+  const tabs = sessionUser ? (
     <>
       <NavLink to='/sheets'>Sheets</NavLink>
       <NavLink to='/attributes'>Attributes</NavLink>
-    </>
-  );
-
-  const sessionLinks = sessionUser ? (
-    <>
-      <button onClick={logout}>Log Out</button>
     </>
   ) : (
     <>
@@ -34,10 +28,14 @@ function Navigation({ isLoaded }) {
     <div id='navigation'>
       <div className='nav-tabs'>
         <NavLink to='/'>Home</NavLink>
-        {isLoaded && userTabs}
+        {isLoaded && tabs}
         <NavLink to='/public'>Browse</NavLink>
       </div>
-      <div className='nav-session'>{isLoaded && sessionLinks}</div>
+      {isLoaded && sessionUser && (
+        <button className='logout-button' onClick={logout}>
+          Log Out
+        </button>
+      )}
     </div>
   );
 }

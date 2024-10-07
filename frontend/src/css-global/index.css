@@ -24,13 +24,13 @@ a:hover {
 button {
   background-color: var(--one);
   color: var(--two);
-  padding: 0.3em;
+  padding: 0.3em 0.5em;
   border-radius: 0.5em;
   border: 1px solid var(--two);
 }
 
 button:hover {
-  background-color: var(--two);
+  background-color: var(--three);
   color: var(--one);
   border: 1px solid var(--one);
 }
