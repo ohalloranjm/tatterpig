@@ -17,7 +17,7 @@ export default function SheetsPage() {
       const sheetId = Number(searchParams.get('id'));
       const sheet = sheets.find(s => s.id === sheetId);
       if (sheet && searchParams.get('edit') === 'true') {
-        setMainContent(<p>Placeholder: Edit a Sheet</p>);
+        setMainContent(<SheetFormView sheet={sheet} />);
       } else if (sheet) {
         setMainContent(<DetailsView sheet={sheet} />);
       } else {

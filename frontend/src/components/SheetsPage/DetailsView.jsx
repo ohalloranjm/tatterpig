@@ -9,7 +9,6 @@ export default function SheetDetailsView({ sheet }) {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this sheet?'
     );
-    //todo: fix delete
     if (confirmDelete)
       submit(null, { method: 'delete', action: `/sheets?id=${sheet.id}` });
   };
@@ -24,7 +23,10 @@ export default function SheetDetailsView({ sheet }) {
       <button type='button' onClick={() => navigate('attributes/add')}>
         Add an Attribute
       </button>
-      <button type='button' onClick={() => navigate('edit')}>
+      <button
+        type='button'
+        onClick={() => navigate(`/sheets?id=${sheet.id}&edit=true`)}
+      >
         Edit Sheet
       </button>
       <button type='button' onClick={deleteSheet}>

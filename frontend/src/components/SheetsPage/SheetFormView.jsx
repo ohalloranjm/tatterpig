@@ -18,8 +18,8 @@ export default function SheetFormView({ sheet }) {
 
     if (paramsName || paramsDescription || paramsPublic) {
       if (paramsName) setName(searchParams.get('name'));
-      if (paramsDescription) setName(searchParams.get('description'));
-      if (paramsPublic) setMakePublic(searchParams.get('public'));
+      if (paramsDescription) setDescription(searchParams.get('description'));
+      if (paramsPublic) setMakePublic(searchParams.get('public') === 'true');
     } else if (sheet) {
       setName(sheet.name);
       setDescription(sheet.description ?? '');
@@ -44,8 +44,13 @@ export default function SheetFormView({ sheet }) {
   const put = e => {
     e.preventDefault();
     const body = { name, public: makePublic, description: description || null };
-    // todo: add a submit action
-    submit(body, { method: 'PUT', encType: 'application/json' });
+    submit(body, {
+      method: 'PUT',
+      encType: 'application/json',
+      action: `/sheets?id=${
+        sheet.id
+      }&edit=${true}&name=${name}&description=${description}&public=${makePublic}`,
+    });
     setSubmitted(true);
   };
 
