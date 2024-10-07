@@ -6,7 +6,12 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faX,
+  faCheck,
+  faPencil,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function SheetLabelTile({ label }) {
   const submit = useSubmit();
@@ -64,18 +69,25 @@ export default function SheetLabelTile({ label }) {
       </p>
 
       {edit && (
-        <form onSubmit={editValue}>
+        <form className='svt-value' onSubmit={editValue}>
           <input
             type={dataType === 'number' ? 'number' : 'text'}
             value={value}
             onChange={e => setValue(e.target.value)}
           />
-          <button type='submit'>Confirm</button>
+
+          {/* confirm button */}
+          <button type='submit' className='icon'>
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
+
+          {/* cancel button */}
           <button
             type='button'
             onClick={() => navigate(`/sheets?id=${sheetId}`)}
+            className='icon'
           >
-            Cancel
+            <FontAwesomeIcon icon={faX} />
           </button>
         </form>
       )}
@@ -86,29 +98,29 @@ export default function SheetLabelTile({ label }) {
           <button type='button' onClick={changeBooleanValue}>
             change
           </button>
+          <button type='button' className='icon' onClick={removeLabel}>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
         </>
       )}
-      <div className='svt-value'>
-        {!edit && !isBoolean && (
-          <>
-            {' '}
-            <p>{label.value}</p>
-            <button
-              type='button'
-              className='icon'
-              onClick={() =>
-                navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-              }
-            >
-              <FontAwesomeIcon icon={faPencil} />
-            </button>
-          </>
-        )}
 
-        <button type='button' className='icon' onClick={removeLabel}>
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
-      </div>
+      {!edit && !isBoolean && (
+        <div className='svt-value'>
+          <p>{label.value}</p>
+          <button
+            type='button'
+            className='icon'
+            onClick={() =>
+              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
+            }
+          >
+            <FontAwesomeIcon icon={faPencil} />
+          </button>
+          <button type='button' className='icon' onClick={removeLabel}>
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
