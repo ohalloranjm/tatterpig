@@ -45,6 +45,12 @@
   color: var(--txt);
 }
 
+.svt-name-false > a {
+  font-weight: normal;
+  text-decoration: line-through;
+  color: var(--gray);
+}
+
 .svt-name > a:hover {
   color: var(--one);
   text-decoration: none;

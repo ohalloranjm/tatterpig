@@ -80,9 +80,12 @@ export default function SheetLabelTile({ label }) {
     );
   };
 
+  let svtNameClass = 'svt-name';
+  if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
+
   return (
     <div className='sheet-value-tile'>
-      <p className='svt-name'>
+      <p className={svtNameClass}>
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
 
@@ -134,15 +137,13 @@ export default function SheetLabelTile({ label }) {
       {/* dynamic view for boolean values */}
       {isBoolean && (
         <div className='svt-value'>
-          <p>{label.value}</p>
-
           <button
             type='button'
             className='boolean-icon'
             ref={booleanInputRef}
             onClick={changeBooleanValue}
-            onMouseEnter={() => setFilledCircle(prev => !prev)}
-            onMouseLeave={() => setFilledCircle(prev => !prev)}
+            onMouseEnter={() => setFilledCircle(label.value === 'false')}
+            onMouseLeave={() => setFilledCircle(label.value === 'true')}
           >
             <FontAwesomeIcon icon={booleanIcon} />
           </button>
