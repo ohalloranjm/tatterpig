@@ -7,24 +7,22 @@ import {
 } from 'react-router-dom';
 
 export default function ValueForm({ sheet }) {
-  const { attributes } = useLoaderData()[1];
+  const { labels } = useLoaderData()[1];
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
   const navigate = useNavigate();
 
-  const [selectedAttribute, setSelectedAttribute] = useState('');
+  const [selectedLabel, setSelectedLabel] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
   const [booleanValue, setBooleanValue] = useState(true);
 
-  const { SheetAttributes: invalidChoices } = sheet;
-  const validChoices = attributes.filter(
-    a => !invalidChoices.some(ic => ic.attributeId === a.id)
+  const { SheetLabels: invalidChoices } = sheet;
+  const validChoices = labels.filter(
+    a => !invalidChoices.some(ic => ic.labelId === a.id)
   );
 
-  const dataType = validChoices.find(
-    vc => vc.id === +selectedAttribute
-  )?.dataType;
+  const dataType = validChoices.find(vc => vc.id === +selectedLabel)?.dataType;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -36,7 +34,7 @@ export default function ValueForm({ sheet }) {
     };
 
     const body = {
-      attributeId: +selectedAttribute,
+      labelId: +selectedLabel,
       value: lookup[dataType],
     };
 
@@ -45,18 +43,18 @@ export default function ValueForm({ sheet }) {
     submit(body, {
       method: 'post',
       encType: 'application/json',
-      action: `/sheets?id=${sheet.id}&add=attribute`,
+      action: `/sheets?id=${sheet.id}&add=label`,
     });
   };
 
   return (
     <>
-      <h3>Add Attribute</h3>
+      <h3>Add Label</h3>
       <form onSubmit={handleSubmit}>
         <select
-          value={selectedAttribute}
+          value={selectedLabel}
           onChange={e => {
-            setSelectedAttribute(e.target.value);
+            setSelectedLabel(e.target.value);
             setNumberValue('');
             setStringValue('');
             setBooleanValue(true);
@@ -70,7 +68,7 @@ export default function ValueForm({ sheet }) {
           ))}
         </select>
 
-        {selectedAttribute ? (
+        {selectedLabel ? (
           <>
             <label>
               {dataType}:{' '}
@@ -101,8 +99,8 @@ export default function ValueForm({ sheet }) {
           </>
         ) : null}
 
-        <button type='submit' disabled={!selectedAttribute}>
-          Add Attribute
+        <button type='submit' disabled={!selectedLabel}>
+          Add Label
         </button>
         <button
           type='button'

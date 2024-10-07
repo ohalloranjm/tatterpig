@@ -1,15 +1,15 @@
-const formatSheetAttributesMutate = function (SheetAttributes) {
-  SheetAttributes.forEach(satt => {
-    const attribute = satt.dataValues.Attribute.dataValues;
-    satt.dataValues.name = attribute.name;
-    satt.dataValues.attributeOwnerId = attribute.ownerId;
-    satt.dataValues.dataType = attribute.dataType;
-    delete satt.dataValues.Attribute;
+const formatSheetLabelsMutate = function (SheetLabels) {
+  SheetLabels.forEach(satt => {
+    const label = satt.dataValues.Label.dataValues;
+    satt.dataValues.name = label.name;
+    satt.dataValues.labelOwnerId = label.ownerId;
+    satt.dataValues.dataType = label.dataType;
+    delete satt.dataValues.Label;
   });
 };
 
-const formatAttributeSheetsMutate = function (SheetAttributes) {
-  SheetAttributes.forEach(satt => {
+const formatLabelSheetsMutate = function (SheetLabels) {
+  SheetLabels.forEach(satt => {
     const sheet = satt.dataValues.Sheet.dataValues;
     satt.dataValues.name = sheet.name;
     satt.dataValues.sheetOwnerId = sheet.ownerId;
@@ -19,4 +19,4 @@ const formatAttributeSheetsMutate = function (SheetAttributes) {
   });
 };
 
-module.exports = { formatSheetAttributesMutate, formatAttributeSheetsMutate };
+module.exports = { formatSheetLabelsMutate, formatLabelSheetsMutate };

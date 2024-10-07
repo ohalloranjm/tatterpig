@@ -2,13 +2,13 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Attribute extends Model {
+  class Label extends Model {
     static associate(models) {
-      Attribute.belongsTo(models.User, { foreignKey: 'ownerId' });
-      Attribute.hasMany(models.SheetAttribute, { foreignKey: 'attributeId' });
+      Label.belongsTo(models.User, { foreignKey: 'ownerId' });
+      Label.hasMany(models.SheetLabel, { foreignKey: 'labelId' });
     }
   }
-  Attribute.init(
+  Label.init(
     {
       ownerId: {
         type: DataTypes.INTEGER,
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
           },
           notEmpty: {
             args: true,
-            msg: 'Attribute name is required',
+            msg: 'Label name is required',
           },
         },
       },
@@ -43,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Attribute',
+      modelName: 'Label',
     }
   );
-  return Attribute;
+  return Label;
 };

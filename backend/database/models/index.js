@@ -47,11 +47,11 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.SheetAttribute.addScope('defaultScope', {
-  include: db.Attribute,
+db.SheetLabel.addScope('defaultScope', {
+  include: db.Label,
 });
 
-db.SheetAttribute.addScope('reversed', {
+db.SheetLabel.addScope('reversed', {
   include: db.Sheet,
 });
 

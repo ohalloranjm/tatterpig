@@ -1,7 +1,7 @@
 {
   "name": "capstone",
   "version": "1.0.0",
-  "description": "This is an app for tabletop RPG character sheet management. Create and edit 'sheets' to represent characters (or monsters, locations, etc.), then associate 'attributes' with those sheets. Attributes might be game stats, HP, temporary statuses, items, or really anything—this should be very flexible and modular, so that it's compatible with a wide range of TTRPG systems.",
+  "description": "This is an app for tabletop RPG character sheet management. Create and edit 'sheets' to represent characters (or monsters, locations, etc.), then associate 'labels' with those sheets. Labels might be game stats, HP, temporary statuses, items, or really anything—this should be very flexible and modular, so that it's compatible with a wide range of TTRPG systems.",
   "main": "index.js",
   "scripts": {
     "install": "npm --prefix backend install backend",

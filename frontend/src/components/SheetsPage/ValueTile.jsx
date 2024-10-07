@@ -6,33 +6,33 @@ import {
   useSubmit,
 } from 'react-router-dom';
 
-export default function SheetAttributeTile({ attribute }) {
+export default function SheetLabelTile({ label }) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
-  const [value, setValue] = useState(attribute.value ?? '');
+  const [value, setValue] = useState(label.value ?? '');
   const [searchParams] = useSearchParams();
 
-  const { sheetId, attributeId } = attribute;
+  const { sheetId, labelId } = label;
 
   useEffect(() => {
     if (
-      searchParams.get('edit') === 'attribute' &&
-      Number(searchParams.get('attributeId')) === attributeId
+      searchParams.get('edit') === 'label' &&
+      Number(searchParams.get('labelId')) === labelId
     ) {
       setEdit(true);
     } else {
       setEdit(false);
     }
-  }, [attributeId, searchParams]);
+  }, [labelId, searchParams]);
 
-  const action = `/sheets?id=${sheetId}&attributeId=${attributeId}`;
-  const { dataType } = attribute;
+  const action = `/sheets?id=${sheetId}&labelId=${labelId}`;
+  const { dataType } = label;
   const isBoolean = dataType === 'boolean';
 
-  const removeAttribute = () => {
+  const removeLabel = () => {
     const confirmDelete = window.confirm(
-      `Are you sure you want to remove the ${attribute.name} attribute from this sheet?`
+      `Are you sure you want to remove the ${label.name} label from this sheet?`
     );
     if (confirmDelete) submit(null, { method: 'DELETE', action });
   };
@@ -48,7 +48,7 @@ export default function SheetAttributeTile({ attribute }) {
 
   const changeBooleanValue = () => {
     if (!isBoolean) return;
-    const newValue = attribute.value === 'true' ? false : true;
+    const newValue = label.value === 'true' ? false : true;
     submit(
       { value: newValue },
       { action, method: 'PUT', encType: 'application/json' }
@@ -58,9 +58,7 @@ export default function SheetAttributeTile({ attribute }) {
   return (
     <div>
       <p>
-        <Link to={`/attributes?id=${attribute.attributeId}`}>
-          {attribute.name}
-        </Link>
+        <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
 
       {edit && (
@@ -82,7 +80,7 @@ export default function SheetAttributeTile({ attribute }) {
 
       {isBoolean && (
         <>
-          <p>{attribute.value}</p>
+          <p>{label.value}</p>
           <button type='button' onClick={changeBooleanValue}>
             change
           </button>
@@ -91,13 +89,11 @@ export default function SheetAttributeTile({ attribute }) {
 
       {!edit && !isBoolean && (
         <>
-          <p>{attribute.value}</p>
+          <p>{label.value}</p>
           <button
             type='button'
             onClick={() =>
-              navigate(
-                `/sheets?id=${sheetId}&edit=attribute&attributeId=${attributeId}`
-              )
+              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
             }
           >
             Edit
@@ -105,8 +101,8 @@ export default function SheetAttributeTile({ attribute }) {
         </>
       )}
 
-      <button type='button' onClick={removeAttribute}>
-        Remove Attribute
+      <button type='button' onClick={removeLabel}>
+        Remove Label
       </button>
     </div>
   );

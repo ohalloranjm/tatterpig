@@ -1,13 +1,13 @@
 'use strict';
 
-const { User, Attribute } = require('../models');
+const { User, Label } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
-const fakeAttributes = [
+const fakeLabels = [
   {
     name: 'Strength',
     dataType: 'number',
@@ -38,12 +38,12 @@ module.exports = {
   async up(_queryInterface, _Sequelize) {
     const owner = await User.findOne({ where: { username: 'demo' } });
     const ownerId = owner.id;
-    const finalAttributes = fakeAttributes.map(a => ({ ...a, ownerId }));
-    await Attribute.bulkCreate(finalAttributes, { validate: true });
+    const finalLabels = fakeLabels.map(a => ({ ...a, ownerId }));
+    await Label.bulkCreate(finalLabels, { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Attributes';
+    options.tableName = 'Labels';
     const owner = await User.findOne({ where: { username: 'demo' } });
     const ownerId = owner.id;
     const Op = Sequelize.Op;
@@ -51,7 +51,7 @@ module.exports = {
       options,
       {
         name: {
-          [Op.in]: fakeAttributes.reduce((arr, u) => [...arr, u.name], []),
+          [Op.in]: fakeLabels.reduce((arr, u) => [...arr, u.name], []),
         },
         ownerId,
       },
@@ -59,5 +59,5 @@ module.exports = {
     );
   },
 
-  fakeAttributes,
+  fakeLabels,
 };

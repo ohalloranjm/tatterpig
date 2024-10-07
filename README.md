@@ -1,4 +1,4 @@
-This is an app for tabletop RPG character sheet management. Create and edit 'sheets' to represent characters (or monsters, locations, etc.), then associate 'attributes' with those sheets. Attributes might be game stats, HP, temporary statuses, items, or really anything—this should be very flexible and modular, so that it's compatible with a wide range of TTRPG systems.
+This is an app for tabletop RPG character sheet management. Create and edit 'sheets' to represent characters (or monsters, locations, etc.), then associate 'labels' with those sheets. Labels might be game stats, HP, temporary statuses, items, or really anything—this should be very flexible and modular, so that it's compatible with a wide range of TTRPG systems.
 
 # Features
 
@@ -12,22 +12,22 @@ This is an app for tabletop RPG character sheet management. Create and edit 'she
 - Users should be able to edit a sheet they own
 - Users should be able to delete a sheet they own
 
-## Attributes
+## Labels
 
-- Users should be able to view all attributes they own
-- Users should be able to add a new attribute to a sheet they own and assign it a value
-- Users should be able to attach an existing attribute they own to a sheet they own and assign it a value
-- Users should be able to change the value of any attribute on a sheet they
-- Users should be able to unattach an attribute from a sheet they own
-- Users should be able to edit the details of an attribute they own
-- Users should be able to delete an attribute they own
+- Users should be able to view all labels they own
+- Users should be able to add a new label to a sheet they own and assign it a value
+- Users should be able to attach an existing label they own to a sheet they own and assign it a value
+- Users should be able to change the value of any label on a sheet they
+- Users should be able to unattach an label from a sheet they own
+- Users should be able to edit the details of an label they own
+- Users should be able to delete an label they own
 
 ## Stretch Goal: Shared Sheets
 
 - Users should be able to view all sheets that have been shared with them
 - For shared sheets that a user has edit privileges for, they should be able to:
   - edit the sheet details
-  - add, attach, unattach, and change the values of that sheet's attributes
+  - add, attach, unattach, and change the values of that sheet's labels
 
 ## Stretch Goal: Actions
 

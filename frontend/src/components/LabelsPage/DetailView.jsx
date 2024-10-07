@@ -1,30 +1,30 @@
 import { useNavigate, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
 
-export default function AttributeDetailView({ attribute }) {
+export default function LabelDetailView({ label }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 
-  const deleteAttribute = () => {
+  const deleteLabel = () => {
     const confirmDelete = window.confirm(
-      'Are you sure you want to delete this attribute? It will be removed from all associated sheets.'
+      'Are you sure you want to delete this label? It will be removed from all associated sheets.'
     );
     if (confirmDelete) {
       submit(null, {
         method: 'delete',
-        action: `/attributes?id=${attribute.id}`,
+        action: `/labels?id=${label.id}`,
       });
     }
   };
 
   return (
     <>
-      <h1>{attribute.name}</h1>
-      <p>Type: {attribute.dataType}</p>
-      {attribute.SheetAttributes.length ? (
+      <h1>{label.name}</h1>
+      <p>Type: {label.dataType}</p>
+      {label.SheetLabels.length ? (
         <>
           <h2>Associated Sheets</h2>
-          {attribute.SheetAttributes.map(sa => (
+          {label.SheetLabels.map(sa => (
             <ValueTile key={sa.id} sheet={sa} />
           ))}
         </>
@@ -32,7 +32,7 @@ export default function AttributeDetailView({ attribute }) {
 
       <button
         type='button'
-        onClick={() => navigate(`/attributes?id=${attribute.id}&edit=true`)}
+        onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
       >
         Edit
       </button>
@@ -40,7 +40,7 @@ export default function AttributeDetailView({ attribute }) {
         type='button'
         onClick={e => {
           e.stopPropagation();
-          deleteAttribute();
+          deleteLabel();
         }}
       >
         Delete

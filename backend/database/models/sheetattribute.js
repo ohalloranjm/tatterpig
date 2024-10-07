@@ -1,19 +1,19 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class SheetAttribute extends Model {
+  class SheetLabel extends Model {
     static associate(models) {
-      SheetAttribute.belongsTo(models.Sheet, { foreignKey: 'sheetId' });
-      SheetAttribute.belongsTo(models.Attribute, { foreignKey: 'attributeId' });
+      SheetLabel.belongsTo(models.Sheet, { foreignKey: 'sheetId' });
+      SheetLabel.belongsTo(models.Label, { foreignKey: 'labelId' });
     }
   }
-  SheetAttribute.init(
+  SheetLabel.init(
     {
       sheetId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      attributeId: {
+      labelId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'SheetAttribute',
+      modelName: 'SheetLabel',
     }
   );
-  return SheetAttribute;
+  return SheetLabel;
 };

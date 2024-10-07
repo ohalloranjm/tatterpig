@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useActionData, useSearchParams, useSubmit } from 'react-router-dom';
 
-export default function AttributeFormView({ attribute }) {
+export default function LabelFormView({ label }) {
   const [name, setName] = useState('');
   const [dataType, setDataType] = useState('number');
 
@@ -16,14 +16,14 @@ export default function AttributeFormView({ attribute }) {
     if (paramsName || paramsDataType) {
       if (paramsName) setName(searchParams.get('name'));
       if (paramsDataType) setDataType(searchParams.get('datatype'));
-    } else if (attribute) {
-      setName(attribute.name);
-      setDataType(attribute.dataType);
+    } else if (label) {
+      setName(label.name);
+      setDataType(label.dataType);
     } else {
       setName('');
       setDataType('number');
     }
-  }, [attribute, searchParams]);
+  }, [label, searchParams]);
 
   const errors = submitted ? data?.errors : {};
 
@@ -36,18 +36,18 @@ export default function AttributeFormView({ attribute }) {
   const put = e => {
     e.preventDefault();
 
-    if (dataType !== attribute.dataType) {
+    if (dataType !== label.dataType) {
       const confirmChange = window.confirm(
-        "Are you sure you want to change the data type of this attribute? Doing so will reset the attribute's value on every associated sheet."
+        "Are you sure you want to change the data type of this label? Doing so will reset the label's value on every associated sheet."
       );
-      if (!confirmChange) return setDataType(attribute.dataType);
+      if (!confirmChange) return setDataType(label.dataType);
     }
     submit(
       { name, dataType },
       {
         method: 'PUT',
         encType: 'application/json',
-        action: `/attributes?id=${attribute.id}&edit=true&name=${name}&datatype=${dataType}`,
+        action: `/labels?id=${label.id}&edit=true&name=${name}&datatype=${dataType}`,
       }
     );
     setSubmitted(true);
@@ -55,11 +55,11 @@ export default function AttributeFormView({ attribute }) {
 
   return (
     <div>
-      <h2>{attribute ? `Editing ${attribute.name}` : 'Create an Attribute'}</h2>
+      <h2>{label ? `Editing ${label.name}` : 'Create an Label'}</h2>
 
-      <form onSubmit={attribute ? put : post}>
+      <form onSubmit={label ? put : post}>
         <input
-          placeholder='Attribute Name'
+          placeholder='Label Name'
           value={name}
           onChange={e => setName(e.target.value)}
         />
@@ -72,7 +72,7 @@ export default function AttributeFormView({ attribute }) {
         </select>
 
         <button type='submit'>
-          {attribute ? 'Confirm Changes' : 'Create Attribute'}
+          {label ? 'Confirm Changes' : 'Create Label'}
         </button>
       </form>
     </div>

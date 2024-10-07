@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function AttributeSheetValueTile({ sheet }) {
+export default function LabelSheetValueTile({ sheet }) {
   return (
     <div>
       <p>

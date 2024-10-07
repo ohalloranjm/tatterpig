@@ -12,8 +12,8 @@ export default function PublicSheetDetailsPage() {
     <>
       <h1>{sheet.name}</h1>
       <p>{sheet.description}</p>
-      {sheet.SheetAttributes.map(val => (
-        <ValueTile key={val.attributeId} value={val} />
+      {sheet.SheetLabels.map(val => (
+        <ValueTile key={val.labelId} value={val} />
       ))}
       {isOwner && (
         <Link to={`/sheets?id=${sheet.id}`}>View & Edit on My Dashboard</Link>

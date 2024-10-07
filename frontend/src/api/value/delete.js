@@ -4,8 +4,8 @@ import { parseQuery } from '../utils';
 
 export default async function deleteValue({ request }) {
   const sheetId = parseQuery(request.url, 'id');
-  const attributeId = parseQuery(request.url, 'attributeId');
-  await csrfFetch(`/api/sheets/${sheetId}/attributes/${attributeId}`, {
+  const labelId = parseQuery(request.url, 'labelId');
+  await csrfFetch(`/api/sheets/${sheetId}/labels/${labelId}`, {
     method: 'DELETE',
   });
   return redirect(`/sheets?id=${sheetId}`);

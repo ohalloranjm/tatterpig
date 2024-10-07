@@ -10,7 +10,7 @@ export default function SheetDetailsView({ sheet }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (searchParams.get('add') === 'attribute') {
+    if (searchParams.get('add') === 'label') {
       setAddValue(true);
     } else {
       setAddValue(false);
@@ -29,14 +29,14 @@ export default function SheetDetailsView({ sheet }) {
     <>
       <h2>{sheet.name}</h2>
       <p>{sheet.description}</p>
-      {sheet.SheetAttributes.map(a => (
-        <ValueTile key={a.id} attribute={a} />
+      {sheet.SheetLabels.map(a => (
+        <ValueTile key={a.id} label={a} />
       ))}
       <button
         type='button'
-        onClick={() => navigate(`/sheets?id=${sheet.id}&add=attribute`)}
+        onClick={() => navigate(`/sheets?id=${sheet.id}&add=label`)}
       >
-        Add an Attribute
+        Add an Label
       </button>
       <button
         type='button'

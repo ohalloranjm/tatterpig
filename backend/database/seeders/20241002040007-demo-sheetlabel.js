@@ -1,8 +1,8 @@
 'use strict';
 
-const { User, Sheet, Attribute, SheetAttribute } = require('../models');
+const { User, Sheet, Label, SheetLabel } = require('../models');
 const { fakeSheets } = require('./20241002025726-demo-sheet');
-const { fakeAttributes } = require('./20241002033609-demo-attribute');
+const { fakeLabels } = require('./20241002033609-demo-label');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -20,8 +20,8 @@ module.exports = {
           where: { name: { [Op.in]: fakeSheets.map(s => s.name) } },
         },
         {
-          model: Attribute,
-          where: { name: { [Op.in]: fakeAttributes.map(a => a.name) } },
+          model: Label,
+          where: { name: { [Op.in]: fakeLabels.map(a => a.name) } },
         },
       ],
     });
@@ -36,14 +36,14 @@ module.exports = {
     };
 
     let count = 0;
-    const { Sheets, Attributes } = owner.dataValues;
-    while (count < Math.max(Sheets.length, Attributes.length)) {
+    const { Sheets, Labels } = owner.dataValues;
+    while (count < Math.max(Sheets.length, Labels.length)) {
       const currSheet = Sheets[count % Sheets.length];
-      const currAttribute = Attributes[count % Attributes.length];
-      await SheetAttribute.create({
+      const currLabel = Labels[count % Labels.length];
+      await SheetLabel.create({
         sheetId: currSheet.id,
-        attributeId: currAttribute.id,
-        value: lookup[currAttribute.name],
+        labelId: currLabel.id,
+        value: lookup[currLabel.name],
       });
       count++;
     }
@@ -59,25 +59,25 @@ module.exports = {
           where: { name: { [Op.in]: fakeSheets.map(s => s.name) } },
         },
         {
-          model: Attribute,
-          where: { name: { [Op.in]: fakeAttributes.map(a => a.name) } },
+          model: Label,
+          where: { name: { [Op.in]: fakeLabels.map(a => a.name) } },
         },
       ],
     });
 
-    const { Sheets, Attributes } = owner.dataValues;
+    const { Sheets, Labels } = owner.dataValues;
     const sheetIds = Sheets.filter(s =>
       fakeSheets.some(fs => fs.name === s.name)
     ).map(s => s.id);
-    const attributeIds = Attributes.filter(a =>
-      fakeAttributes.some(fa => fa.name === a.name)
+    const labelIds = Labels.filter(a =>
+      fakeLabels.some(fa => fa.name === a.name)
     ).map(a => a.id);
 
-    const toDelete = await SheetAttribute.findAll({
+    const toDelete = await SheetLabel.findAll({
       where: {
         [Op.and]: [
           { sheetId: { [Op.in]: sheetIds } },
-          { attributeId: { [Op.in]: attributeIds } },
+          { labelId: { [Op.in]: labelIds } },
         ],
       },
     });

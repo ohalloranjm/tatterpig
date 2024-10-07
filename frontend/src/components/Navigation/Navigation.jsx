@@ -15,7 +15,7 @@ function Navigation({ isLoaded }) {
   const tabs = sessionUser ? (
     <>
       <NavLink to='/sheets'>Sheets</NavLink>
-      <NavLink to='/attributes'>Attributes</NavLink>
+      <NavLink to='/labels'>Labels</NavLink>
     </>
   ) : (
     <>

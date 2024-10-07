@@ -5,7 +5,7 @@ import { parseQuery } from '../utils';
 export default async function postValue({ request }) {
   const data = await request.json();
   const sheetId = parseQuery(request.url, 'id');
-  await csrfFetch(`/api/sheets/${sheetId}/attributes`, {
+  await csrfFetch(`/api/sheets/${sheetId}/labels`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
