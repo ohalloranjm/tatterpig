@@ -8,20 +8,21 @@
 
 #navigation > div {
   display: flex;
-  background-color: var(--three);
-  column-gap: 1px;
+  column-gap: 2px;
 }
 
 #navigation > div > a {
   color: var(--two);
   background-color: var(--one);
-  padding: 5px 10px 10px;
+  padding: 5px 10px 20px;
   font-size: 1.2em;
+  border-bottom-right-radius: 40%;
+  border-bottom-left-radius: 40%;
 }
 
 #navigation > div > a:hover {
   text-decoration: none;
-  background-color: inherit;
+  background-color: var(--three);
   color: var(--txt);
 }
 
@@ -31,7 +32,7 @@
 }
 
 #navigation > div > a.active:hover {
-  background-color: inherit;
+  background-color: var(--three);
 }
 
 .logout-button {
