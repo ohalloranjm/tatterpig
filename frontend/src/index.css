@@ -1,1 +1,38 @@
-/* TODO: Add sitewide styles */
+@import url(reset.css); /* TODO: Add sitewide styles */
+
+:root {
+  --txt: rgb(8, 8, 8);
+  --one: rgb(234, 51, 0);
+  --two: rgb(255, 236, 201);
+}
+
+body {
+  color: var(--txt);
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--two);
+  padding: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+  color: var(--one);
+}
+
+button {
+  background-color: var(--one);
+  color: var(--two);
+  padding: 0.3em;
+  border-radius: 0.5em 0.5em 0.5em;
+  border: 1px solid var(--two);
+}
+
+button:hover {
+  background-color: var(--two);
+  color: var(--one);
+  border: 1px solid var(--one);
+}
