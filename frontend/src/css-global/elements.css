@@ -1,0 +1,42 @@
+@import url(vars.css);
+
+body {
+  color: var(--txt);
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--two);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+  color: var(--one);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: var(--one);
+  color: var(--two);
+  padding: 0.3em 0.5em;
+  border-radius: 0.5em;
+  border: 1px solid var(--two);
+}
+
+button:hover {
+  background-color: var(--three);
+  color: var(--one);
+  border: 1px solid var(--one);
+}
+
+input,
+textarea {
+  padding: 0.1em;
+  border-radius: 0.2em;
+  width: 98%;
+}

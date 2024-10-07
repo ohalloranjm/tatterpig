@@ -1,0 +1,12 @@
+.block {
+  background-color: var(--three);
+  border-radius: 3%;
+}
+
+.error {
+  color: red;
+}
+
+.center {
+  text-align: center;
+}
