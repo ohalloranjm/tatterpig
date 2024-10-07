@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import './Sheets.css';
 import SheetFormView from './SheetFormView';
+import DetailsView from './DetailsView';
+import SheetTile from './SheetTile';
 
 export default function SheetsPage() {
   const { sheets } = useLoaderData();
@@ -17,7 +19,7 @@ export default function SheetsPage() {
       if (sheet && searchParams.get('edit') === 'true') {
         setMainContent(<p>Placeholder: Edit a Sheet</p>);
       } else if (sheet) {
-        setMainContent(<p>Placeholder: Sheet Details</p>);
+        setMainContent(<DetailsView sheet={sheet} />);
       } else {
         setMainContent(<p>Placeholder: Default</p>);
       }
@@ -43,7 +45,7 @@ export default function SheetsPage() {
         </button>
 
         {sheets.map(s => (
-          <p key={s.id}>Placeholder: {s.name}</p>
+          <SheetTile key={s.id} sheet={s} />
         ))}
       </div>
 

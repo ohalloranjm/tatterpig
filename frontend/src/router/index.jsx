@@ -4,7 +4,6 @@ import LoginForm from '../components/SessionForms/LoginFormPage';
 import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
-import SheetDetailsPage from '../components/SheetDetailsPage/SheetDetailsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import AttributesPage from '../components/AttributesPage';
 import ValueForm from '../components/ValueForm/ValueForm';
@@ -42,12 +41,6 @@ const pages = [
     action: map({
       POST: handleError(api.sheet.post),
     }),
-  },
-  {
-    path: '/sheets/:sheetId',
-    element: <SheetDetailsPage />,
-    loader: api.sheet.getOne,
-    action: api.sheet.del,
   },
   {
     path: '/sheets/:sheetId/attributes/:attributeId',
