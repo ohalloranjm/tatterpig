@@ -6,10 +6,8 @@ import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import AttributesPage from '../components/AttributesPage';
-import ValueForm from '../components/ValueForm/ValueForm';
-import ActionNavigator from '../utils/ActionNavigator';
 
-const { collect, handleError, map } = api.utils;
+const { handleError, map } = api.utils;
 
 const pages = [
   {
@@ -40,22 +38,9 @@ const pages = [
     loader: api.sheet.getCurrent,
     action: map({
       POST: handleError(api.sheet.post),
+      PUT: handleError(api.sheet.put),
       DELETE: api.sheet.del,
     }),
-  },
-  {
-    path: '/sheets/:sheetId/attributes/:attributeId',
-    element: <ActionNavigator />,
-    action: map({
-      DELETE: api.value.del,
-      PUT: api.value.put,
-    }),
-  },
-  {
-    path: '/sheets/:sheetId/attributes/add',
-    element: <ValueForm />,
-    loader: collect(api.sheet.getOne, api.attribute.getCurrent),
-    action: handleError(api.value.post),
   },
 ];
 
