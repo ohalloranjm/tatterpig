@@ -18,7 +18,9 @@ export default function LoginForm() {
   if (user) return <Navigate to='/' />;
 
   return (
-    <form>
+    <form className='block session-form'>
+      <h1 className='center'>Welcome Back</h1>
+
       <input
         placeholder='Username or Email'
         value={credential}
