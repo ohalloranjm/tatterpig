@@ -14,11 +14,23 @@ function Navigation({ isLoaded }) {
   const sessionLinks = sessionUser ? (
     <>
       <li>
+        <NavLink to='/sheets'>Sheets</NavLink>
+      </li>
+      <li>
+        <NavLink to='/attributes'>Attributes</NavLink>
+      </li>
+      <li>
+        <NavLink to='/sheets/public'>Public Sheets</NavLink>
+      </li>
+      <li>
         <button onClick={logout}>Log Out!</button>
       </li>
     </>
   ) : (
     <>
+      <li>
+        <NavLink to='/sheets/public'>Public Sheets</NavLink>
+      </li>
       <li>
         <NavLink to='/login'>Log In</NavLink>
       </li>
@@ -32,15 +44,6 @@ function Navigation({ isLoaded }) {
     <ul>
       <li>
         <NavLink to='/'>Home</NavLink>
-      </li>
-      <li>
-        <NavLink to='/sheets'>Sheets</NavLink>
-      </li>
-      <li>
-        <NavLink to='/sheets/new'>Create a Sheet</NavLink>
-      </li>
-      <li>
-        <NavLink to='/attributes'>Attributes</NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>

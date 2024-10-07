@@ -1,0 +1,19 @@
+.attributes {
+  display: grid;
+  grid-template-areas:
+    'title title'
+    'list panel';
+}
+
+.attributes-title {
+  grid-area: title;
+  text-align: center;
+}
+
+.attributes-list {
+  grid-area: list;
+}
+
+.attributes-panel {
+  grid-area: panel;
+}
