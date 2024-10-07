@@ -1,6 +1,8 @@
 import { useNavigate, useSearchParams, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
 
 export default function SheetDetailsView({ sheet }) {
@@ -28,15 +30,19 @@ export default function SheetDetailsView({ sheet }) {
   return (
     <div className='sheet-view-details'>
       <h1>{sheet.name}</h1>
-      <p>{sheet.description}</p>
-      {sheet.SheetLabels.map(a => (
-        <ValueTile key={a.id} label={a} />
-      ))}
+      <p className='sheet-details-description'>{sheet.description}</p>
+
+      <div className='sheet-details-values'>
+        {sheet.SheetLabels.map(a => (
+          <ValueTile key={a.id} label={a} />
+        ))}
+      </div>
+
       <button
         type='button'
         onClick={() => navigate(`/sheets?id=${sheet.id}&add=label`)}
       >
-        Add a Label
+        <FontAwesomeIcon icon={faSquarePlus} /> Add a Label
       </button>
       <button
         type='button'

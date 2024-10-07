@@ -58,8 +58,8 @@ export default function SheetLabelTile({ label }) {
   };
 
   return (
-    <div>
-      <p>
+    <div className='sheet-value-tile'>
+      <p className='svt-name'>
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
 
@@ -88,24 +88,26 @@ export default function SheetLabelTile({ label }) {
           </button>
         </>
       )}
+      <div className='svt-value'>
+        {!edit && !isBoolean && (
+          <>
+            {' '}
+            <p>{label.value}</p>
+            <button
+              type='button'
+              onClick={() =>
+                navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
+              }
+            >
+              <FontAwesomeIcon icon={faPencil} />
+            </button>
+          </>
+        )}
 
-      {!edit && !isBoolean && (
-        <>
-          <p>{label.value}</p>
-          <button
-            type='button'
-            onClick={() =>
-              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-            }
-          >
-            <FontAwesomeIcon icon={faPencil} />
-          </button>
-        </>
-      )}
-
-      <button type='button' onClick={removeLabel}>
-        <FontAwesomeIcon icon={faTrash} />
-      </button>
+        <button type='button' onClick={removeLabel}>
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+      </div>
     </div>
   );
 }

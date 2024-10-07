@@ -13,9 +13,8 @@
 }
 
 .sheets-list-tile {
-  border-bottom: 1px solid var(--one);
+  border-bottom: 1px dotted var(--one);
   padding: 5px;
-  font-size: 1.15em;
 }
 
 .sheets-list-tile-active {
@@ -25,4 +24,41 @@
 .sheets-list-tile:hover {
   cursor: pointer;
   background-color: var(--two);
+}
+
+.sheet-details-description {
+  margin: 1em 0;
+}
+
+.sheet-value-tile {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px dashed var(--one);
+  padding: 10px 5px;
+}
+
+.svt-name {
+  font-weight: bold;
+}
+
+.svt-name > a {
+  color: var(--txt);
+}
+
+.svt-name > a:hover {
+  color: var(--one);
+  text-decoration: none;
+}
+
+.svt-value {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  column-gap: 5px;
+}
+
+.svt-value > p {
+}
+
+.svt-value > button {
+  font-size: 0.7em;
 }
