@@ -6,7 +6,7 @@ import DetailsView from './DetailsView';
 import SheetTile from './SheetTile';
 
 export default function SheetsPage() {
-  const { sheets } = useLoaderData();
+  const [{ sheets }] = useLoaderData();
   const [searchParams] = useSearchParams();
   const [mainContent, setMainContent] = useState(null);
 

@@ -7,7 +7,7 @@ import SheetsPage from '../components/SheetsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import AttributesPage from '../components/AttributesPage';
 
-const { handleError, map } = api.utils;
+const { checkQuery, collect, handleError, map } = api.utils;
 
 const pages = [
   {
@@ -35,9 +35,14 @@ const pages = [
   {
     path: '/sheets',
     element: <SheetsPage />,
-    loader: api.sheet.getCurrent,
+    loader: collect(api.sheet.getCurrent, api.attribute.getCurrent),
     action: map({
-      POST: handleError(api.sheet.post),
+      POST: checkQuery(
+        'add',
+        'attribute',
+        handleError(api.value.post),
+        handleError(api.sheet.post)
+      ),
       PUT: handleError(api.sheet.put),
       DELETE: api.sheet.del,
     }),

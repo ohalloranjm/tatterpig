@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
+import {
+  useActionData,
+  useLoaderData,
+  useNavigate,
+  useSubmit,
+} from 'react-router-dom';
 
-export default function ValueForm() {
-  const [{ sheet }, { attributes }] = useLoaderData();
+export default function ValueForm({ sheet }) {
+  const { attributes } = useLoaderData()[1];
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
+  const navigate = useNavigate();
 
   const [selectedAttribute, setSelectedAttribute] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
   const [booleanValue, setBooleanValue] = useState(true);
-
-  const user = useSelector(store => store.session.user);
-  if (user.id !== sheet.ownerId) {
-    throw Error('You do not have access to this page.');
-  }
 
   const { SheetAttributes: invalidChoices } = sheet;
   const validChoices = attributes.filter(
@@ -42,7 +42,11 @@ export default function ValueForm() {
 
     if (body.value === null) delete body.value;
 
-    submit(body, { method: 'post', encType: 'application/json' });
+    submit(body, {
+      method: 'post',
+      encType: 'application/json',
+      action: `/sheets?id=${sheet.id}&add=attribute`,
+    });
   };
 
   return (
@@ -99,6 +103,12 @@ export default function ValueForm() {
 
         <button type='submit' disabled={!selectedAttribute}>
           Add Attribute
+        </button>
+        <button
+          type='button'
+          onClick={() => navigate(`/sheets?id=${sheet.id}`)}
+        >
+          Cancel
         </button>
       </form>
     </>

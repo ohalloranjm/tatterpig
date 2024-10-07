@@ -25,6 +25,16 @@ export function map(methodLookup) {
   };
 }
 
+export function checkQuery(queryKey, queryValue, routeIfMatch, routeIfNoMatch) {
+  return async function (...params) {
+    const { url } = params[0].request;
+    const queryParams = url.split('?')[1].split('&');
+    const match = queryParams.some(qp => qp === `${queryKey}=${queryValue}`);
+    const route = match ? routeIfMatch : routeIfNoMatch;
+    return await route(...params);
+  };
+}
+
 export function parseQuery(url, key) {
   return url
     .split('?')[1]

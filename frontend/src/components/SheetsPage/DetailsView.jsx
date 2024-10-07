@@ -1,9 +1,21 @@
-import { useNavigate, useSubmit } from 'react-router-dom';
+import { useNavigate, useSearchParams, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
+import { useEffect, useState } from 'react';
+import ValueForm from './ValueForm';
 
 export default function SheetDetailsView({ sheet }) {
+  const [searchParams] = useSearchParams();
+  const [addValue, setAddValue] = useState(false);
   const submit = useSubmit();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchParams.get('add') === 'attribute') {
+      setAddValue(true);
+    } else {
+      setAddValue(false);
+    }
+  }, [searchParams]);
 
   const deleteSheet = () => {
     const confirmDelete = window.confirm(
@@ -20,7 +32,10 @@ export default function SheetDetailsView({ sheet }) {
       {sheet.SheetAttributes.map(a => (
         <ValueTile key={a.id} attribute={a} />
       ))}
-      <button type='button' onClick={() => navigate('attributes/add')}>
+      <button
+        type='button'
+        onClick={() => navigate(`/sheets?id=${sheet.id}&add=attribute`)}
+      >
         Add an Attribute
       </button>
       <button
@@ -32,6 +47,7 @@ export default function SheetDetailsView({ sheet }) {
       <button type='button' onClick={deleteSheet}>
         Delete Sheet
       </button>
+      {addValue && <ValueForm sheet={sheet} />}
     </>
   );
 }
