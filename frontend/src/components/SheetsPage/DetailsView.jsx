@@ -26,8 +26,8 @@ export default function SheetDetailsView({ sheet }) {
   };
 
   return (
-    <>
-      <h2>{sheet.name}</h2>
+    <div className='sheet-view-details'>
+      <h1>{sheet.name}</h1>
       <p>{sheet.description}</p>
       {sheet.SheetLabels.map(a => (
         <ValueTile key={a.id} label={a} />
@@ -36,7 +36,7 @@ export default function SheetDetailsView({ sheet }) {
         type='button'
         onClick={() => navigate(`/sheets?id=${sheet.id}&add=label`)}
       >
-        Add an Label
+        Add a Label
       </button>
       <button
         type='button'
@@ -48,6 +48,6 @@ export default function SheetDetailsView({ sheet }) {
         Delete Sheet
       </button>
       {addValue && <ValueForm sheet={sheet} />}
-    </>
+    </div>
   );
 }

@@ -5,6 +5,8 @@ import {
   useSearchParams,
   useSubmit,
 } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function SheetLabelTile({ label }) {
   const submit = useSubmit();
@@ -96,13 +98,13 @@ export default function SheetLabelTile({ label }) {
               navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
             }
           >
-            Edit
+            <FontAwesomeIcon icon={faPencil} />
           </button>
         </>
       )}
 
       <button type='button' onClick={removeLabel}>
-        Remove Label
+        <FontAwesomeIcon icon={faTrash} />
       </button>
     </div>
   );
