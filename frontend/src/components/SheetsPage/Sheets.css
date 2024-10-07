@@ -7,10 +7,19 @@
   margin: 0 20px;
 }
 
+.sheets-col1,
+.sheets-view {
+  height: fit-content;
+}
+
 .sheets-list-tile {
   border-bottom: 1px solid var(--one);
   padding: 5px;
-  font-size: 1.2em;
+  font-size: 1.15em;
+}
+
+.sheets-list-tile-active {
+  font-weight: bold;
 }
 
 .sheets-list-tile:hover {
