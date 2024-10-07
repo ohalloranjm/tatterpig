@@ -1,5 +1,6 @@
 .block {
   background-color: var(--three);
+  padding: 10px;
   border-radius: 3%;
 }
 

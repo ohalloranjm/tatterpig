@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function SheetTile({ sheet }) {
+  const navigate = useNavigate();
   return (
-    <Link to={`/sheets?id=${sheet.id}`}>
-      <div>{sheet.name}</div>
-    </Link>
+    <div
+      className='sheets-list-tile'
+      onClick={() => navigate(`/sheets?id=${sheet.id}`)}
+    >
+      {sheet.name}
+    </div>
   );
 }

@@ -1,19 +1,19 @@
+@import url(../../css-global/vars.css);
+
 .sheets {
   display: grid;
-  grid-template-areas:
-    'title title'
-    'list panel';
+  grid-template-columns: 1fr 3fr;
+  column-gap: 20px;
+  margin: 0 20px;
 }
 
-.sheets-title {
-  grid-area: title;
-  text-align: center;
+.sheets-list-tile {
+  border-bottom: 1px solid var(--one);
+  padding: 5px;
+  font-size: 1.2em;
 }
 
-.sheets-list {
-  grid-area: list;
-}
-
-.sheets-view {
-  grid-area: panel;
+.sheets-list-tile:hover {
+  cursor: pointer;
+  background-color: var(--two);
 }

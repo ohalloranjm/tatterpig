@@ -42,24 +42,24 @@ export default function SheetsPage() {
 
   return (
     <div className='sheets'>
-      <h1 className='sheets-title'>My Sheets</h1>
-
-      <div className='sheets-list'>
+      <div className='sheets-col1 block'>
         <button
           onClick={() => {
             if (searchParams.get('new') === 'true') navigate('/sheets');
             else navigate('/sheets?new=true');
           }}
         >
-          {searchParams.get('new') === 'true' ? 'Cancel' : 'Create a New Sheet'}
+          {searchParams.get('new') === 'true' ? 'Cancel' : 'New Sheet'}
         </button>
 
-        {sheets.map(s => (
-          <SheetTile key={s.id} sheet={s} />
-        ))}
+        <div className='sheets-list'>
+          {sheets.map(s => (
+            <SheetTile key={s.id} sheet={s} />
+          ))}
+        </div>
       </div>
 
-      <div className='sheets-view'>{mainContent}</div>
+      <div className='sheets-view block'>{mainContent}</div>
     </div>
   );
 }
