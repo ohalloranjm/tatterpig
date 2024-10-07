@@ -1,12 +1,25 @@
+@import url(../../css-global/colors.css);
+
 #navigation {
   display: flex;
-  column-gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#navigation > div {
+  display: flex;
 }
 
 #navigation > div > a {
-  background-color: red;
+  color: var(--two);
+  background-color: var(--one);
+  padding: 5px 10px 10px;
+  border-left: 1px solid var(--txt);
 }
 
 #navigation > div > a.active {
-  background-color: black;
+  color: var(--txt);
+  font-weight: bold;
+  background-color: var(--two);
+  border-left: 0;
 }
