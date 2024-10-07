@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../store/session';
 import { Navigate } from 'react-router-dom';
@@ -8,6 +8,12 @@ export default function SignupForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   const dispatch = useDispatch();
   const user = useSelector(store => store.session.user);
 
@@ -26,6 +32,7 @@ export default function SignupForm() {
         placeholder='Email'
         value={email}
         onChange={e => setEmail(e.target.value)}
+        ref={inputRef}
       />
       <p>{errors.email ?? null}</p>
       <input
