@@ -10,7 +10,8 @@ export default function SheetDetailsView({ sheet }) {
       'Are you sure you want to delete this sheet?'
     );
     //todo: fix delete
-    if (confirmDelete) submit(null, { method: 'delete' });
+    if (confirmDelete)
+      submit(null, { method: 'delete', action: `/sheets?id=${sheet.id}` });
   };
 
   return (

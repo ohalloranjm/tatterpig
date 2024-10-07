@@ -40,6 +40,7 @@ const pages = [
     loader: api.sheet.getCurrent,
     action: map({
       POST: handleError(api.sheet.post),
+      DELETE: api.sheet.del,
     }),
   },
   {
