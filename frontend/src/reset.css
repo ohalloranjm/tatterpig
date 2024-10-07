@@ -14,6 +14,11 @@ button {
   cursor: pointer;
 }
 
+input,
+textarea {
+  color: inherit;
+}
+
 div,
 span,
 a,
@@ -31,6 +36,8 @@ header,
 main,
 footer,
 article,
+input,
+textarea,
 ul,
 ol,
 li,
