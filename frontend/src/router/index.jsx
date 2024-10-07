@@ -6,6 +6,8 @@ import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import AttributesPage from '../components/AttributesPage';
+import PublicSheetsIndex from '../components/PublicSheetsIndex';
+import PublicSheetDetailsPage from '../components/PublicSheetDetailsPage';
 
 const { checkQuery, collect, handleError, map } = api.utils;
 
@@ -51,6 +53,16 @@ const pages = [
       ),
       DELETE: checkQuery('attributeId', null, api.value.del, api.sheet.del),
     }),
+  },
+  {
+    path: '/sheets/public',
+    element: <PublicSheetsIndex />,
+    loader: api.sheet.getPublic,
+  },
+  {
+    path: '/sheets/public/:sheetId',
+    element: <PublicSheetDetailsPage />,
+    loader: api.sheet.getOne,
   },
 ];
 
