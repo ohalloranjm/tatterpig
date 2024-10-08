@@ -118,10 +118,7 @@ router.get('/:sheetId', async (req, res) => {
 });
 
 const validateUpdateSheet = [
-  check('name')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage('Name is required'),
+  check('name').exists().withMessage('Name is required'),
   check('description').exists().withMessage('Description is required'),
   check('public').exists().withMessage('Public is required'),
   handleValidationErrors,
