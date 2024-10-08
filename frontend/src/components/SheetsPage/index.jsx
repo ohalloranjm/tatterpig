@@ -16,10 +16,13 @@ export default function SheetsPage() {
     if (searchParams.has('id')) {
       const sheetId = Number(searchParams.get('id'));
       const sheet = sheets.find(s => s.id === sheetId);
-      if (sheet && searchParams.get('edit') === 'true') {
-        setMainContent(<SheetFormView sheet={sheet} />);
-      } else if (sheet) {
-        setMainContent(<DetailsView sheet={sheet} />);
+      if (sheet) {
+        setMainContent(
+          <DetailsView
+            sheet={sheet}
+            edit={searchParams.get('edit') === 'true'}
+          />
+        );
       } else {
         setMainContent(
           <p>
