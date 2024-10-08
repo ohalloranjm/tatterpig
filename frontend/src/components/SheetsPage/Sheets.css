@@ -31,14 +31,17 @@
 }
 
 .sheet-value-tile {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 25px 25px;
+  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2';
+  column-gap: 15px;
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
 }
 
 .svt-name {
   font-weight: bold;
+  grid-area: svt-name;
 }
 
 .svt-name > a {
@@ -57,13 +60,21 @@
 }
 
 .svt-value {
-  display: grid;
-  grid-template-columns: auto 1fr 1fr;
-  column-gap: 5px;
+  grid-area: svt-value;
+  text-align: right;
 }
 
-.svt-value > button {
+.svt-button1,
+.svt-button2 {
   font-size: 0.7em;
+}
+
+.svt-button1 {
+  grid-area: svt-button1;
+}
+
+.svt-button2 {
+  grid-area: svt-button2;
 }
 
 .boolean-icon,

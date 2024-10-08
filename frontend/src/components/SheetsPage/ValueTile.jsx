@@ -83,6 +83,40 @@ export default function SheetLabelTile({ label }) {
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
 
+  {
+    /* edit view for number and string values */
+  }
+  if (edit)
+    return (
+      <form className='sheet-value-tile' onSubmit={editValue}>
+        <p className={svtNameClass}>
+          <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
+        </p>
+
+        <input
+          type={dataType === 'number' ? 'number' : 'text'}
+          value={value}
+          className='svt-value'
+          ref={stringNumInputRef}
+          onChange={e => setValue(e.target.value)}
+        />
+
+        {/* confirm button */}
+        <button type='submit' className='icon svt-button1'>
+          <FontAwesomeIcon icon={faCheck} />
+        </button>
+
+        {/* cancel button */}
+        <button
+          type='button'
+          onClick={() => navigate(`/sheets?id=${sheetId}`)}
+          className='icon svt-button2'
+        >
+          <FontAwesomeIcon icon={faX} />
+        </button>
+      </form>
+    );
+
   return (
     <div className='sheet-value-tile'>
       <p className={svtNameClass}>
@@ -90,56 +124,34 @@ export default function SheetLabelTile({ label }) {
       </p>
 
       {/* static view for number and string values */}
-      {!edit && !isBoolean && (
-        <div className='svt-value'>
-          <p>{label.value}</p>
+      {!isBoolean && (
+        <>
+          <p className='svt-value'>{label.value}</p>
           <button
             type='button'
-            className='icon'
+            className='icon svt-button1'
             onClick={() =>
               navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
             }
           >
             <FontAwesomeIcon icon={faPencil} />
           </button>
-          <button type='button' className='icon' onClick={removeLabel}>
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
-        </div>
-      )}
-
-      {/* edit view for number and string values */}
-      {edit && (
-        <form className='svt-value' onSubmit={editValue}>
-          <input
-            type={dataType === 'number' ? 'number' : 'text'}
-            value={value}
-            ref={stringNumInputRef}
-            onChange={e => setValue(e.target.value)}
-          />
-
-          {/* confirm button */}
-          <button type='submit' className='icon'>
-            <FontAwesomeIcon icon={faCheck} />
-          </button>
-
-          {/* cancel button */}
           <button
             type='button'
-            onClick={() => navigate(`/sheets?id=${sheetId}`)}
-            className='icon'
+            className='icon svt-button2'
+            onClick={removeLabel}
           >
-            <FontAwesomeIcon icon={faX} />
+            <FontAwesomeIcon icon={faTrash} />
           </button>
-        </form>
+        </>
       )}
 
       {/* dynamic view for boolean values */}
       {isBoolean && (
-        <div className='svt-value'>
+        <>
           <button
             type='button'
-            className='boolean-icon'
+            className='boolean-icon svt-button1'
             ref={booleanInputRef}
             onClick={changeBooleanValue}
             onMouseEnter={() => setFilledCircle(label.value === 'false')}
@@ -148,10 +160,14 @@ export default function SheetLabelTile({ label }) {
             <FontAwesomeIcon icon={booleanIcon} />
           </button>
 
-          <button type='button' className='icon' onClick={removeLabel}>
+          <button
+            type='button'
+            className='icon svt-button2'
+            onClick={removeLabel}
+          >
             <FontAwesomeIcon icon={faTrash} />
           </button>
-        </div>
+        </>
       )}
     </div>
   );
