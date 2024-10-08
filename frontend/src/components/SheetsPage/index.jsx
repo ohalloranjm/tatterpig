@@ -46,20 +46,20 @@ export default function SheetsPage() {
   return (
     <div className='sheets'>
       <div className='sheets-col1 block'>
-        <button
-          onClick={() => {
-            if (searchParams.get('new') === 'true') navigate('/sheets');
-            else navigate('/sheets?new=true');
-          }}
-        >
-          {searchParams.get('new') === 'true' ? 'Cancel' : 'New Sheet'}
-        </button>
-
         <div className='sheets-list'>
           {sheets.map(s => (
             <SheetTile key={s.id} sheet={s} />
           ))}
         </div>
+
+        {searchParams.get('new') !== 'true' && (
+          <button
+            className='new-sheet-button'
+            onClick={() => navigate('/sheets?new=true')}
+          >
+            New Sheet
+          </button>
+        )}
       </div>
 
       <div className='sheets-view block'>{mainContent}</div>

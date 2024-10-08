@@ -110,7 +110,16 @@ export default function SheetFormView({ sheet }) {
             </button>
           </>
         ) : (
-          <button type='submit'>Create Sheet</button>
+          <>
+            <button type='submit'>Create Sheet</button>
+            <button
+              type='button'
+              className='grayed-out'
+              onClick={() => navigate(`/sheets`)}
+            >
+              Cancel
+            </button>
+          </>
         )}
       </form>
     </div>

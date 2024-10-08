@@ -12,10 +12,6 @@
   height: fit-content;
 }
 
-.sheets-view {
-  padding: 20px 30px;
-}
-
 .sheets-list-tile {
   border-bottom: 1px dotted var(--one);
   padding: 5px;
@@ -28,6 +24,16 @@
 .sheets-list-tile:hover {
   cursor: pointer;
   background-color: var(--two);
+}
+
+.new-sheet-button {
+  display: block;
+  width: fit-content;
+  margin: 10px auto 0;
+}
+
+.sheets-view {
+  padding: 20px 30px;
 }
 
 .sheet-details-header {
