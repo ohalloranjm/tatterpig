@@ -48,67 +48,61 @@ export default function ValueForm({ sheet }) {
   };
 
   return (
-    <>
-      <h3>Add Label</h3>
-      <form onSubmit={handleSubmit}>
-        <select
-          value={selectedLabel}
-          onChange={e => {
-            setSelectedLabel(e.target.value);
-            setNumberValue('');
-            setStringValue('');
-            setBooleanValue(true);
-          }}
-        >
-          <option value={0}>-</option>
-          {validChoices.map(vc => (
-            <option key={vc.id} value={vc.id}>
-              {vc.name}
-            </option>
-          ))}
-        </select>
+    <form onSubmit={handleSubmit}>
+      <select
+        value={selectedLabel}
+        onChange={e => {
+          setSelectedLabel(e.target.value);
+          setNumberValue('');
+          setStringValue('');
+          setBooleanValue(true);
+        }}
+      >
+        <option value={0}>-</option>
+        {validChoices.map(vc => (
+          <option key={vc.id} value={vc.id}>
+            {vc.name}
+          </option>
+        ))}
+      </select>
 
-        {selectedLabel ? (
-          <>
-            <label>
-              {dataType}:{' '}
-              {dataType === 'number' ? (
-                <input
-                  placeholder='Number Value'
-                  type='number'
-                  value={numberValue}
-                  onChange={e => setNumberValue(e.target.value)}
-                />
-              ) : null}
-              {dataType === 'boolean' ? (
-                <input
-                  type='checkbox'
-                  checked={booleanValue}
-                  onChange={() => setBooleanValue(prev => !prev)}
-                />
-              ) : null}
-              {dataType === 'string' ? (
-                <input
-                  placeholder='Text Value'
-                  value={stringValue}
-                  onChange={e => setStringValue(e.target.value)}
-                />
-              ) : null}
-            </label>
-            <p className='error'>{errors?.value}</p>
-          </>
-        ) : null}
+      {selectedLabel ? (
+        <>
+          <label>
+            {dataType}:{' '}
+            {dataType === 'number' ? (
+              <input
+                placeholder='Number Value'
+                type='number'
+                value={numberValue}
+                onChange={e => setNumberValue(e.target.value)}
+              />
+            ) : null}
+            {dataType === 'boolean' ? (
+              <input
+                type='checkbox'
+                checked={booleanValue}
+                onChange={() => setBooleanValue(prev => !prev)}
+              />
+            ) : null}
+            {dataType === 'string' ? (
+              <input
+                placeholder='Text Value'
+                value={stringValue}
+                onChange={e => setStringValue(e.target.value)}
+              />
+            ) : null}
+          </label>
+          <p className='error'>{errors?.value}</p>
+        </>
+      ) : null}
 
-        <button type='submit' disabled={!selectedLabel}>
-          Add Label
-        </button>
-        <button
-          type='button'
-          onClick={() => navigate(`/sheets?id=${sheet.id}`)}
-        >
-          Cancel
-        </button>
-      </form>
-    </>
+      <button type='submit' disabled={!selectedLabel}>
+        Add Label
+      </button>
+      <button type='button' onClick={() => navigate(`/sheets?id=${sheet.id}`)}>
+        Cancel
+      </button>
+    </form>
   );
 }

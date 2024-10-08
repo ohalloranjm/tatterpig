@@ -2,7 +2,11 @@ import { useNavigate, useSearchParams, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquarePlus, faPencil } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSquarePlus,
+  faPencil,
+  faSquareMinus,
+} from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
 import SheetFormView from './SheetFormView';
 
@@ -72,9 +76,20 @@ export default function SheetDetailsView({ sheet, edit }) {
       <button
         type='button'
         className='sd-add-attribute-button'
-        onClick={() => navigate(`/sheets?id=${sheet.id}&add=label`)}
+        onClick={() =>
+          navigate(
+            `/sheets?id=${sheet.id}${
+              searchParams.get('add') === 'label' ? '' : '&add=label'
+            }`
+          )
+        }
       >
-        <FontAwesomeIcon icon={faSquarePlus} /> Add Label
+        <FontAwesomeIcon
+          icon={
+            searchParams.get('add') === 'label' ? faSquareMinus : faSquarePlus
+          }
+        />{' '}
+        Add Label
       </button>
       {addValue && <ValueForm sheet={sheet} />}
 
