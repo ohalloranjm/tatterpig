@@ -38,6 +38,10 @@
   grid-area: sdh-title;
 }
 
+.sdh-edit-name {
+  font-size: 1.5em;
+}
+
 .sdh-confirm-edit {
   grid-area: sdh-button1;
   font-size: 1.4em;

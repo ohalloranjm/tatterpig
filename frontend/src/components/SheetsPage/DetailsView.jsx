@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquarePlus, faPencil } from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
-import FormView from './SheetFormView';
 import SheetFormView from './SheetFormView';
 
 export default function SheetDetailsView({ sheet, edit }) {

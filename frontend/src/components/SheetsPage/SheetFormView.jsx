@@ -63,18 +63,23 @@ export default function SheetFormView({ sheet }) {
 
   return (
     <div>
-      <form className='sheet-details-header' onSubmit={sheet ? put : post}>
-        <div className='sdh-title'>
-          <h2>{sheet ? `Editing ${sheet.name}` : 'Create a New Sheet'}</h2>
-        </div>
+      <form
+        className={sheet ? 'sheet-details-header' : null}
+        onSubmit={sheet ? put : post}
+      >
+        {!sheet && <h1>Create a New Sheet</h1>}
 
-        <div className='sdh-description'>
+        <div className='sdh-title'>
           <input
             placeholder='Sheet Name'
             value={name}
+            className={sheet ? 'sdh-edit-name' : null}
             onChange={e => setName(e.target.value)}
           />
           <p className='error'>{errors?.name}</p>
+        </div>
+
+        <div className='sdh-description'>
           <textarea
             placeholder='Description'
             value={description}
