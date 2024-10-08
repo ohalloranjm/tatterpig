@@ -28,6 +28,23 @@ export default function SheetDetailsView({ sheet, edit }) {
       submit(null, { method: 'delete', action: `/sheets?id=${sheet.id}` });
   };
 
+  const changePublic = newValue => {
+    const message = newValue
+      ? 'Are you sure you want to publish this sheet? Other users will be able to discover and view it. Only you will be able to edit it.'
+      : 'Are you sure you want to make this sheet private? Other users will no longer be able to discover and view it.';
+
+    const confirmChange = window.confirm(message);
+    if (confirmChange) {
+      const { name, description } = sheet;
+      const body = { name, description, public: newValue };
+      submit(body, {
+        method: 'PUT',
+        action: `/sheets?id=${sheet.id}`,
+        encType: 'application/json',
+      });
+    }
+  };
+
   return (
     <div className='sheet-view-details'>
       {edit ? (
@@ -54,14 +71,27 @@ export default function SheetDetailsView({ sheet, edit }) {
 
       <button
         type='button'
+        className='sd-add-attribute-button'
         onClick={() => navigate(`/sheets?id=${sheet.id}&add=label`)}
       >
-        <FontAwesomeIcon icon={faSquarePlus} /> Add a Label
-      </button>
-      <button type='button' onClick={deleteSheet}>
-        Delete Sheet
+        <FontAwesomeIcon icon={faSquarePlus} /> Add Label
       </button>
       {addValue && <ValueForm sheet={sheet} />}
+
+      <div className='sd-bottom-buttons'>
+        {sheet.public ? (
+          <button type='button' onClick={() => changePublic(false)}>
+            Make Private
+          </button>
+        ) : (
+          <button type='button' onClick={() => changePublic(true)}>
+            Publish
+          </button>
+        )}
+        <button type='button' className='grayed-out' onClick={deleteSheet}>
+          Delete Sheet
+        </button>
+      </div>
     </div>
   );
 }

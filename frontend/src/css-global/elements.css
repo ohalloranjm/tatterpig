@@ -25,13 +25,12 @@ button {
   color: var(--two);
   padding: 0.3em 0.5em;
   border-radius: 0.5em;
-  border: 1px solid var(--two);
+  border: 1px solid var(--one);
 }
 
 button:hover {
   background-color: var(--three);
   color: var(--one);
-  border: 1px solid var(--one);
 }
 
 input,

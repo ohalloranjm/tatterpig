@@ -111,3 +111,21 @@
   color: var(--one);
   border: 0;
 }
+
+.sd-add-attribute-button {
+  display: block;
+  margin: auto;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.sd-bottom-buttons {
+  width: fit-content;
+  margin: auto;
+  margin-top: 10px;
+  border-top: 1px solid var(--one);
+}
+
+.sd-bottom-buttons > button {
+  margin: 5px;
+}

@@ -25,3 +25,13 @@ button.icon:hover {
   color: var(--two);
   border: 0;
 }
+
+button.grayed-out {
+  background-color: var(--gray);
+  border-color: var(--gray);
+  color: var(--txt);
+}
+
+button.grayed-out:hover {
+  background-color: var(--light);
+}
