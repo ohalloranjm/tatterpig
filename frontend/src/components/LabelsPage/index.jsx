@@ -33,25 +33,24 @@ export default function LabelsPage() {
 
   return (
     <div className='labels'>
-      <h1 className='labels-title'>My Labels</h1>
-
-      <div className='labels-list'>
-        <button
-          onClick={() => {
-            if (searchParams.get('new') === 'true') {
-              navigate('/labels');
-            } else {
-              navigate('/labels?new=true');
-            }
-          }}
-        >
-          {searchParams.get('new') === 'true' ? 'Cancel' : 'Create a New Label'}
-        </button>
+      <button
+        className='create-label-button'
+        onClick={() => {
+          if (searchParams.get('new') === 'true') {
+            navigate('/labels');
+          } else {
+            navigate('/labels?new=true');
+          }
+        }}
+      >
+        {searchParams.get('new') === 'true' ? 'Cancel' : 'Create a New Label'}
+      </button>
+      <div className='labels-list block'>
         {labels.map(a => (
           <LabelTile key={a.id} label={a} />
         ))}
       </div>
-      <div className='labels-panel'>{mainContent}</div>
+      <div className='labels-view block'>{mainContent}</div>
     </div>
   );
 }
