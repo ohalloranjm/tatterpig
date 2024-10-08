@@ -41,6 +41,15 @@
   margin: 0.5em 0;
 }
 
+.create-sheet-form > button {
+  display: block;
+  margin: 10px auto 0;
+}
+
+.create-sheet-submit-button {
+  font-size: 1em;
+}
+
 .sheets-view {
   padding: 20px 30px;
 }

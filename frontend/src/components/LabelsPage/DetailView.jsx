@@ -17,10 +17,17 @@ export default function LabelDetailView({ label }) {
     }
   };
 
+  const subtitle =
+    label.dataType.slice(0, 1).toUpperCase() +
+    label.dataType.slice(1) +
+    ' label';
+
   return (
     <>
-      <h1>{label.name}</h1>
-      <p>Type: {label.dataType}</p>
+      <div className='label-details-header'>
+        <h1 className='ldh-title'>{label.name}</h1>
+        <p className='ldh-datatype'>{subtitle}</p>
+      </div>
       {label.SheetLabels.length ? (
         <>
           <h2>Associated Sheets</h2>

@@ -111,7 +111,9 @@ export default function SheetFormView({ sheet }) {
           </>
         ) : (
           <>
-            <button type='submit'>Create Sheet</button>
+            <button className='create-sheet-submit-button' type='submit'>
+              Create Sheet
+            </button>
             <button
               type='button'
               className='grayed-out'
