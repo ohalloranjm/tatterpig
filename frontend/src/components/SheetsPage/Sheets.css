@@ -26,8 +26,26 @@
   background-color: var(--two);
 }
 
-.sheet-details-description {
+.sheet-details-header {
+  display: grid;
+  grid-template-columns: auto 50px 50px;
+  grid-template-areas:
+    'sdh-title sdh-button1 sdh-button2'
+    'sdh-description sdh-description sdh-description';
+}
+
+.sdh-title {
+  grid-area: sdh-title;
+}
+
+.sdh-edit {
+  grid-area: sdh-button2;
+  font-size: 1.4em;
+}
+
+.sdh-description {
   margin: 1em 0;
+  grid-area: sdh-description;
 }
 
 .sheet-value-tile {

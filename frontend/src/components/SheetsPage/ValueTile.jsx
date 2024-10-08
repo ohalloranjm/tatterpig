@@ -10,11 +10,9 @@ import {
   faX,
   faCheck,
   faPencil,
-  faToggleOff,
-  faToggleOn,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircle as faCircleRegular } from '@fortawesome/free-regular-svg-icons';
+import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
 export default function SheetLabelTile({ label }) {
   const submit = useSubmit();
@@ -45,7 +43,7 @@ export default function SheetLabelTile({ label }) {
     setFilledCircle(label.value === 'true');
   }, [setFilledCircle, label.value]);
 
-  const booleanIcon = filledCircle ? faToggleOn : faToggleOff;
+  const booleanIcon = filledCircle ? faCircleCheck : faCircle;
 
   useEffect(() => {
     if (stringNumInputRef.current) stringNumInputRef.current.select();
