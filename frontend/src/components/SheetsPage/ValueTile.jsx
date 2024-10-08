@@ -124,7 +124,14 @@ export default function SheetLabelTile({ label }) {
       {/* static view for number and string values */}
       {!isBoolean && (
         <>
-          <p className='svt-value'>{label.value}</p>
+          <p
+            className='svt-value'
+            onDoubleClick={() =>
+              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
+            }
+          >
+            {label.value}
+          </p>
           <button
             type='button'
             className='icon svt-button1'
