@@ -71,10 +71,10 @@ export default function SheetFormView({ sheet }) {
   return (
     <div>
       <form
-        className={sheet ? 'sheet-details-header' : null}
+        className={sheet ? 'sheet-details-header' : 'create-sheet-form'}
         onSubmit={sheet ? put : post}
       >
-        {!sheet && <h1>Create a New Sheet</h1>}
+        {!sheet && <h1 className='create-sheet-title'>Create a New Sheet</h1>}
 
         <div className='sdh-title'>
           <input
@@ -84,7 +84,7 @@ export default function SheetFormView({ sheet }) {
             className={sheet ? 'sdh-edit-name' : null}
             onChange={e => setName(e.target.value)}
           />
-          <p className='error'>{errors?.name}</p>
+          <p className='error sheet-detail-error'>{errors?.name}</p>
         </div>
 
         <div className='sdh-description'>
@@ -94,7 +94,7 @@ export default function SheetFormView({ sheet }) {
             ref={descriptionInputRef}
             onChange={e => setDescription(e.target.value)}
           />
-          <p className='error'>{errors?.description}</p>
+          <p className='error sheet-detail-error'>{errors?.description}</p>
         </div>
         {sheet ? (
           <>

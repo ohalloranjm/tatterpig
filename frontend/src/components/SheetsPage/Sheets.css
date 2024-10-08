@@ -32,6 +32,15 @@
   margin: 10px auto 0;
 }
 
+.create-sheet-title {
+  margin-bottom: 0.5em;
+}
+
+.sheet-detail-error {
+  font-size: 0.9em;
+  margin: 0.5em 0;
+}
+
 .sheets-view {
   padding: 20px 30px;
 }
