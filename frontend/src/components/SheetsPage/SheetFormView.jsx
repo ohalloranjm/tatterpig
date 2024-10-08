@@ -1,6 +1,6 @@
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   useActionData,
   useNavigate,
@@ -17,6 +17,8 @@ export default function SheetFormView({ sheet }) {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [searchParams] = useSearchParams();
+  const nameInputRef = useRef(null);
+  const descriptionInputRef = useRef(null);
 
   useEffect(() => {
     const paramsName = searchParams.has('name');
@@ -35,6 +37,11 @@ export default function SheetFormView({ sheet }) {
   }, [sheet, searchParams]);
 
   const errors = submitted ? data?.errors : {};
+
+  useEffect(() => {
+    if (sheet) descriptionInputRef.current.focus();
+    else nameInputRef.current.focus();
+  }, [sheet]);
 
   const post = e => {
     e.preventDefault();
@@ -73,6 +80,7 @@ export default function SheetFormView({ sheet }) {
           <input
             placeholder='Sheet Name'
             value={name}
+            ref={nameInputRef}
             className={sheet ? 'sdh-edit-name' : null}
             onChange={e => setName(e.target.value)}
           />
@@ -83,6 +91,7 @@ export default function SheetFormView({ sheet }) {
           <textarea
             placeholder='Description'
             value={description}
+            ref={descriptionInputRef}
             onChange={e => setDescription(e.target.value)}
           />
           <p className='error'>{errors?.description}</p>
