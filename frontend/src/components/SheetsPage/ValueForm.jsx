@@ -1,6 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
 
 export default function ValueForm({ sheet }) {
@@ -11,7 +11,16 @@ export default function ValueForm({ sheet }) {
   const [selectedLabel, setSelectedLabel] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
-  const [booleanValue, setBooleanValue] = useState(true);
+
+  const labelInputRef = useRef(null);
+  const valueInputRef = useRef(null);
+
+  useEffect(() => {
+    let toFocus;
+    if (selectedLabel && valueInputRef.current) toFocus = valueInputRef;
+    else if (!selectedLabel && labelInputRef.current) toFocus = labelInputRef;
+    if (toFocus) toFocus.current.focus();
+  }, [selectedLabel]);
 
   const { SheetLabels: invalidChoices } = sheet;
   const validChoices = labels.filter(
@@ -26,7 +35,7 @@ export default function ValueForm({ sheet }) {
     const lookup = {
       string: stringValue || null,
       number: numberValue === '' ? null : numberValue,
-      boolean: booleanValue,
+      boolean: true,
     };
 
     const body = {
@@ -47,11 +56,19 @@ export default function ValueForm({ sheet }) {
     <form className='sd-add-label' onSubmit={handleSubmit}>
       <select
         value={selectedLabel}
+        ref={labelInputRef}
         onChange={e => {
           setSelectedLabel(e.target.value);
           setNumberValue('');
           setStringValue('');
-          setBooleanValue(true);
+        }}
+        onKeyDown={e => {
+          e.preventDefault();
+          if (
+            ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)
+          ) {
+            e.target.showPicker();
+          }
         }}
       >
         <option value={0}>-</option>
@@ -71,6 +88,7 @@ export default function ValueForm({ sheet }) {
               value={numberValue}
               onChange={e => setNumberValue(e.target.value)}
               className='sdal-value'
+              ref={valueInputRef}
             />
           )}
           {dataType === 'string' && (
@@ -79,6 +97,7 @@ export default function ValueForm({ sheet }) {
               value={stringValue}
               onChange={e => setStringValue(e.target.value)}
               className='sdal-value'
+              ref={valueInputRef}
             />
           )}
           {dataType === 'boolean' && (
