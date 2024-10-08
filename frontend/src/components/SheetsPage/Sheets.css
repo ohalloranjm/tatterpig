@@ -38,7 +38,13 @@
   grid-area: sdh-title;
 }
 
-.sdh-edit {
+.sdh-confirm-edit {
+  grid-area: sdh-button1;
+  font-size: 1.4em;
+}
+
+.sdh-edit,
+.sdh-cancel-edit {
   grid-area: sdh-button2;
   font-size: 1.4em;
 }
