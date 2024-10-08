@@ -1,16 +1,12 @@
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import {
-  useActionData,
-  useLoaderData,
-  useNavigate,
-  useSubmit,
-} from 'react-router-dom';
+import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
 
 export default function ValueForm({ sheet }) {
   const { labels } = useLoaderData()[1];
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
-  const navigate = useNavigate();
 
   const [selectedLabel, setSelectedLabel] = useState('');
   const [numberValue, setNumberValue] = useState('');
@@ -48,7 +44,7 @@ export default function ValueForm({ sheet }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='sd-add-label' onSubmit={handleSubmit}>
       <select
         value={selectedLabel}
         onChange={e => {
@@ -66,43 +62,40 @@ export default function ValueForm({ sheet }) {
         ))}
       </select>
 
-      {selectedLabel ? (
+      {!!selectedLabel && (
         <>
-          <label>
-            {dataType}:{' '}
-            {dataType === 'number' ? (
-              <input
-                placeholder='Number Value'
-                type='number'
-                value={numberValue}
-                onChange={e => setNumberValue(e.target.value)}
-              />
-            ) : null}
-            {dataType === 'boolean' ? (
-              <input
-                type='checkbox'
-                checked={booleanValue}
-                onChange={() => setBooleanValue(prev => !prev)}
-              />
-            ) : null}
-            {dataType === 'string' ? (
-              <input
-                placeholder='Text Value'
-                value={stringValue}
-                onChange={e => setStringValue(e.target.value)}
-              />
-            ) : null}
-          </label>
-          <p className='error'>{errors?.value}</p>
-        </>
-      ) : null}
+          {dataType === 'number' && (
+            <input
+              placeholder='Number Value'
+              type='number'
+              value={numberValue}
+              onChange={e => setNumberValue(e.target.value)}
+              className='sdal-value'
+            />
+          )}
+          {dataType === 'string' && (
+            <input
+              placeholder='Text Value'
+              value={stringValue}
+              onChange={e => setStringValue(e.target.value)}
+              className='sdal-value'
+            />
+          )}
+          {dataType === 'boolean' && (
+            <p className='sdal-value sdal-value-boolean'>(boolean)</p>
+          )}
 
-      <button type='submit' disabled={!selectedLabel}>
-        Add Label
-      </button>
-      <button type='button' onClick={() => navigate(`/sheets?id=${sheet.id}`)}>
-        Cancel
-      </button>
+          <button
+            type='submit'
+            className='icon sdal-submit'
+            disabled={!selectedLabel}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
+
+          <p className='error sdal-errors'>{errors?.value}</p>
+        </>
+      )}
     </form>
   );
 }
