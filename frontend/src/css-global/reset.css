@@ -1,0 +1,54 @@
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background-color: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  color: inherit;
+}
+
+div,
+span,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+img,
+section,
+header,
+main,
+footer,
+article,
+input,
+textarea,
+ul,
+ol,
+li,
+button,
+body {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

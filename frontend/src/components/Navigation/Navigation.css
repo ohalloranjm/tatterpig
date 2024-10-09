@@ -1,0 +1,41 @@
+@import url(../../css-global/vars.css);
+
+#navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#navigation > div {
+  display: flex;
+  column-gap: 2px;
+}
+
+#navigation > div > a {
+  color: var(--two);
+  background-color: var(--one);
+  padding: 5px 10px 20px;
+  font-size: 1.2em;
+  border-bottom-right-radius: 40%;
+  border-bottom-left-radius: 40%;
+}
+
+#navigation > div > a:hover {
+  text-decoration: none;
+  background-color: var(--three);
+  color: var(--txt);
+}
+
+#navigation > div > a.active {
+  color: var(--txt);
+  background-color: var(--two);
+}
+
+#navigation > div > a.active:hover {
+  background-color: var(--three);
+}
+
+.logout-button {
+  margin: 3px;
+  font-size: 1em;
+}

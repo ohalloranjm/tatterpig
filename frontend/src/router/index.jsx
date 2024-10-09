@@ -5,7 +5,7 @@ import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
-import AttributesPage from '../components/AttributesPage';
+import LabelsPage from '../components/LabelsPage';
 import PublicSheetsIndex from '../components/PublicSheetsIndex';
 import PublicSheetDetailsPage from '../components/PublicSheetDetailsPage';
 
@@ -25,42 +25,42 @@ const pages = [
     element: <SignupForm />,
   },
   {
-    path: '/attributes',
-    element: <AttributesPage />,
-    loader: api.attribute.getCurrent,
+    path: '/labels',
+    element: <LabelsPage />,
+    loader: api.label.getCurrent,
     action: map({
-      POST: handleError(api.attribute.post),
-      PUT: handleError(api.attribute.put),
-      DELETE: api.attribute.del,
+      POST: handleError(api.label.post),
+      PUT: handleError(api.label.put),
+      DELETE: api.label.del,
     }),
   },
   {
     path: '/sheets',
     element: <SheetsPage />,
-    loader: collect(api.sheet.getCurrent, api.attribute.getCurrent),
+    loader: collect(api.sheet.getCurrent, api.label.getCurrent),
     action: map({
       POST: checkQuery(
         'add',
-        'attribute',
+        'label',
         handleError(api.value.post),
         handleError(api.sheet.post)
       ),
       PUT: checkQuery(
-        'attributeId',
+        'labelId',
         null,
         handleError(api.value.put),
         handleError(api.sheet.put)
       ),
-      DELETE: checkQuery('attributeId', null, api.value.del, api.sheet.del),
+      DELETE: checkQuery('labelId', null, api.value.del, api.sheet.del),
     }),
   },
   {
-    path: '/sheets/public',
+    path: '/public',
     element: <PublicSheetsIndex />,
     loader: api.sheet.getPublic,
   },
   {
-    path: '/sheets/public/:sheetId',
+    path: '/public/:sheetId',
     element: <PublicSheetDetailsPage />,
     loader: api.sheet.getOne,
   },

@@ -4,6 +4,6 @@ import getOne from './get-one.js';
 import post from './post.js';
 import put from './put.js';
 
-const attribute = { del, getCurrent, getOne, post, put };
+const label = { del, getCurrent, getOne, post, put };
 
-export default attribute;
+export default label;

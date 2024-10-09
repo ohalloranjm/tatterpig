@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../store/session';
 import { Navigate } from 'react-router-dom';
+import './SessionForms.css';
 
 export default function SignupForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   const dispatch = useDispatch();
   const user = useSelector(store => store.session.user);
 
@@ -21,19 +28,22 @@ export default function SignupForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='block session-form' onSubmit={handleSubmit}>
+      <h1 className='center'>Get Started</h1>
+
       <input
         placeholder='Email'
         value={email}
         onChange={e => setEmail(e.target.value)}
+        ref={inputRef}
       />
-      <p>{errors.email ?? null}</p>
+      <p className='error'>{errors.email ?? null}</p>
       <input
         placeholder='Username'
         value={username}
         onChange={e => setUsername(e.target.value)}
       />
-      <p>{errors.username ?? null}</p>
+      <p className='error'>{errors.username ?? null}</p>
 
       <input
         placeholder='Password'
@@ -41,7 +51,7 @@ export default function SignupForm() {
         value={password}
         onChange={e => setPassword(e.target.value)}
       />
-      <p>{errors.password ?? null}</p>
+      <p className='error'>{errors.password ?? null}</p>
 
       <button type='submit'>Sign Up</button>
     </form>

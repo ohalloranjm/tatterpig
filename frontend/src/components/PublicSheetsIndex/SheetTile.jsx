@@ -1,12 +1,16 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function PublicSheetTile({ sheet }) {
+  const navigate = useNavigate();
+
   return (
-    <Link to={`${sheet.id}`}>
-      <div>
-        <h2>{sheet.name}</h2>
-        <p>{sheet.description}</p>
+    <div className='block browse-tile' onClick={() => navigate(`${sheet.id}`)}>
+      <h2 className='bt-name'>{sheet.name}</h2>
+      <div className='bt-description-wrapper'>
+        <p className='bt-description'>
+          <span>{sheet.description}</span>
+        </p>
       </div>
-    </Link>
+    </div>
   );
 }

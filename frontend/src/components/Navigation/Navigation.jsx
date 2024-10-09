@@ -1,52 +1,44 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import './Navigation.css';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logout = e => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate('/');
   };
 
-  const sessionLinks = sessionUser ? (
+  const tabs = sessionUser ? (
     <>
-      <li>
-        <NavLink to='/sheets'>Sheets</NavLink>
-      </li>
-      <li>
-        <NavLink to='/attributes'>Attributes</NavLink>
-      </li>
-      <li>
-        <NavLink to='/sheets/public'>Public Sheets</NavLink>
-      </li>
-      <li>
-        <button onClick={logout}>Log Out!</button>
-      </li>
+      <NavLink to='/sheets'>Sheets</NavLink>
+      <NavLink to='/labels'>Labels</NavLink>
     </>
   ) : (
     <>
-      <li>
-        <NavLink to='/sheets/public'>Public Sheets</NavLink>
-      </li>
-      <li>
-        <NavLink to='/login'>Log In</NavLink>
-      </li>
-      <li>
-        <NavLink to='/signup'>Sign Up</NavLink>
-      </li>
+      <NavLink to='/login'>Log In</NavLink>
+      <NavLink to='/signup'>Sign Up</NavLink>
     </>
   );
 
   return (
-    <ul>
-      <li>
+    <div id='navigation'>
+      <div className='nav-tabs'>
         <NavLink to='/'>Home</NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+        {isLoaded && tabs}
+        <NavLink to='/public'>Browse</NavLink>
+      </div>
+      {isLoaded && sessionUser && (
+        <button className='logout-button' onClick={logout}>
+          Log Out
+        </button>
+      )}
+    </div>
   );
 }
 

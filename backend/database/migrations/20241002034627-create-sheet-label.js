@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      'Attributes',
+      'SheetLabels',
       {
         id: {
           allowNull: false,
@@ -16,43 +16,41 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        ownerId: {
+        sheetId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
+            model: 'Sheets',
           },
           onDelete: 'CASCADE',
           onUpdate: 'CASCADE',
         },
-        name: {
-          type: Sequelize.STRING(50),
+        labelId: {
+          type: Sequelize.INTEGER,
           allowNull: false,
+          references: {
+            model: 'Labels',
+          },
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
-        ephemeral: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        dataType: {
-          type: Sequelize.STRING(10),
+        value: {
+          type: Sequelize.STRING(500),
         },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
         updatedAt: {
           allowNull: false,
           type: Sequelize.DATE,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
       },
       options
     );
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Attributes';
+    options.tableName = 'SheetLabels';
     await queryInterface.dropTable(options);
   },
 };

@@ -16,10 +16,13 @@ export default function SheetsPage() {
     if (searchParams.has('id')) {
       const sheetId = Number(searchParams.get('id'));
       const sheet = sheets.find(s => s.id === sheetId);
-      if (sheet && searchParams.get('edit') === 'true') {
-        setMainContent(<SheetFormView sheet={sheet} />);
-      } else if (sheet) {
-        setMainContent(<DetailsView sheet={sheet} />);
+      if (sheet) {
+        setMainContent(
+          <DetailsView
+            sheet={sheet}
+            edit={searchParams.get('edit') === 'true'}
+          />
+        );
       } else {
         setMainContent(
           <p>
@@ -42,24 +45,24 @@ export default function SheetsPage() {
 
   return (
     <div className='sheets'>
-      <h1 className='sheets-title'>My Sheets</h1>
+      <div className='sheets-col1 block'>
+        <div className='sheets-list'>
+          {sheets.map(s => (
+            <SheetTile key={s.id} sheet={s} />
+          ))}
+        </div>
 
-      <div className='sheets-list'>
-        <button
-          onClick={() => {
-            if (searchParams.get('new') === 'true') navigate('/sheets');
-            else navigate('/sheets?new=true');
-          }}
-        >
-          {searchParams.get('new') === 'true' ? 'Cancel' : 'Create a New Sheet'}
-        </button>
-
-        {sheets.map(s => (
-          <SheetTile key={s.id} sheet={s} />
-        ))}
+        {searchParams.get('new') !== 'true' && (
+          <button
+            className='new-sheet-button'
+            onClick={() => navigate('/sheets?new=true')}
+          >
+            New Sheet
+          </button>
+        )}
       </div>
 
-      <div className='sheets-view'>{mainContent}</div>
+      <div className='sheets-view block'>{mainContent}</div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { useSelector } from 'react-redux';
+import './PublicSheetDetailsPage.css';
 
 export default function PublicSheetDetailsPage() {
   const { sheet } = useLoaderData();
@@ -10,15 +11,27 @@ export default function PublicSheetDetailsPage() {
 
   return (
     <>
-      <h1>{sheet.name}</h1>
-      <p>{sheet.description}</p>
-      {sheet.SheetAttributes.map(val => (
-        <ValueTile key={val.attributeId} value={val} />
-      ))}
-      {isOwner && (
-        <Link to={`/sheets?id=${sheet.id}`}>View & Edit on My Dashboard</Link>
-      )}
-      <Link to='/sheets/public'>Back to Browse</Link>
+      <div className='block public-sheet'>
+        <h1 className='ps-title'>{sheet.name}</h1>
+        <p>{sheet.description}</p>
+
+        {sheet.SheetLabels.map(val => (
+          <ValueTile key={val.labelId} value={val} />
+        ))}
+
+        {isOwner && (
+          <Link
+            to={`/sheets?id=${sheet.id}`}
+            className='view-and-edit-on-dashboard'
+          >
+            View & Edit on My Dashboard
+          </Link>
+        )}
+      </div>
+
+      <Link to='/public' className='back-to-browse '>
+        Back to Browse
+      </Link>
     </>
   );
 }

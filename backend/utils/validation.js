@@ -15,7 +15,7 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
-const validateAttributeValue = (value, { dataType }) => {
+const validateLabelValue = (value, { dataType }) => {
   if (value !== null) value = String(value);
   switch (dataType) {
     case 'number':
@@ -33,5 +33,5 @@ const validateAttributeValue = (value, { dataType }) => {
 
 module.exports = {
   handleValidationErrors,
-  validateAttributeValue,
+  validateLabelValue,
 };

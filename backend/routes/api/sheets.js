@@ -1,14 +1,12 @@
 const express = require('express');
-const { Sheet, SheetAttribute, Attribute } = require('../../database/models');
+const { Sheet, SheetLabel, Label } = require('../../database/models');
 const { requireAuth } = require('../../utils/auth');
 const { AuthorizationError, NotFoundError } = require('../../utils/errors');
-const {
-  formatSheetAttributesMutate,
-} = require('../../utils/response-formatting');
+const { formatSheetLabelsMutate } = require('../../utils/response-formatting');
 const { check } = require('express-validator');
 const {
   handleValidationErrors,
-  validateAttributeValue,
+  validateLabelValue,
 } = require('../../utils/validation');
 
 const router = express.Router();
@@ -18,77 +16,73 @@ router.get('/current', requireAuth, async (req, res) => {
   const { id: ownerId } = req.user;
   const sheets = await Sheet.findAll({
     where: { ownerId },
-    include: SheetAttribute,
+    include: SheetLabel,
   });
 
   for (const sheet of sheets) {
-    formatSheetAttributesMutate(sheet.SheetAttributes);
+    formatSheetLabelsMutate(sheet.SheetLabels);
   }
 
   return res.json({ sheets });
 });
 
-const validateUpdateSheetAttribute = [
+const validateUpdateSheetLabel = [
   check('value').exists().withMessage('Value is required'),
   handleValidationErrors,
 ];
 
-// change the value of a SheetAttribute instance
+// change the value of a SheetLabel instance
 router.put(
-  '/:sheetId/attributes/:attributeId',
+  '/:sheetId/labels/:labelId',
   requireAuth,
-  validateUpdateSheetAttribute,
+  validateUpdateSheetLabel,
   async (req, res) => {
-    const { sheetId, attributeId } = req.params;
+    const { sheetId, labelId } = req.params;
     let { value } = req.body;
 
-    const sheetAttribute = await SheetAttribute.findOne({
-      where: { sheetId, attributeId },
-      include: [Sheet, Attribute],
+    const sheetLabel = await SheetLabel.findOne({
+      where: { sheetId, labelId },
+      include: [Sheet, Label],
     });
 
-    if (!sheetAttribute) throw new NotFoundError();
-    if (sheetAttribute.Sheet.ownerId !== req.user.id) {
+    if (!sheetLabel) throw new NotFoundError();
+    if (sheetLabel.Sheet.ownerId !== req.user.id) {
       throw new AuthorizationError();
     }
 
-    value = validateAttributeValue(value, sheetAttribute.Attribute);
+    value = validateLabelValue(value, sheetLabel.Label);
 
-    await sheetAttribute.update({ value });
+    await sheetLabel.update({ value });
 
-    return res.json({ message: 'Success', sheetAttribute });
+    return res.json({ message: 'Success', sheetLabel });
   }
 );
 
-// disassociate an attribute from a sheet
-router.delete(
-  '/:sheetId/attributes/:attributeId',
-  requireAuth,
-  async (req, res) => {
-    const { sheetId, attributeId } = req.params;
-    const sheetAttribute = await SheetAttribute.findOne({
-      where: { sheetId, attributeId },
-      include: [Sheet, Attribute],
-    });
+// disassociate an label from a sheet
+router.delete('/:sheetId/labels/:labelId', requireAuth, async (req, res) => {
+  const { sheetId, labelId } = req.params;
+  const sheetLabel = await SheetLabel.findOne({
+    where: { sheetId, labelId },
+    include: [Sheet, Label],
+  });
 
-    if (!sheetAttribute) throw new NotFoundError();
-    if (sheetAttribute.Sheet.ownerId !== req.user.id) {
-      throw new AuthorizationError();
-    }
-
-    await sheetAttribute.destroy();
-    return res.json({ message: 'Successfully deleted', sheetAttribute });
+  if (!sheetLabel) throw new NotFoundError();
+  if (sheetLabel.Sheet.ownerId !== req.user.id) {
+    throw new AuthorizationError();
   }
-);
 
-// associate an attribute with a sheet
-router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
+  await sheetLabel.destroy();
+  return res.json({ message: 'Successfully deleted', sheetLabel });
+});
+
+// associate an label with a sheet
+router.post('/:sheetId/labels', requireAuth, async (req, res) => {
   const { sheetId } = req.params;
-  const { attributeId } = req.body;
+  const { labelId } = req.body;
 
-  const attribute = await Attribute.findByPk(attributeId);
-  if (!attribute) throw new NotFoundError('Attribute not found');
-  if (attribute.ownerId !== req.user.id) throw new AuthorizationError();
+  const label = await Label.findByPk(labelId);
+  if (!label) throw new NotFoundError('Label not found');
+  if (label.ownerId !== req.user.id) throw new AuthorizationError();
 
   const sheet = await Sheet.findByPk(sheetId);
   if (!sheet) throw new NotFoundError('Sheet not found');
@@ -96,38 +90,35 @@ router.post('/:sheetId/attributes', requireAuth, async (req, res) => {
 
   let { value } = req.body;
   if ('value' in req.body) {
-    value = validateAttributeValue(value, attribute);
+    value = validateLabelValue(value, label);
   }
 
-  const sheetAttribute = await sheet.createSheetAttribute({
-    attributeId,
+  const sheetLabel = await sheet.createSheetLabel({
+    labelId,
     value,
   });
 
   res.status(201);
-  return res.json({ message: 'Success', sheetAttribute });
+  return res.json({ message: 'Success', sheetLabel });
 });
 
 // view the details of a specific sheet
 router.get('/:sheetId', async (req, res) => {
   const { sheetId } = req.params;
-  const sheet = await Sheet.findByPk(sheetId, { include: SheetAttribute });
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetLabel });
 
   if (!sheet) throw new NotFoundError('Sheet not found');
 
   const authorized = sheet.public || req.user?.id === sheet.ownerId;
   if (!authorized) throw new AuthorizationError();
 
-  formatSheetAttributesMutate(sheet.SheetAttributes);
+  formatSheetLabelsMutate(sheet.SheetLabels);
 
   return res.json({ sheet });
 });
 
 const validateUpdateSheet = [
-  check('name')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage('Name is required'),
+  check('name').exists().withMessage('Name is required'),
   check('description').exists().withMessage('Description is required'),
   check('public').exists().withMessage('Public is required'),
   handleValidationErrors,

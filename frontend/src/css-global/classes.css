@@ -1,0 +1,38 @@
+@import url(vars.css);
+
+.block {
+  background-color: var(--three);
+  padding: 10px;
+  border-radius: 3%;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.center {
+  text-align: center;
+}
+
+button.icon {
+  background-color: inherit;
+  color: var(--one);
+  border: 0;
+}
+
+button.icon:hover {
+  background-color: var(--one);
+  color: var(--two);
+  border: 0;
+}
+
+button.grayed-out {
+  background-color: var(--gray);
+  border-color: var(--gray);
+  color: var(--txt);
+}
+
+button.grayed-out:hover {
+  background-color: var(--light);
+}

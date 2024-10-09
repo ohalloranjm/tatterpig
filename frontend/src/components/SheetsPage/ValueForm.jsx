@@ -1,30 +1,33 @@
-import { useState } from 'react';
-import {
-  useActionData,
-  useLoaderData,
-  useNavigate,
-  useSubmit,
-} from 'react-router-dom';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useRef, useState } from 'react';
+import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
 
 export default function ValueForm({ sheet }) {
-  const { attributes } = useLoaderData()[1];
+  const { labels } = useLoaderData()[1];
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
-  const navigate = useNavigate();
 
-  const [selectedAttribute, setSelectedAttribute] = useState('');
+  const [selectedLabel, setSelectedLabel] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
-  const [booleanValue, setBooleanValue] = useState(true);
 
-  const { SheetAttributes: invalidChoices } = sheet;
-  const validChoices = attributes.filter(
-    a => !invalidChoices.some(ic => ic.attributeId === a.id)
+  const labelInputRef = useRef(null);
+  const valueInputRef = useRef(null);
+
+  useEffect(() => {
+    let toFocus;
+    if (selectedLabel && valueInputRef.current) toFocus = valueInputRef;
+    else if (!selectedLabel && labelInputRef.current) toFocus = labelInputRef;
+    if (toFocus) toFocus.current.focus();
+  }, [selectedLabel]);
+
+  const { SheetLabels: invalidChoices } = sheet;
+  const validChoices = labels.filter(
+    a => !invalidChoices.some(ic => ic.labelId === a.id)
   );
 
-  const dataType = validChoices.find(
-    vc => vc.id === +selectedAttribute
-  )?.dataType;
+  const dataType = validChoices.find(vc => vc.id === +selectedLabel)?.dataType;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -32,11 +35,11 @@ export default function ValueForm({ sheet }) {
     const lookup = {
       string: stringValue || null,
       number: numberValue === '' ? null : numberValue,
-      boolean: booleanValue,
+      boolean: true,
     };
 
     const body = {
-      attributeId: +selectedAttribute,
+      labelId: +selectedLabel,
       value: lookup[dataType],
     };
 
@@ -45,72 +48,73 @@ export default function ValueForm({ sheet }) {
     submit(body, {
       method: 'post',
       encType: 'application/json',
-      action: `/sheets?id=${sheet.id}&add=attribute`,
+      action: `/sheets?id=${sheet.id}&add=label`,
     });
   };
 
   return (
-    <>
-      <h3>Add Attribute</h3>
-      <form onSubmit={handleSubmit}>
-        <select
-          value={selectedAttribute}
-          onChange={e => {
-            setSelectedAttribute(e.target.value);
-            setNumberValue('');
-            setStringValue('');
-            setBooleanValue(true);
-          }}
-        >
-          <option value={0}>-</option>
-          {validChoices.map(vc => (
-            <option key={vc.id} value={vc.id}>
-              {vc.name}
-            </option>
-          ))}
-        </select>
+    <form className='sd-add-label' onSubmit={handleSubmit}>
+      <select
+        value={selectedLabel}
+        ref={labelInputRef}
+        onChange={e => {
+          setSelectedLabel(e.target.value);
+          setNumberValue('');
+          setStringValue('');
+        }}
+        onKeyDown={e => {
+          e.preventDefault();
+          if (
+            ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)
+          ) {
+            e.target.showPicker();
+          }
+        }}
+      >
+        <option value={0}>-</option>
+        {validChoices.map(vc => (
+          <option key={vc.id} value={vc.id}>
+            {vc.name}
+          </option>
+        ))}
+      </select>
 
-        {selectedAttribute ? (
-          <>
-            <label>
-              {dataType}:{' '}
-              {dataType === 'number' ? (
-                <input
-                  placeholder='Number Value'
-                  type='number'
-                  value={numberValue}
-                  onChange={e => setNumberValue(e.target.value)}
-                />
-              ) : null}
-              {dataType === 'boolean' ? (
-                <input
-                  type='checkbox'
-                  checked={booleanValue}
-                  onChange={() => setBooleanValue(prev => !prev)}
-                />
-              ) : null}
-              {dataType === 'string' ? (
-                <input
-                  placeholder='Text Value'
-                  value={stringValue}
-                  onChange={e => setStringValue(e.target.value)}
-                />
-              ) : null}
-            </label>
-            <p className='error'>{errors?.value}</p>
-          </>
-        ) : null}
+      {!!selectedLabel && (
+        <>
+          {dataType === 'number' && (
+            <input
+              placeholder='Number Value'
+              type='number'
+              value={numberValue}
+              onChange={e => setNumberValue(e.target.value)}
+              className='sdal-value'
+              ref={valueInputRef}
+            />
+          )}
+          {dataType === 'string' && (
+            <input
+              placeholder='Text Value'
+              value={stringValue}
+              onChange={e => setStringValue(e.target.value)}
+              className='sdal-value'
+              ref={valueInputRef}
+            />
+          )}
+          {dataType === 'boolean' && (
+            <p className='sdal-value sdal-value-boolean'>(boolean)</p>
+          )}
 
-        <button type='submit' disabled={!selectedAttribute}>
-          Add Attribute
-        </button>
-        <button
-          type='button'
-          onClick={() => navigate(`/sheets?id=${sheet.id}`)}
-        >
-          Cancel
-        </button>
-      </form>
-    </>
+          <button
+            type='submit'
+            className='icon sdal-submit'
+            disabled={!selectedLabel}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </button>
+
+          <p className='error sdal-errors'>{errors?.value}</p>
+        </>
+      )}
+    </form>
   );
 }
