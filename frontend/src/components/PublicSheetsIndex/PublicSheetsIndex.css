@@ -1,0 +1,30 @@
+@import url(../../css-global/vars.css);
+
+.browse-sheets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 0 25px;
+}
+
+.browse-tile {
+  border: 5px solid var(--three);
+}
+
+.browse-tile:hover {
+  cursor: pointer;
+  border: 5px solid var(--one);
+}
+
+.bt-name {
+  margin-bottom: 0.5em;
+}
+
+.bt-description-wrapper {
+  height: 100%;
+}
+
+.bt-description {
+  font-size: 0.9em;
+  margin: auto;
+}
