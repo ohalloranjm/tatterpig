@@ -1,6 +1,6 @@
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   useActionData,
   useNavigate,
@@ -15,6 +15,7 @@ export default function EditLabelInline({ label }) {
   const submit = useSubmit();
   const data = useActionData();
   const navigate = useNavigate();
+  const nameInputRef = useRef();
 
   const [submitted, setSubmitted] = useState(false);
   const [searchParams] = useSearchParams();
@@ -31,6 +32,8 @@ export default function EditLabelInline({ label }) {
     }
   }, [label, searchParams]);
 
+  useEffect(() => nameInputRef.current.select(), [data?.errors]);
+
   const errors = submitted ? data?.errors : {};
 
   const handleSubmit = e => {
@@ -40,7 +43,10 @@ export default function EditLabelInline({ label }) {
       const confirmChange = window.confirm(
         "Are you sure you want to change the data type of this label? Doing so will reset the label's value on every associated sheet."
       );
-      if (!confirmChange) return setDataType(label.dataType);
+      if (!confirmChange) {
+        setDataType(label.dataType);
+        return nameInputRef.current.focus();
+      }
     }
     submit(
       { name, dataType },
@@ -60,6 +66,7 @@ export default function EditLabelInline({ label }) {
           className='ldh-title'
           placeholder='Label Name'
           value={name}
+          ref={nameInputRef}
           onChange={e => setName(e.target.value)}
         />
 
