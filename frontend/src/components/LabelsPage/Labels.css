@@ -49,17 +49,27 @@
 
 .label-details-header {
   display: grid;
-  grid-template-columns: auto 50px 50px;
+  grid-template-columns: 1fr 3fr 50px 50px;
   grid-template-areas:
-    'ldh-title ldh-button1 ldh-button2'
-    'ldh-datatype . .';
+    'ldh-title ldh-title ldh-button1 ldh-button2'
+    'ldh-datatype ldh-error ldh-error ldh-error';
 }
 
 .ldh-title {
   grid-area: ldh-title;
 }
 
-.ldh-edit-toggle {
+input.ldh-title {
+  font-size: 1.5em;
+}
+
+.ldh-submit-edit {
+  font-size: 1.4em;
+  grid-area: ldh-button1;
+}
+
+.ldh-edit-toggle,
+.ldh-cancel-edit {
   font-size: 1.4em;
   grid-area: ldh-button2;
 }
@@ -69,4 +79,14 @@
   grid-area: ldh-datatype;
   font-style: italic;
   font-size: 1.1em;
+}
+
+select.ldh-datatype {
+  font-style: normal;
+  margin-right: 20px;
+}
+
+.ldh-error {
+  grid-area: ldh-error;
+  margin-top: 0.7em;
 }

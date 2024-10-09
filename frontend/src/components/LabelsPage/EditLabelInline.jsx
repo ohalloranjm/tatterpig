@@ -1,5 +1,12 @@
+import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { useActionData, useSearchParams, useSubmit } from 'react-router-dom';
+import {
+  useActionData,
+  useNavigate,
+  useSearchParams,
+  useSubmit,
+} from 'react-router-dom';
 
 export default function EditLabelInline({ label }) {
   const [name, setName] = useState('');
@@ -7,6 +14,8 @@ export default function EditLabelInline({ label }) {
 
   const submit = useSubmit();
   const data = useActionData();
+  const navigate = useNavigate();
+
   const [submitted, setSubmitted] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -46,22 +55,35 @@ export default function EditLabelInline({ label }) {
 
   return (
     <div>
-      <form className='' onSubmit={handleSubmit}>
+      <form className='label-details-header' onSubmit={handleSubmit}>
         <input
+          className='ldh-title'
           placeholder='Label Name'
           value={name}
           onChange={e => setName(e.target.value)}
         />
-        <p className='error'>{submit && errors?.name}</p>
 
-        <select value={dataType} onChange={e => setDataType(e.target.value)}>
+        <select
+          value={dataType}
+          className='ldh-datatype'
+          onChange={e => setDataType(e.target.value)}
+        >
           <option value='number'>Number</option>
           <option value='string'>String</option>
           <option value='boolean'>Boolean</option>
         </select>
 
-        <button type='submit'>
-          {label ? 'Confirm Changes' : 'Create Label'}
+        <p className='error ldh-error'>{submit && errors?.name}</p>
+
+        <button className='ldh-submit-edit icon' type='submit'>
+          <FontAwesomeIcon icon={faCheck} />
+        </button>
+        <button
+          className='ldh-cancel-edit icon'
+          type='button'
+          onClick={() => navigate(`/labels?id=${label.id}`)}
+        >
+          <FontAwesomeIcon icon={faX} />
         </button>
       </form>
     </div>
