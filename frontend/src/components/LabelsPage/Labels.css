@@ -116,3 +116,11 @@ select.ldh-datatype {
   grid-area: ldh-error;
   margin-top: 0.7em;
 }
+
+.label-value-tile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 15px;
+  border-top: 1px dashed var(--one);
+  padding: 10px 5px;
+}

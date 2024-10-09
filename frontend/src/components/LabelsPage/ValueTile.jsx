@@ -2,11 +2,12 @@ import { Link } from 'react-router-dom';
 
 export default function LabelSheetValueTile({ sheet }) {
   return (
-    <div>
-      <p>
+    <div className='label-value-tile'>
+      <p className='lvt-name'>
         <Link to={`/sheets?id=${sheet.sheetId}`}>{sheet.name}</Link>
       </p>
-      <p>{sheet.value}</p>
+
+      <p className='lvt-value'>{sheet.value}</p>
     </div>
   );
 }
