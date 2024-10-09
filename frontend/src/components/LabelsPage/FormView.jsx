@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useActionData, useSubmit } from 'react-router-dom';
 import dictionary from '../SheetsPage/dictionary';
 
@@ -9,6 +9,12 @@ export default function LabelFormView() {
   const submit = useSubmit();
   const data = useActionData();
   const [submitted, setSubmitted] = useState(false);
+
+  const nameInputRef = useRef();
+
+  useEffect(() => {
+    nameInputRef.current.focus();
+  }, [data]);
 
   const errors = submitted ? data?.errors : {};
 
@@ -27,6 +33,7 @@ export default function LabelFormView() {
           placeholder='Label Name'
           value={name}
           onChange={e => setName(e.target.value)}
+          ref={nameInputRef}
         />
         <select value={dataType} onChange={e => setDataType(e.target.value)}>
           <option value='number'>Number</option>
