@@ -1,0 +1,47 @@
+@import url(../../css-global/vars.css);
+
+.public-sheet {
+  margin: 20px auto;
+  max-width: 700px;
+  padding: 20px 50px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.ps-title {
+  text-align: center;
+  font-weight: normal;
+}
+
+.pvt {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-top: 1px dashed var(--one);
+  padding-top: 5px;
+}
+
+.pvt-name {
+  font-weight: bold;
+}
+
+.pvt-value {
+  text-align: right;
+}
+
+.view-and-edit-on-dashboard {
+  display: block;
+  margin: 30px auto 0;
+  width: fit-content;
+  font-size: 1.2em;
+}
+
+.back-to-browse {
+  display: block;
+  margin: auto;
+  width: fit-content;
+  font-size: 1.2em;
+  font-weight: bold;
+}

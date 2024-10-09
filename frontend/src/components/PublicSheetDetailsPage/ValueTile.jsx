@@ -1,8 +1,8 @@
 export default function PublicValueTile({ value }) {
   return (
-    <div>
-      <h2>{value.name}</h2>
-      <p>{value.value}</p>
+    <div className='pvt'>
+      <p className='pvt-name'>{value.name}</p>
+      <p className='pvt-value'>{value.value}</p>
     </div>
   );
 }
