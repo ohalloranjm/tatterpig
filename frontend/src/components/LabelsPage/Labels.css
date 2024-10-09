@@ -59,7 +59,14 @@
   grid-area: ldh-title;
 }
 
+.ldh-edit-toggle {
+  font-size: 1.4em;
+  grid-area: ldh-button2;
+}
+
 .ldh-datatype {
   margin: 0.5em 0;
   grid-area: ldh-datatype;
+  font-style: italic;
+  font-size: 1.1em;
 }

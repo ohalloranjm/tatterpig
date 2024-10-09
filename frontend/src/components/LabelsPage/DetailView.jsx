@@ -1,5 +1,7 @@
 import { useNavigate, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 export default function LabelDetailView({ label }) {
   const submit = useSubmit();
@@ -27,6 +29,14 @@ export default function LabelDetailView({ label }) {
       <div className='label-details-header'>
         <h1 className='ldh-title'>{label.name}</h1>
         <p className='ldh-datatype'>{subtitle}</p>
+
+        <button
+          type='button'
+          className='icon ldh-edit-toggle'
+          onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
+        >
+          <FontAwesomeIcon icon={faPencil} />
+        </button>
       </div>
       {label.SheetLabels.length ? (
         <>
@@ -36,21 +46,15 @@ export default function LabelDetailView({ label }) {
           ))}
         </>
       ) : null}
-
       <button
         type='button'
-        onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
-      >
-        Edit
-      </button>
-      <button
-        type='button'
+        className='ldh-delete-label'
         onClick={e => {
           e.stopPropagation();
           deleteLabel();
         }}
       >
-        Delete
+        Delete Label
       </button>
     </>
   );
