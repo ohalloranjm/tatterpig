@@ -101,7 +101,7 @@ input.ldh-title {
 }
 
 .ldh-datatype {
-  margin: 0.5em 0;
+  margin: 0.5em 0 1em;
   grid-area: ldh-datatype;
   font-style: italic;
   font-size: 1.1em;
@@ -123,4 +123,22 @@ select.ldh-datatype {
   column-gap: 15px;
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
+}
+
+.label-value-tile:hover {
+  background-color: var(--two);
+  cursor: pointer;
+}
+
+.lvt-name {
+  font-weight: bold;
+}
+
+.lvt-value {
+  text-align: right;
+}
+
+.delete-label-button {
+  display: block;
+  margin: 10px auto 0;
 }

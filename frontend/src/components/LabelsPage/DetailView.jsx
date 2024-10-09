@@ -43,24 +43,23 @@ export default function LabelDetailView({ label, edit }) {
           </button>
         </div>
       )}
-      {label.SheetLabels.length ? (
-        <>
-          <h2>Associated Sheets</h2>
-          {label.SheetLabels.map(sa => (
-            <ValueTile key={sa.id} sheet={sa} />
-          ))}
-        </>
-      ) : null}
-      <button
-        type='button'
-        className='ldh-delete-label'
-        onClick={e => {
-          e.stopPropagation();
-          deleteLabel();
-        }}
-      >
-        Delete Label
-      </button>
+
+      {label.SheetLabels.map(sa => (
+        <ValueTile key={sa.id} sheet={sa} />
+      ))}
+
+      <div className='label-detail-bottom-buttons'>
+        <button
+          type='button'
+          className='delete-label-button grayed-out'
+          onClick={e => {
+            e.stopPropagation();
+            deleteLabel();
+          }}
+        >
+          Delete Label
+        </button>
+      </div>
     </>
   );
 }
