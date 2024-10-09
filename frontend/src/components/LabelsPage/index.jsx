@@ -18,7 +18,7 @@ export default function LabelsPage() {
       const labelId = Number(searchParams.get('id'));
       const label = labels.find(a => a.id === labelId);
       if (label && searchParams.get('edit') === 'true') {
-        setMainContent(<FormView label={label} />);
+        setMainContent(<DetailView label={label} edit={true} />);
       } else if (label) {
         setMainContent(<DetailView label={label} />);
       } else {

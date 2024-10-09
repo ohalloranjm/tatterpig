@@ -2,8 +2,9 @@ import { useNavigate, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import EditLabelInline from './EditLabelInline';
 
-export default function LabelDetailView({ label }) {
+export default function LabelDetailView({ label, edit }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -26,18 +27,22 @@ export default function LabelDetailView({ label }) {
 
   return (
     <>
-      <div className='label-details-header'>
-        <h1 className='ldh-title'>{label.name}</h1>
-        <p className='ldh-datatype'>{subtitle}</p>
+      {edit ? (
+        <EditLabelInline label={label} />
+      ) : (
+        <div className='label-details-header'>
+          <h1 className='ldh-title'>{label.name}</h1>
+          <p className='ldh-datatype'>{subtitle}</p>
 
-        <button
-          type='button'
-          className='icon ldh-edit-toggle'
-          onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
-        >
-          <FontAwesomeIcon icon={faPencil} />
-        </button>
-      </div>
+          <button
+            type='button'
+            className='icon ldh-edit-toggle'
+            onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
+          >
+            <FontAwesomeIcon icon={faPencil} />
+          </button>
+        </div>
+      )}
       {label.SheetLabels.length ? (
         <>
           <h2>Associated Sheets</h2>
