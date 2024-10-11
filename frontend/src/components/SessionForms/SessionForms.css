@@ -1,3 +1,5 @@
+@import url(../../css-global/vars.css);
+
 .session-form {
   max-width: 400px;
   margin: auto;
@@ -18,4 +20,16 @@
   margin: 10px auto;
   display: block;
   font-size: 1.5em;
+}
+
+.session-form > button.demo-login-button {
+  background-color: inherit;
+  color: var(--one);
+  font-size: 1em;
+  border: 0;
+  padding: 0;
+}
+
+.session-form > button.demo-login-button:hover {
+  text-decoration: underline;
 }

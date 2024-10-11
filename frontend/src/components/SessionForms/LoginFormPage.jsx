@@ -46,6 +46,19 @@ export default function LoginForm() {
       >
         Log In
       </button>
+      <button
+        type='button'
+        className='demo-login-button'
+        onClick={() => {
+          return dispatch(
+            login({ credential: 'demo', password: 'demopassword' })
+          ).catch(async data => {
+            if (data?.errors) setErrors(data.errors);
+          });
+        }}
+      >
+        Demo Login
+      </button>
     </form>
   );
 }
