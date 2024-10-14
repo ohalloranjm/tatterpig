@@ -43,6 +43,8 @@ export default function SheetsPage() {
     }
   }, [searchParams, sheets]);
 
+  sheets.sort((a, b) => (a.updatedAt > b.updatedAt ? -1 : 1));
+
   return (
     <div className='sheets'>
       <div className='sheets-col1 block'>

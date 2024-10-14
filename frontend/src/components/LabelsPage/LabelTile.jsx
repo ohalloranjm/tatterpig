@@ -11,6 +11,10 @@ export default function LabelTile({ label }) {
       : ''
   }`;
 
+  label.SheetLabels.sort((a, b) =>
+    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
+  );
+
   return (
     <div className={className} onClick={showDetails}>
       {label.name}

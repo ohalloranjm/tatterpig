@@ -31,6 +31,8 @@ export default function LabelsPage() {
     }
   }, [searchParams, labels]);
 
+  labels.sort((a, b) => (a.name < b.name ? -1 : 1));
+
   return (
     <div className='labels'>
       <button

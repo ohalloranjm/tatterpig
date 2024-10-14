@@ -24,6 +24,15 @@ export default function SheetDetailsView({ sheet, edit }) {
     }
   }, [searchParams]);
 
+  sheet.SheetLabels.sort((a, b) => {
+    if (a.dataType === b.dataType) {
+      return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+    } else {
+      const order = ['number', 'string', 'boolean'];
+      return order.indexOf(a.dataType) - order.indexOf(b.dataType);
+    }
+  });
+
   const deleteSheet = () => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this sheet?'
