@@ -28,7 +28,7 @@ export default function SignupForm() {
   };
 
   return (
-    <form className='block session-form' onSubmit={handleSubmit}>
+    <form className='block session-form signup-form' onSubmit={handleSubmit}>
       <h1 className='center'>Get Started</h1>
 
       <input

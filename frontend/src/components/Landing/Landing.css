@@ -1,0 +1,21 @@
+.landing-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'tatterpiggy signup-form'
+    'tatterpiggy login-form';
+  padding: 0 40px;
+}
+
+.tatterpiggy {
+  grid-area: tatterpiggy;
+  /* max-height: 80%; */
+}
+
+.signup-form {
+  grid-area: signup-form;
+}
+
+.login-form {
+  grid-area: login-form;
+}

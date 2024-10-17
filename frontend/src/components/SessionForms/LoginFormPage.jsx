@@ -18,7 +18,7 @@ export default function LoginForm() {
   if (user) return <Navigate to='/' />;
 
   return (
-    <form className='block session-form'>
+    <form className='block session-form login-form'>
       <h1 className='center'>Welcome Back</h1>
 
       <input
