@@ -8,13 +8,14 @@ import DefaultError from '../components/DefaultError/DefaultError';
 import LabelsPage from '../components/LabelsPage';
 import PublicSheetsIndex from '../components/PublicSheetsIndex';
 import PublicSheetDetailsPage from '../components/PublicSheetDetailsPage';
+import Landing from '../components/Landing';
 
 const { checkQuery, collect, handleError, map } = api.utils;
 
 const pages = [
   {
     path: '/',
-    element: <h1>Landing page</h1>,
+    element: <Landing />,
   },
   {
     path: '/login',
