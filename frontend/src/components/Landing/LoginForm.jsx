@@ -16,43 +16,49 @@ export default function LoginForm() {
     <form className='block session-form login-form'>
       <h1 className='center'>Welcome Back</h1>
 
-      <input
-        placeholder='Username or Email'
-        value={credential}
-        onChange={e => setCredential(e.target.value)}
-      />
-      <p>{errors.credential ?? null}</p>
-      <input
-        type='password'
-        placeholder='Password'
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <p>{errors.password ?? null}</p>
-      <button
-        type='submit'
-        onClick={e => {
-          e.preventDefault();
-          return dispatch(login({ credential, password })).catch(async data => {
-            if (data?.errors) setErrors(data.errors);
-          });
-        }}
-      >
-        Log In
-      </button>
-      <button
-        type='button'
-        className='demo-login-button'
-        onClick={() => {
-          return dispatch(
-            login({ credential: 'demo', password: 'demopassword' })
-          ).catch(async data => {
-            if (data?.errors) setErrors(data.errors);
-          });
-        }}
-      >
-        Demo Login
-      </button>
+      <div>
+        <input
+          placeholder='Username or Email'
+          value={credential}
+          onChange={e => setCredential(e.target.value)}
+        />
+        <p className='error'>{errors.credential ?? null}</p>
+        <input
+          type='password'
+          placeholder='Password'
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <p className='error'>{errors.password ?? null}</p>
+      </div>
+      <div>
+        <button
+          type='submit'
+          onClick={e => {
+            e.preventDefault();
+            return dispatch(login({ credential, password })).catch(
+              async data => {
+                if (data?.errors) setErrors(data.errors);
+              }
+            );
+          }}
+        >
+          Log In
+        </button>
+        <button
+          type='button'
+          className='demo-login-button'
+          onClick={() => {
+            return dispatch(
+              login({ credential: 'demo', password: 'demopassword' })
+            ).catch(async data => {
+              if (data?.errors) setErrors(data.errors);
+            });
+          }}
+        >
+          Demo Login
+        </button>
+      </div>
     </form>
   );
 }
