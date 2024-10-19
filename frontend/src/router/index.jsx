@@ -18,14 +18,6 @@ const pages = [
     element: <Landing />,
   },
   {
-    path: '/login',
-    element: <LoginForm />,
-  },
-  {
-    path: '/signup',
-    element: <SignupForm />,
-  },
-  {
     path: '/labels',
     element: <LabelsPage />,
     loader: api.label.getCurrent,
