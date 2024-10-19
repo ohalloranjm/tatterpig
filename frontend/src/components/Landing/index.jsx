@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import LoginForm from '../SessionForms/LoginFormPage';
-import SignupForm from '../SessionForms/SignupFormPage';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 import './Landing.css';
 import { useSelector } from 'react-redux';
 
