@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/session';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSubmit } from 'react-router-dom';
 
 export default function LoginForm() {
   const [credential, setCredential] = useState('');
@@ -9,6 +9,8 @@ export default function LoginForm() {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const user = useSelector(store => store.session.user);
+
+  const submit = useSubmit();
 
   if (user) return <Navigate to='/' />;
 
@@ -51,9 +53,11 @@ export default function LoginForm() {
           onClick={() => {
             return dispatch(
               login({ credential: 'demo', password: 'demopassword' })
-            ).catch(async data => {
-              if (data?.errors) setErrors(data.errors);
-            });
+            )
+              .then(() => submit())
+              .catch(async data => {
+                if (data?.errors) setErrors(data.errors);
+              });
           }}
         >
           Demo Login

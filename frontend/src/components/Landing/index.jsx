@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import './Landing.css';
@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 
 export default function Landing() {
   const user = useSelector(({ session }) => session.user);
+  const data = useLoaderData();
+  console.log(data);
 
   return (
     <div className='landing-page'>

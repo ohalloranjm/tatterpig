@@ -14,6 +14,7 @@ const pages = [
   {
     path: '/',
     element: <Landing />,
+    loader: handleError(api.sheet.getCurrent),
   },
   {
     path: '/labels',
