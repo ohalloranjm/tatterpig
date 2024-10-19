@@ -29,6 +29,8 @@ export default function Landing() {
                 </li>
                 <li>Log in as a demo user to sample the site’s features.</li>
               </ul>
+            </div>
+            <div className='session-forms-wrapper'>
               <div className='session-forms'>
                 <SignupForm />
                 <LoginForm />

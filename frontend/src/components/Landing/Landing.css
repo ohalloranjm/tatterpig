@@ -7,16 +7,11 @@
   column-gap: 20px;
 }
 
-.session-forms {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-}
-
 .landing-page-view {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
+  height: inherit;
 }
 
 .about-tatterpig-name {
@@ -45,4 +40,16 @@
 .about-tatterpig > p,
 .tatterpig-whatdo > li {
   margin-bottom: 20px;
+}
+
+.session-forms-wrapper {
+  height: 100%;
+}
+
+.session-forms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  height: fit-content;
+  margin: 10% 0;
 }
