@@ -1,21 +1,35 @@
+@import url(../../css-global/vars.css);
+
 .landing-page {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    'tatterpiggy signup-form'
-    'tatterpiggy login-form';
   padding: 0 40px;
+  column-gap: 20px;
 }
 
-.tatterpiggy {
-  grid-area: tatterpiggy;
-  /* max-height: 80%; */
+.session-forms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
 }
 
-.signup-form {
-  grid-area: signup-form;
+.landing-page-view {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
 }
 
-.login-form {
-  grid-area: login-form;
+.about-tatterpig-name {
+  font-weight: bold;
+}
+
+.about-tatterpig {
+  font-size: 1.2em;
+}
+
+.about-tatterpig::first-letter {
+  font-size: 2.6rem;
+  float: left;
+  margin-top: -0.4rem;
+  font-weight: normal;
 }
