@@ -8,13 +8,21 @@ export default function Landing() {
     <div className='landing-page'>
       <img className='tatterpiggy' src='/tatterpig.jpg' alt='tatterpig' />
       <div className='landing-page-view'>
-        <p className='about-tatterpig'>
-          <span className='about-tatterpig-name'>Tatterpig</span> is a
-          system-agnostic tabletop roleplaying game (TTRPG) character sheet
-          manager. Create an account to get started, browse{' '}
-          <Link to='/public'>publically available sheets</Link> for inspiration,
-          or use the demo account to sample the site’s features.
-        </p>
+        <div className='about-tatterpig'>
+          <p>
+            <span className='about-tatterpig-name'>Tatterpig</span> is a
+            system-agnostic tabletop roleplaying game (TTRPG) character sheet
+            manager.
+          </p>
+          <ul className='tatterpig-whatdo'>
+            <li>Create an account to get started.</li>
+            <li>
+              Browes <Link to='/public'>publically available sheets</Link> for
+              inspiration.
+            </li>
+            <li>Log in as a demo user to sample the site’s features.</li>
+          </ul>
+        </div>
         <div className='session-forms'>
           <SignupForm />
           <LoginForm />

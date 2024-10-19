@@ -33,3 +33,16 @@
   margin-top: -0.4rem;
   font-weight: normal;
 }
+
+.tatterpig-whatdo {
+  list-style: disc;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.about-tatterpig > p,
+.tatterpig-whatdo > li {
+  margin-bottom: 20px;
+}

@@ -1,7 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
 import api from '../api';
-import LoginForm from '../components/SessionForms/LoginFormPage';
-import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
