@@ -13,6 +13,12 @@
   gap: 5px;
 }
 
+.session-forms > form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .landing-page-view {
   display: grid;
   grid-template-columns: 1fr;
