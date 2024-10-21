@@ -81,6 +81,7 @@ export default function SheetDetailsView({ sheet, edit }) {
               label={a}
               aboveId={aboveId}
               belowId={belowId}
+              order={order}
             />
           );
         })}

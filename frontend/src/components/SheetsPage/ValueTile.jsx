@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
-export default function SheetLabelTile({ label, aboveId, belowId }) {
+export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const stringNumInputRef = useRef(null);
@@ -71,6 +71,19 @@ export default function SheetLabelTile({ label, aboveId, belowId }) {
     );
   };
 
+  const shiftUp = () => {
+    if (aboveId === null) return;
+    const newOrder = [...order];
+    const i = order.indexOf(labelId);
+    newOrder[i] = aboveId;
+    newOrder[i - 1] = labelId;
+    console.log(order, newOrder);
+  };
+
+  const shiftDown = () => {
+    console.log(belowId);
+  };
+
   const changeBooleanValue = () => {
     if (!isBoolean) return;
     const newValue = label.value === 'true' ? false : true;
@@ -82,8 +95,6 @@ export default function SheetLabelTile({ label, aboveId, belowId }) {
 
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
-
-  console.log(label.name, 'above:', aboveId, 'below', belowId);
 
   {
     /* edit view for number and string values */
@@ -179,10 +190,10 @@ export default function SheetLabelTile({ label, aboveId, belowId }) {
         </>
       )}
 
-      <button className='icon svt-button3'>
+      <button className='icon svt-button3' onClick={shiftUp}>
         <FontAwesomeIcon icon={faArrowUp} />
       </button>
-      <button className='icon svt-button4'>
+      <button className='icon svt-button4' onClick={shiftDown}>
         <FontAwesomeIcon icon={faArrowDown} />
       </button>
     </div>
