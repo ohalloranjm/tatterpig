@@ -11,6 +11,8 @@ import {
   faCheck,
   faPencil,
   faTrash,
+  faArrowUp,
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
@@ -175,8 +177,12 @@ export default function SheetLabelTile({ label }) {
         </>
       )}
 
-      <button className='icon svt-button3'>Up</button>
-      <button className='icon svt-button4'>Dn</button>
+      <button className='icon svt-button3'>
+        <FontAwesomeIcon icon={faArrowUp} />
+      </button>
+      <button className='icon svt-button4'>
+        <FontAwesomeIcon icon={faArrowDown} />
+      </button>
     </div>
   );
 }
