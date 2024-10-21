@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      index: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,
