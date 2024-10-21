@@ -77,7 +77,6 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
     const i = order.indexOf(labelId);
     newOrder[i] = aboveId;
     newOrder[i - 1] = labelId;
-    console.log(order, newOrder);
     submit(
       { order: newOrder },
       {
@@ -89,7 +88,19 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   };
 
   const shiftDown = () => {
-    console.log(belowId);
+    if (belowId === null) return;
+    const newOrder = [...order];
+    const i = order.indexOf(labelId);
+    newOrder[i] = belowId;
+    newOrder[i + 1] = labelId;
+    submit(
+      { order: newOrder },
+      {
+        action: `/sheets?sheetId=${sheetId}&reorder=true`,
+        method: 'PUT',
+        encType: 'application/json',
+      }
+    );
   };
 
   const changeBooleanValue = () => {
