@@ -78,6 +78,14 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
     newOrder[i] = aboveId;
     newOrder[i - 1] = labelId;
     console.log(order, newOrder);
+    submit(
+      { order: newOrder },
+      {
+        action: `/sheets?sheetId=${sheetId}&reorder=true`,
+        method: 'PUT',
+        encType: 'application/json',
+      }
+    );
   };
 
   const shiftDown = () => {
