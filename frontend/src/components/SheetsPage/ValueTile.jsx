@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
-export default function SheetLabelTile({ label }) {
+export default function SheetLabelTile({ label, aboveId, belowId }) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const stringNumInputRef = useRef(null);
@@ -82,6 +82,8 @@ export default function SheetLabelTile({ label }) {
 
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
+
+  console.log(label.name, 'above:', aboveId, 'below', belowId);
 
   {
     /* edit view for number and string values */

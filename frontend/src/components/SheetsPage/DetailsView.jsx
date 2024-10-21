@@ -25,6 +25,7 @@ export default function SheetDetailsView({ sheet, edit }) {
   }, [searchParams]);
 
   sheet.SheetLabels.sort((a, b) => a.index - b.index);
+  const order = sheet.SheetLabels.map(sl => sl.labelId);
 
   const deleteSheet = () => {
     const confirmDelete = window.confirm(
@@ -69,10 +70,20 @@ export default function SheetDetailsView({ sheet, edit }) {
         </div>
       )}
 
+      {/* populate the labels and values, passing the order */}
       <div className='sheet-details-values'>
-        {sheet.SheetLabels.map(a => (
-          <ValueTile key={a.id} label={a} />
-        ))}
+        {sheet.SheetLabels.map((a, i) => {
+          const aboveId = order[i - 1] ?? null;
+          const belowId = order[i + 1] ?? null;
+          return (
+            <ValueTile
+              key={a.id}
+              label={a}
+              aboveId={aboveId}
+              belowId={belowId}
+            />
+          );
+        })}
       </div>
 
       <button
