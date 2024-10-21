@@ -59,3 +59,9 @@
   flex-direction: column;
   justify-content: space-around;
 }
+
+.wv-last-updated {
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 10px;
+}

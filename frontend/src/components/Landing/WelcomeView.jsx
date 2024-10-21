@@ -64,7 +64,7 @@ export default function Welcome() {
           >
             <h2>{sheet.name}</h2>
             <p>{sheet.description}</p>
-            <p>{formattedUpdate}</p>
+            <p className='wv-last-updated'>{formattedUpdate}</p>
           </div>
         )}
       </div>

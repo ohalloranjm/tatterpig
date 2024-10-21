@@ -8,6 +8,7 @@ const {
   handleValidationErrors,
   validateLabelValue,
 } = require('../../utils/validation');
+const { literal } = require('sequelize');
 
 const router = express.Router();
 
@@ -61,21 +62,24 @@ router.put(
 // disassociate an label from a sheet
 router.delete('/:sheetId/labels/:labelId', requireAuth, async (req, res) => {
   const { sheetId, labelId } = req.params;
-  const sheetLabel = await SheetLabel.findOne({
-    where: { sheetId, labelId },
-    include: [Sheet, Label],
-  });
 
-  if (!sheetLabel) throw new NotFoundError();
-  if (sheetLabel.Sheet.ownerId !== req.user.id) {
-    throw new AuthorizationError();
-  }
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetLabel });
+  if (!sheet) throw new NotFoundError('Sheet not found');
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  console.log(sheet.SheetLabels);
+
+  const sheetLabel = sheet.SheetLabels.find(sl => sl.Label.id === +labelId);
+  if (!sheetLabel) throw new NotFoundError('Sheet label instance not found');
 
   await sheetLabel.destroy();
+  sheet.updatedAt = literal('CURRENT_TIMESTAMP');
+  await sheet.save();
+
   return res.json({ message: 'Successfully deleted', sheetLabel });
 });
 
-// associate an label with a sheet
+// associate a label with a sheet
 router.post('/:sheetId/labels', requireAuth, async (req, res) => {
   const { sheetId } = req.params;
   const { labelId } = req.body;
