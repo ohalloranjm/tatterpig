@@ -174,6 +174,9 @@ export default function SheetLabelTile({ label }) {
           </button>
         </>
       )}
+
+      <button className='icon svt-button3'>Up</button>
+      <button className='icon svt-button4'>Dn</button>
     </div>
   );
 }
