@@ -3,6 +3,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import './Landing.css';
 import { useSelector } from 'react-redux';
+import Welcome from './WelcomeView';
 
 export default function Landing() {
   const user = useSelector(({ session }) => session.user);
@@ -14,7 +15,7 @@ export default function Landing() {
       <img className='tatterpiggy' src='/tatterpig.jpg' alt='tatterpig' />
       <div className='landing-page-view'>
         {user ? (
-          <p>You are logged in.</p>
+          <Welcome />
         ) : (
           <>
             <div className='about-tatterpig'>

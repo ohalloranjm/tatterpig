@@ -53,3 +53,9 @@
   height: fit-content;
   margin: 10% 0;
 }
+
+.welcome-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
