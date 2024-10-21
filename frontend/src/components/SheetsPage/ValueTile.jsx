@@ -190,10 +190,18 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         </>
       )}
 
-      <button className='icon svt-button3' onClick={shiftUp}>
+      <button
+        className='icon svt-button3'
+        onClick={shiftUp}
+        disabled={searchParams.has('edit')}
+      >
         <FontAwesomeIcon icon={faArrowUp} />
       </button>
-      <button className='icon svt-button4' onClick={shiftDown}>
+      <button
+        className='icon svt-button4'
+        onClick={shiftDown}
+        disabled={searchParams.has('edit')}
+      >
         <FontAwesomeIcon icon={faArrowDown} />
       </button>
     </div>
