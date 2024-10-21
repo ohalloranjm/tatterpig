@@ -59,7 +59,7 @@ export const logout = () => async dispatch => {
 };
 
 export const deleteAccount = () => async dispatch => {
-  const response = await csrfFetch('/api/users/delete', { method: 'DELETE' });
+  const response = await csrfFetch('/api/users/current', { method: 'DELETE' });
   dispatch(removeUser());
   return response;
 };

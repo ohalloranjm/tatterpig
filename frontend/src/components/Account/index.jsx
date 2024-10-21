@@ -1,12 +1,14 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import './Account.css';
 import { useState } from 'react';
+import { deleteAccount } from '../../store/session';
 
 export default function Account() {
   const { user } = useSelector(store => store.session);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [reallySure, setReallySure] = useState(false);
+  const dispatch = useDispatch();
 
   if (!user) return <Navigate to='/' />;
 
@@ -46,7 +48,7 @@ export default function Account() {
             {reallySure ? (
               <button
                 className='confirm-delete-button-real'
-                onClick={() => window.alert('Feature coming soon!')}
+                onClick={() => dispatch(deleteAccount())}
               >
                 CONFIRM DELETE
               </button>
