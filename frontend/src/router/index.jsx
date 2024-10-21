@@ -42,7 +42,12 @@ const pages = [
         'labelId',
         null,
         handleError(api.value.put),
-        handleError(api.sheet.put)
+        checkQuery(
+          'reorder',
+          'true',
+          api.value.putOrder,
+          handleError(api.sheet.put)
+        )
       ),
       DELETE: checkQuery('labelId', null, api.value.del, api.sheet.del),
     }),
