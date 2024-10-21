@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../store/session';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSubmit } from 'react-router-dom';
 import './SessionForms.css';
 
 export default function SignupForm() {
@@ -18,17 +18,21 @@ export default function SignupForm() {
   const dispatch = useDispatch();
   const user = useSelector(store => store.session.user);
 
+  const submit = useSubmit();
+
   if (user) return <Navigate to='/' />;
 
   const handleSubmit = e => {
     e.preventDefault();
-    return dispatch(signup({ username, email, password })).catch(async data => {
-      if (data?.errors) setErrors(data.errors);
-    });
+    return dispatch(signup({ username, email, password }))
+      .then(() => submit())
+      .catch(async data => {
+        if (data?.errors) setErrors(data.errors);
+      });
   };
 
   return (
-    <form className='block session-form' onSubmit={handleSubmit}>
+    <form className='block session-form signup-form' onSubmit={handleSubmit}>
       <h1 className='center'>Get Started</h1>
 
       <input

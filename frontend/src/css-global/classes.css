@@ -36,3 +36,12 @@ button.grayed-out {
 button.grayed-out:hover {
   background-color: var(--light);
 }
+
+.big-link {
+  border: 5px solid var(--three);
+}
+
+.big-link:hover {
+  cursor: pointer;
+  border: 5px solid var(--one);
+}

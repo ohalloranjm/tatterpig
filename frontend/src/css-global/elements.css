@@ -33,6 +33,11 @@ button:hover {
   color: var(--one);
 }
 
+img {
+  display: block;
+  max-width: 100%;
+}
+
 input,
 textarea {
   padding: 0.1em;

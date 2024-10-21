@@ -7,15 +7,6 @@
   margin: 0 25px;
 }
 
-.browse-tile {
-  border: 5px solid var(--three);
-}
-
-.browse-tile:hover {
-  cursor: pointer;
-  border: 5px solid var(--one);
-}
-
 .bt-name {
   margin-bottom: 0.5em;
 }

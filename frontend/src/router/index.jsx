@@ -1,28 +1,20 @@
 import { createBrowserRouter } from 'react-router-dom';
 import api from '../api';
-import LoginForm from '../components/SessionForms/LoginFormPage';
-import SignupForm from '../components/SessionForms/SignupFormPage';
 import Layout from './Layout';
 import SheetsPage from '../components/SheetsPage';
 import DefaultError from '../components/DefaultError/DefaultError';
 import LabelsPage from '../components/LabelsPage';
 import PublicSheetsIndex from '../components/PublicSheetsIndex';
 import PublicSheetDetailsPage from '../components/PublicSheetDetailsPage';
+import Landing from '../components/Landing';
 
 const { checkQuery, collect, handleError, map } = api.utils;
 
 const pages = [
   {
     path: '/',
-    element: <h1>Landing page</h1>,
-  },
-  {
-    path: '/login',
-    element: <LoginForm />,
-  },
-  {
-    path: '/signup',
-    element: <SignupForm />,
+    element: <Landing />,
+    loader: handleError(api.sheet.getCurrent),
   },
   {
     path: '/labels',

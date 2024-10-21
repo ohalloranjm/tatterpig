@@ -16,20 +16,19 @@ function Navigation({ isLoaded }) {
 
   const tabs = sessionUser ? (
     <>
+      <NavLink to='/'>Home</NavLink>
       <NavLink to='/sheets'>Sheets</NavLink>
       <NavLink to='/labels'>Labels</NavLink>
     </>
   ) : (
     <>
-      <NavLink to='/login'>Log In</NavLink>
-      <NavLink to='/signup'>Sign Up</NavLink>
+      <NavLink to='/'>Start Here</NavLink>
     </>
   );
 
   return (
     <div id='navigation'>
       <div className='nav-tabs'>
-        <NavLink to='/'>Home</NavLink>
         {isLoaded && tabs}
         <NavLink to='/public'>Browse</NavLink>
       </div>

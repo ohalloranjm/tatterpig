@@ -1,0 +1,100 @@
+@import url(../../css-global/vars.css);
+
+.landing-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 40px;
+  column-gap: 20px;
+}
+
+.landing-page-view {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  height: inherit;
+}
+
+.about-tatterpig-name {
+  font-weight: bold;
+}
+
+.about-tatterpig {
+  font-size: 1.2em;
+}
+
+.about-tatterpig::first-letter {
+  font-size: 2.6rem;
+  float: left;
+  margin-top: -0.4rem;
+  font-weight: normal;
+}
+
+.tatterpig-whatdo {
+  list-style: disc;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.about-tatterpig > p,
+.tatterpig-whatdo > li {
+  margin-bottom: 20px;
+}
+
+.session-forms-wrapper {
+  height: 100%;
+}
+
+.session-forms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  height: fit-content;
+  margin: 10% 0;
+}
+
+.welcome-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.wv-dash-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    'my-sheets my-labels'
+    'last-updated last-updated';
+  gap: 10px;
+}
+
+.wv-my-sheets,
+.wv-my-labels {
+  font-size: 1.3em;
+  color: var(--one);
+  font-weight: bold;
+  text-align: center;
+}
+
+.wv-my-sheets {
+  grid-area: my-sheets;
+}
+
+.wv-my-labels {
+  grid-area: my-labels;
+}
+
+.wv-sheet {
+  grid-area: last-updated;
+}
+
+.wv-sheet-name {
+  margin-bottom: 5px;
+}
+
+.wv-last-updated {
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 10px;
+}
