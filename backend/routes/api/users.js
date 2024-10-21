@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const { setTokenCookie } = require('../../utils/auth');
+const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { User } = require('../../database/models');
@@ -41,6 +41,14 @@ router.post('/', validateSignup, async (req, res) => {
   return res.json({
     user: safeUser,
   });
+});
+
+// Delete account
+router.delete('/current', requireAuth, async (req, res) => {
+  await req.user.destroy();
+  res.clearCookie('token');
+  delete req.user.dataValues.hashedPassword;
+  return res.json({ message: 'Successfully deleted account', user: req.user });
 });
 
 module.exports = router;

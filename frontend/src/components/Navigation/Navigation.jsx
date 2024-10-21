@@ -2,6 +2,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
@@ -33,9 +35,14 @@ function Navigation({ isLoaded }) {
         <NavLink to='/public'>Browse</NavLink>
       </div>
       {isLoaded && sessionUser && (
-        <button className='logout-button' onClick={logout}>
-          Log Out
-        </button>
+        <div>
+          <button className='icon' onClick={() => navigate('/account')}>
+            <FontAwesomeIcon icon={faGear} />
+          </button>
+          <button className='logout-button' onClick={logout}>
+            Log Out
+          </button>
+        </div>
       )}
     </div>
   );

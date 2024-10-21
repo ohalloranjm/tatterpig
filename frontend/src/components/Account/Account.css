@@ -1,0 +1,41 @@
+@import url(../../css-global/vars.css);
+
+.account-settings {
+  max-width: 700px;
+  margin: auto;
+}
+
+.as-tile {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  border-top: 1px dashed var(--one);
+  padding-top: 5px;
+}
+
+.as-tile > div:first-child {
+  font-weight: bold;
+}
+
+.delete-account-button {
+  margin: 20px auto;
+  display: block;
+}
+
+.confirm-delete-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-delete-button-real {
+  background-color: red;
+  border: 1px solid red;
+  color: white;
+}
+
+.confirm-delete-button-real:hover {
+  background-color: red;
+  color: white;
+  border: 1px solid white;
+}
