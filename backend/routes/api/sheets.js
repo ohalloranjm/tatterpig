@@ -106,6 +106,28 @@ router.post('/:sheetId/labels', requireAuth, async (req, res) => {
   return res.json({ message: 'Success', sheetLabel });
 });
 
+// reorder the labels
+router.put('/:sheetId/labels', requireAuth, async (req, res) => {
+  const { sheetId } = req.params;
+  const { order } = req.body;
+
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetLabel });
+  if (!sheet) throw new NotFoundError('Sheet not found');
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  let index = 0;
+  for (const sheetLabelId of order) {
+    const sheetLabel = sheet.SheetLabels.find(
+      sl => sl.Label.dataValues.id === sheetLabelId
+    );
+    if (!sheetLabel) throw new NotFoundError('Sheet label not found');
+    await sheetLabel.update({ index });
+    index++;
+  }
+
+  return res.json({ message: 'Success', sheet });
+});
+
 // view the details of a specific sheet
 router.get('/:sheetId', async (req, res) => {
   const { sheetId } = req.params;
