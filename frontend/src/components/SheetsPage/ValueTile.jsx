@@ -117,22 +117,26 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
 
   const positionButtons = (
     <>
-      <button
-        className='icon svt-button3'
-        type='button'
-        onClick={shiftUp}
-        disabled={searchParams.has('edit')}
-      >
-        <FontAwesomeIcon icon={faArrowUp} />
-      </button>
-      <button
-        className='icon svt-button4'
-        type='button'
-        onClick={shiftDown}
-        disabled={searchParams.has('edit')}
-      >
-        <FontAwesomeIcon icon={faArrowDown} />
-      </button>
+      {!!aboveId && (
+        <button
+          className='icon svt-button3'
+          type='button'
+          onClick={shiftUp}
+          disabled={searchParams.has('edit')}
+        >
+          <FontAwesomeIcon icon={faArrowUp} />
+        </button>
+      )}
+      {!!belowId && (
+        <button
+          className='icon svt-button4'
+          type='button'
+          onClick={shiftDown}
+          disabled={searchParams.has('edit')}
+        >
+          <FontAwesomeIcon icon={faArrowDown} />
+        </button>
+      )}
     </>
   );
 
