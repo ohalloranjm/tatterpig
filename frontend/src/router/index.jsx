@@ -7,6 +7,7 @@ import LabelsPage from '../components/LabelsPage';
 import PublicSheetsIndex from '../components/PublicSheetsIndex';
 import PublicSheetDetailsPage from '../components/PublicSheetDetailsPage';
 import Landing from '../components/Landing';
+import Account from '../components/Account';
 
 const { checkQuery, collect, handleError, map } = api.utils;
 
@@ -55,6 +56,10 @@ const pages = [
     path: '/public/:sheetId',
     element: <PublicSheetDetailsPage />,
     loader: api.sheet.getOne,
+  },
+  {
+    path: '/account',
+    element: <Account />,
   },
 ];
 
