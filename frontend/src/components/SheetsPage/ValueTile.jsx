@@ -115,6 +115,27 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
 
+  const positionButtons = (
+    <>
+      <button
+        className='icon svt-button3'
+        type='button'
+        onClick={shiftUp}
+        disabled={searchParams.has('edit')}
+      >
+        <FontAwesomeIcon icon={faArrowUp} />
+      </button>
+      <button
+        className='icon svt-button4'
+        type='button'
+        onClick={shiftDown}
+        disabled={searchParams.has('edit')}
+      >
+        <FontAwesomeIcon icon={faArrowDown} />
+      </button>
+    </>
+  );
+
   {
     /* edit view for number and string values */
   }
@@ -146,6 +167,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         >
           <FontAwesomeIcon icon={faX} />
         </button>
+        {positionButtons}
       </form>
     );
 
@@ -208,21 +230,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
           </button>
         </>
       )}
-
-      <button
-        className='icon svt-button3'
-        onClick={shiftUp}
-        disabled={searchParams.has('edit')}
-      >
-        <FontAwesomeIcon icon={faArrowUp} />
-      </button>
-      <button
-        className='icon svt-button4'
-        onClick={shiftDown}
-        disabled={searchParams.has('edit')}
-      >
-        <FontAwesomeIcon icon={faArrowDown} />
-      </button>
+      {positionButtons}
     </div>
   );
 }
