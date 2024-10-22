@@ -25,6 +25,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(label.value ?? '');
   const [searchParams] = useSearchParams();
+  const [divClass, setDivClass] = useState('sheet-value-tile');
 
   const [filledCircle, setFilledCircle] = useState(label.value === 'true');
 
@@ -69,6 +70,33 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
       { value: value || null },
       { action, method: 'PUT', encType: 'application/json' }
     );
+  };
+
+  const handleDragStart = e => {
+    e.dataTransfer.setData('text/plain', `${labelId}`);
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDragOver = e => {
+    e.preventDefault();
+    setDivClass('sheet-value-tile svt-dragover');
+  };
+
+  const handleDragLeave = e => {
+    e.preventDefault();
+    setDivClass('sheet-value-tile');
+  };
+
+  const handleDrop = e => {
+    console.log(order);
+    const movedId = Number(e.dataTransfer.getData('text/plain'));
+    console.log(movedId);
+    const newOrder = [];
+    order.forEach(id => {
+      if (id === labelId) newOrder.push(movedId);
+      if (id !== movedId) newOrder.push(id);
+    });
+    console.log(newOrder);
   };
 
   const shiftUp = () => {
@@ -176,7 +204,14 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
     );
 
   return (
-    <div className='sheet-value-tile' draggable={true} onDragStart={() => {}}>
+    <div
+      className={divClass}
+      draggable={true}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <p className={svtNameClass}>
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
