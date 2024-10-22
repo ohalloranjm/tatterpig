@@ -11,10 +11,12 @@ import {
   faCheck,
   faPencil,
   faTrash,
+  faArrowUp,
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
-export default function SheetLabelTile({ label }) {
+export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const stringNumInputRef = useRef(null);
@@ -69,6 +71,38 @@ export default function SheetLabelTile({ label }) {
     );
   };
 
+  const shiftUp = () => {
+    if (aboveId === null) return;
+    const newOrder = [...order];
+    const i = order.indexOf(labelId);
+    newOrder[i] = aboveId;
+    newOrder[i - 1] = labelId;
+    submit(
+      { order: newOrder },
+      {
+        action: `/sheets?sheetId=${sheetId}&reorder=true`,
+        method: 'PUT',
+        encType: 'application/json',
+      }
+    );
+  };
+
+  const shiftDown = () => {
+    if (belowId === null) return;
+    const newOrder = [...order];
+    const i = order.indexOf(labelId);
+    newOrder[i] = belowId;
+    newOrder[i + 1] = labelId;
+    submit(
+      { order: newOrder },
+      {
+        action: `/sheets?sheetId=${sheetId}&reorder=true`,
+        method: 'PUT',
+        encType: 'application/json',
+      }
+    );
+  };
+
   const changeBooleanValue = () => {
     if (!isBoolean) return;
     const newValue = label.value === 'true' ? false : true;
@@ -80,6 +114,31 @@ export default function SheetLabelTile({ label }) {
 
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
+
+  const positionButtons = (
+    <>
+      {!!aboveId && (
+        <button
+          className='icon svt-button3'
+          type='button'
+          onClick={shiftUp}
+          disabled={searchParams.has('edit')}
+        >
+          <FontAwesomeIcon icon={faArrowUp} />
+        </button>
+      )}
+      {!!belowId && (
+        <button
+          className='icon svt-button4'
+          type='button'
+          onClick={shiftDown}
+          disabled={searchParams.has('edit')}
+        >
+          <FontAwesomeIcon icon={faArrowDown} />
+        </button>
+      )}
+    </>
+  );
 
   {
     /* edit view for number and string values */
@@ -112,6 +171,7 @@ export default function SheetLabelTile({ label }) {
         >
           <FontAwesomeIcon icon={faX} />
         </button>
+        {positionButtons}
       </form>
     );
 
@@ -174,6 +234,7 @@ export default function SheetLabelTile({ label }) {
           </button>
         </>
       )}
+      {positionButtons}
     </div>
   );
 }

@@ -27,6 +27,16 @@ button.icon:hover {
   border: 0;
 }
 
+button.icon:disabled,
+button.icon:disabled:hover {
+  background-color: inherit;
+  color: var(--gray);
+}
+
+button.icon:disabled:hover {
+  cursor: not-allowed;
+}
+
 button.grayed-out {
   background-color: var(--gray);
   border-color: var(--gray);

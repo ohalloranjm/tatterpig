@@ -44,6 +44,7 @@ module.exports = {
         sheetId: currSheet.id,
         labelId: currLabel.id,
         value: lookup[currLabel.name],
+        index: count,
       });
       count++;
     }

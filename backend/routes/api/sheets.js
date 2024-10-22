@@ -75,7 +75,7 @@ router.delete('/:sheetId/labels/:labelId', requireAuth, async (req, res) => {
   return res.json({ message: 'Successfully deleted', sheetLabel });
 });
 
-// associate an label with a sheet
+// associate a label with a sheet
 router.post('/:sheetId/labels', requireAuth, async (req, res) => {
   const { sheetId } = req.params;
   const { labelId } = req.body;
@@ -84,7 +84,7 @@ router.post('/:sheetId/labels', requireAuth, async (req, res) => {
   if (!label) throw new NotFoundError('Label not found');
   if (label.ownerId !== req.user.id) throw new AuthorizationError();
 
-  const sheet = await Sheet.findByPk(sheetId);
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetLabel });
   if (!sheet) throw new NotFoundError('Sheet not found');
   if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
 
@@ -93,13 +93,39 @@ router.post('/:sheetId/labels', requireAuth, async (req, res) => {
     value = validateLabelValue(value, label);
   }
 
-  const sheetLabel = await sheet.createSheetLabel({
-    labelId,
-    value,
-  });
+  const index =
+    1 +
+    sheet.SheetLabels.reduce(
+      (max, sl) => Math.max(max, sl.dataValues.index),
+      -1
+    );
+
+  const sheetLabel = await sheet.createSheetLabel({ labelId, value, index });
 
   res.status(201);
   return res.json({ message: 'Success', sheetLabel });
+});
+
+// reorder the labels
+router.put('/:sheetId/labels', requireAuth, async (req, res) => {
+  const { sheetId } = req.params;
+  const { order } = req.body;
+
+  const sheet = await Sheet.findByPk(sheetId, { include: SheetLabel });
+  if (!sheet) throw new NotFoundError('Sheet not found');
+  if (sheet.ownerId !== req.user.id) throw new AuthorizationError();
+
+  let index = 0;
+  for (const sheetLabelId of order) {
+    const sheetLabel = sheet.SheetLabels.find(
+      sl => sl.Label.dataValues.id === sheetLabelId
+    );
+    if (!sheetLabel) throw new NotFoundError('Sheet label not found');
+    await sheetLabel.update({ index });
+    index++;
+  }
+
+  return res.json({ message: 'Success', sheet });
 });
 
 // view the details of a specific sheet

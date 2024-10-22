@@ -87,8 +87,8 @@
 
 .sheet-value-tile {
   display: grid;
-  grid-template-columns: 1fr 1fr 25px 25px;
-  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2';
+  grid-template-columns: 1fr 1fr 25px 25px 25px 25px;
+  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2 svt-button3 svt-button4';
   column-gap: 15px;
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
@@ -120,7 +120,9 @@
 }
 
 .svt-button1,
-.svt-button2 {
+.svt-button2,
+.svt-button3,
+.svt-button4 {
   font-size: 0.7em;
 }
 
@@ -130,6 +132,14 @@
 
 .svt-button2 {
   grid-area: svt-button2;
+}
+
+.svt-button3 {
+  grid-area: svt-button3;
+}
+
+.svt-button4 {
+  grid-area: svt-button4;
 }
 
 .boolean-icon,

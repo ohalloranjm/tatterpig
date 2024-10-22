@@ -7,6 +7,8 @@ export default function PublicSheetDetailsPage() {
   const { sheet } = useLoaderData();
   const { user } = useSelector(store => store.session);
 
+  sheet.SheetLabels.sort((a, b) => a.index - b.index);
+
   const isOwner = user?.id === sheet.ownerId;
 
   return (
