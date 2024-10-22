@@ -88,7 +88,6 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   };
 
   const handleDrop = e => {
-    console.log(order);
     const movedId = Number(e.dataTransfer.getData('text/plain'));
     console.log(movedId);
     const newOrder = [];
@@ -96,7 +95,16 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
       if (id === labelId) newOrder.push(movedId);
       if (id !== movedId) newOrder.push(id);
     });
-    console.log(newOrder);
+    submit(
+      { order: newOrder },
+      {
+        action: `/sheets?sheetId=${sheetId}&reorder=true`,
+        method: 'PUT',
+        encType: 'application/json',
+      }
+    );
+
+    setDivClass('sheet-value-tile');
   };
 
   const shiftUp = () => {
@@ -199,6 +207,8 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         >
           <FontAwesomeIcon icon={faX} />
         </button>
+
+        {/* up and down buttons, should be disabled */}
         {positionButtons}
       </form>
     );
