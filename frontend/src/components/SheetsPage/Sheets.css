@@ -94,6 +94,11 @@
   padding: 10px 5px;
 }
 
+.svt-dragover {
+  border-top: 3px solid var(--one);
+  padding-top: 8px;
+}
+
 .svt-name {
   font-weight: bold;
   grid-area: svt-name;
