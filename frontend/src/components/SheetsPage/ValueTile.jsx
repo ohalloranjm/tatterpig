@@ -176,7 +176,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
     );
 
   return (
-    <div className='sheet-value-tile'>
+    <div className='sheet-value-tile' draggable={true} onDragStart={() => {}}>
       <p className={svtNameClass}>
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
