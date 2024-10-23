@@ -7,7 +7,7 @@
   display: flex;
   column-gap: 5px;
   padding: 2px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   background-color: var(--three);
