@@ -25,6 +25,7 @@ button.icon:hover {
   background-color: var(--one);
   color: var(--two);
   border: 0;
+  box-shadow: none;
 }
 
 a.icon:hover {
@@ -49,6 +50,7 @@ button.grayed-out {
 
 button.grayed-out:hover {
   background-color: var(--light);
+  box-shadow: 2px 2px 2px var(--txt);
 }
 
 .big-link {

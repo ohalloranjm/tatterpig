@@ -39,3 +39,7 @@
   margin: 3px;
   font-size: 1em;
 }
+
+.logout-button:hover {
+  background-color: var(--three);
+}
