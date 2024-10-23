@@ -24,6 +24,11 @@ const fakeUsers = [
     username: 'FakeUser2',
     hashedPassword: bcrypt.hashSync('password2'),
   },
+  {
+    email: 'tomorrow@wind.io',
+    username: 'tomorrowind',
+    hashedPassword: bcrypt.hashSync('password3'),
+  },
 ];
 
 module.exports = {

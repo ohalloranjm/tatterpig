@@ -1,8 +1,8 @@
 'use strict';
 
 const { User, Sheet, Label, SheetLabel } = require('../models');
-const { fakeSheets } = require('./20241002025726-demo-sheet');
-const { fakeLabels } = require('./20241002033609-demo-label');
+const { fakeSheets, demoSheets } = require('./20241002025726-demo-sheet');
+const { fakeLabels, demoLabels } = require('./20241002033609-demo-label');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -11,17 +11,38 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(_queryInterface, Sequelize) {
+    const owner = await User.findOne({ where: { username: 'tomorrowind' } });
+    const ownerId = owner.id;
+
+    let i = 0;
+    for (const sheetDetails of fakeSheets) {
+      const { name } = sheetDetails;
+      const sheet = await Sheet.findOne({ where: { ownerId, name } });
+      const sheetId = sheet.id;
+      let index = 0;
+      if (fakeLabels[i]) {
+        for (const labelDetails of fakeLabels[i]) {
+          const { name } = labelDetails;
+          const label = await Label.findOne({ where: { ownerId, name } });
+          const labelId = label.id;
+          await SheetLabel.create({ sheetId, labelId, index });
+          index++;
+        }
+      }
+      i++;
+    }
+
     const { Op } = Sequelize;
-    const owner = await User.findOne({
+    const demoUser = await User.findOne({
       where: { username: 'demo' },
       include: [
         {
           model: Sheet,
-          where: { name: { [Op.in]: fakeSheets.map(s => s.name) } },
+          where: { name: { [Op.in]: demoSheets.map(s => s.name) } },
         },
         {
           model: Label,
-          where: { name: { [Op.in]: fakeLabels.map(a => a.name) } },
+          where: { name: { [Op.in]: demoLabels.map(a => a.name) } },
         },
       ],
     });
@@ -36,7 +57,7 @@ module.exports = {
     };
 
     let count = 0;
-    const { Sheets, Labels } = owner.dataValues;
+    const { Sheets, Labels } = demoUser.dataValues;
     while (count < Math.max(Sheets.length, Labels.length)) {
       const currSheet = Sheets[count % Sheets.length];
       const currLabel = Labels[count % Labels.length];
@@ -53,26 +74,13 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const { Op } = Sequelize;
     const owner = await User.findOne({
-      where: { username: 'demo' },
-      include: [
-        {
-          model: Sheet,
-          where: { name: { [Op.in]: fakeSheets.map(s => s.name) } },
-        },
-        {
-          model: Label,
-          where: { name: { [Op.in]: fakeLabels.map(a => a.name) } },
-        },
-      ],
+      where: { username: 'tomorrowind' },
+      include: [Sheet, Label],
     });
 
     const { Sheets, Labels } = owner.dataValues;
-    const sheetIds = Sheets.filter(s =>
-      fakeSheets.some(fs => fs.name === s.name)
-    ).map(s => s.id);
-    const labelIds = Labels.filter(a =>
-      fakeLabels.some(fa => fa.name === a.name)
-    ).map(a => a.id);
+    const sheetIds = Sheets.map(s => s.id);
+    const labelIds = Labels.map(a => a.id);
 
     const toDelete = await SheetLabel.findAll({
       where: {
@@ -85,6 +93,20 @@ module.exports = {
 
     for (const datum of toDelete) {
       await datum.destroy();
+    }
+
+    const demoUser = await User.findOne({
+      where: { username: 'demo' },
+      include: {
+        model: Sheet,
+        include: SheetLabel,
+      },
+    });
+
+    for (const sheet of demoUser.Sheets) {
+      for (const sheetLabel of sheet.SheetLabels) {
+        await sheetLabel.destroy();
+      }
     }
   },
 };
