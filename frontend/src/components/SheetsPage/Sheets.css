@@ -89,7 +89,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr 25px 25px 25px 25px;
   grid-template-areas: 'svt-name svt-value svt-button1 svt-button2 svt-button3 svt-button4';
-  column-gap: 15px;
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
 }
@@ -102,6 +101,7 @@
 .svt-name {
   font-weight: bold;
   grid-area: svt-name;
+  margin-right: 15px;
 }
 
 .svt-name > a {
@@ -122,13 +122,16 @@
 .svt-value {
   grid-area: svt-value;
   text-align: right;
+  margin-right: 15px;
 }
 
 .svt-button1,
 .svt-button2,
 .svt-button3,
 .svt-button4 {
-  font-size: 0.7em;
+  font-size: 0.9em;
+  margin-top: -5px;
+  padding: 3px;
 }
 
 .svt-button1 {
