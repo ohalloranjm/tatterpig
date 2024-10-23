@@ -10,6 +10,7 @@ import {
   faEye,
   faEyeSlash,
   faTrash,
+  faUpDown,
 } from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
 import SheetFormView from './SheetFormView';
@@ -76,6 +77,9 @@ export default function SheetDetailsView({ sheet, edit }) {
                   <FontAwesomeIcon icon={faEye} /> Publish
                 </button>
               )}
+              <button type='button'>
+                <FontAwesomeIcon icon={faUpDown} /> Reorder
+              </button>
               <button
                 type='button'
                 className='grayed-out'
