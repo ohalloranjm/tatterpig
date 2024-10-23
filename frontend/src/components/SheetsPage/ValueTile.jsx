@@ -14,11 +14,7 @@ import {
   faArrowUp,
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faCircle,
-  faCircleCheck,
-  faPenToSquare,
-} from '@fortawesome/free-regular-svg-icons';
+import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
 export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   const submit = useSubmit();
