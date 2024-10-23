@@ -151,10 +151,10 @@
 }
 
 .boolean-icon,
-.boolean-icon:hover {
-  background-color: inherit;
+button.boolean-icon:hover {
   color: var(--one);
   border: 0;
+  background-color: inherit;
 }
 
 .sd-add-attribute-button {

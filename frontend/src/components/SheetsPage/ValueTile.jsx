@@ -155,7 +155,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
     <>
       {!!aboveId && (
         <button
-          className='icon svt-button3'
+          className='icon svt-button2'
           type='button'
           onClick={shiftUp}
           disabled={searchParams.has('edit')}
@@ -165,7 +165,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
       )}
       {!!belowId && (
         <button
-          className='icon svt-button4'
+          className='icon svt-button3'
           type='button'
           onClick={shiftDown}
           disabled={searchParams.has('edit')}
@@ -207,9 +207,6 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         >
           <FontAwesomeIcon icon={faX} />
         </button>
-
-        {/* up and down buttons, should be disabled */}
-        {positionButtons}
       </form>
     );
 
@@ -243,15 +240,9 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
             onClick={() =>
               navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
             }
+            disabled={searchParams.has('edit')}
           >
             <FontAwesomeIcon icon={faPenToSquare} />
-          </button>
-          <button
-            type='button'
-            className='icon svt-button2'
-            onClick={removeLabel}
-          >
-            <FontAwesomeIcon icon={faTrash} />
           </button>
         </>
       )}
@@ -261,25 +252,27 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         <>
           <button
             type='button'
-            className='boolean-icon svt-button1'
+            className='boolean-icon icon svt-button1'
             ref={booleanInputRef}
             onClick={changeBooleanValue}
             onMouseEnter={() => setFilledCircle(label.value === 'false')}
             onMouseLeave={() => setFilledCircle(label.value === 'true')}
+            disabled={searchParams.has('edit')}
           >
             <FontAwesomeIcon icon={booleanIcon} />
-          </button>
-
-          <button
-            type='button'
-            className='icon svt-button2'
-            onClick={removeLabel}
-          >
-            <FontAwesomeIcon icon={faTrash} />
           </button>
         </>
       )}
       {positionButtons}
+
+      <button
+        type='button'
+        className='icon svt-button4'
+        onClick={removeLabel}
+        disabled={searchParams.has('edit')}
+      >
+        <FontAwesomeIcon icon={faTrash} />
+      </button>
     </div>
   );
 }
