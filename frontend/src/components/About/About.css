@@ -1,10 +1,16 @@
+@import url(../../css-global/vars.css);
+
 .about-joy {
-  width: fit-content;
   margin: auto;
-  border-top: 3px solid blue;
+  border-top: 1px solid var(--one);
+  border-left: 1px solid var(--one);
   display: flex;
   column-gap: 5px;
-  padding-top: 2px;
+  padding: 2px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--three);
 }
 
 .about-joy > div {
