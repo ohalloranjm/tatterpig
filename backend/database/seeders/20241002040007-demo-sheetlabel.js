@@ -1,8 +1,8 @@
 'use strict';
 
 const { User, Sheet, Label, SheetLabel } = require('../models');
-const { fakeSheets } = require('./20241002025726-demo-sheet');
-const { fakeLabels } = require('./20241002033609-demo-label');
+const { fakeSheets, demoSheets } = require('./20241002025726-demo-sheet');
+const { fakeLabels, demoLabels } = require('./20241002033609-demo-label');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(_queryInterface, Sequelize) {
-    const { Op } = Sequelize;
     const owner = await User.findOne({ where: { username: 'tomorrowind' } });
     const ownerId = owner.id;
 
@@ -33,6 +32,21 @@ module.exports = {
       i++;
     }
 
+    const { Op } = Sequelize;
+    const demoUser = await User.findOne({
+      where: { username: 'demo' },
+      include: [
+        {
+          model: Sheet,
+          where: { name: { [Op.in]: demoSheets.map(s => s.name) } },
+        },
+        {
+          model: Label,
+          where: { name: { [Op.in]: demoLabels.map(a => a.name) } },
+        },
+      ],
+    });
+
     const lookup = {
       Strength: '8',
       Cuteness: '5',
@@ -41,6 +55,20 @@ module.exports = {
       'Primary weapon': 'Blunderbuss',
       Unstable: 'false',
     };
+
+    let count = 0;
+    const { Sheets, Labels } = demoUser.dataValues;
+    while (count < Math.max(Sheets.length, Labels.length)) {
+      const currSheet = Sheets[count % Sheets.length];
+      const currLabel = Labels[count % Labels.length];
+      await SheetLabel.create({
+        sheetId: currSheet.id,
+        labelId: currLabel.id,
+        value: lookup[currLabel.name],
+        index: count,
+      });
+      count++;
+    }
   },
 
   async down(queryInterface, Sequelize) {
