@@ -116,6 +116,7 @@
   grid-template-areas: 'svt-name svt-value svt-button1 svt-button2';
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
+  column-gap: 10px;
 }
 
 .svt-dragover {
@@ -150,17 +151,15 @@
 }
 
 p.svt-value {
-  padding-right: 15px;
+  padding-right: 5px;
 }
 
 input.svt-value {
-  margin-right: 15px;
+  margin-right: 5px;
 }
 
 .svt-button1,
-.svt-button2,
-.svt-button3,
-.svt-button4 {
+.svt-button2 {
   font-size: 0.9em;
   margin-top: -5px;
   padding: 3px;
@@ -172,14 +171,6 @@ input.svt-value {
 
 .svt-button2 {
   grid-area: svt-button2;
-}
-
-.svt-button3 {
-  grid-area: svt-button3;
-}
-
-.svt-button4 {
-  grid-area: svt-button4;
 }
 
 .boolean-icon,

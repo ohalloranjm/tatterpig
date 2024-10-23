@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faX,
   faCheck,
-  faPenToSquare,
-  faTrash,
+  faPencil,
+  faTrashCan,
   faArrowUp,
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
@@ -252,7 +252,7 @@ export default function SheetLabelTile({
                 }
                 disabled={searchParams.has('edit')}
               >
-                <FontAwesomeIcon icon={faPenToSquare} />
+                <FontAwesomeIcon icon={faPencil} />
               </button>
             </>
           )}
@@ -280,7 +280,7 @@ export default function SheetLabelTile({
             onClick={removeLabel}
             disabled={searchParams.has('edit')}
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTrashCan} />
           </button>
         </>
       )}
