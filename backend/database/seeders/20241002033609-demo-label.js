@@ -68,7 +68,7 @@ const fakeLabels = [
 const allLabels = [];
 
 fakeLabels.forEach(array => {
-  array.forEach(label => allLabels.push({ ...label, ownerId }));
+  array.forEach(label => allLabels.push({ ...label }));
 });
 
 module.exports = {
@@ -76,7 +76,8 @@ module.exports = {
     const owner = await User.findOne({ where: { username: 'tomorrowind' } });
     const ownerId = owner.id;
 
-    await Label.bulkCreate(allLabels, { validate: true });
+    const finalLabels = allLabels.map(l => ({ ...l, ownerId }));
+    await Label.bulkCreate(finalLabels, { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
