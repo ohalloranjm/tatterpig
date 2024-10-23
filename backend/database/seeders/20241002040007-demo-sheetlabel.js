@@ -94,5 +94,19 @@ module.exports = {
     for (const datum of toDelete) {
       await datum.destroy();
     }
+
+    const demoUser = await User.findOne({
+      where: { username: 'demo' },
+      include: {
+        model: Sheet,
+        include: SheetLabel,
+      },
+    });
+
+    for (const sheet of demoUser.Sheets) {
+      for (const sheetLabel of sheet.SheetLabels) {
+        await sheetLabel.destroy();
+      }
+    }
   },
 };
