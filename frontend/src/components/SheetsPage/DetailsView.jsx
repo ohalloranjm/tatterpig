@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSquarePlus,
-  faPencil,
+  faPenToSquare,
   faSquareMinus,
 } from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
@@ -65,7 +65,7 @@ export default function SheetDetailsView({ sheet, edit }) {
             className='icon sdh-edit'
             onClick={() => navigate(`/sheets?id=${sheet.id}&edit=true`)}
           >
-            <FontAwesomeIcon icon={faPencil} />
+            <FontAwesomeIcon icon={faPenToSquare} />
           </button>
         </div>
       )}

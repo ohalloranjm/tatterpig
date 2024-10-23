@@ -1,7 +1,7 @@
 import { useNavigate, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import EditLabelInline from './EditLabelInline';
 
 export default function LabelDetailView({ label, edit }) {
@@ -39,7 +39,7 @@ export default function LabelDetailView({ label, edit }) {
             className='icon ldh-edit-toggle'
             onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
           >
-            <FontAwesomeIcon icon={faPencil} />
+            <FontAwesomeIcon icon={faPenToSquare} />
           </button>
         </div>
       )}

@@ -9,12 +9,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faX,
   faCheck,
-  faPencil,
+  faPenToSquare,
   faTrash,
   faArrowUp,
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import {
+  faCircle,
+  faCircleCheck,
+  faPenToSquare,
+} from '@fortawesome/free-regular-svg-icons';
 
 export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   const submit = useSubmit();
@@ -244,7 +248,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
               navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
             }
           >
-            <FontAwesomeIcon icon={faPencil} />
+            <FontAwesomeIcon icon={faPenToSquare} />
           </button>
           <button
             type='button'
