@@ -69,7 +69,7 @@ module.exports = {
     const demoUser = await User.findOne({ where: { username: 'demo' } });
 
     const Op = Sequelize.Op;
-    queryInterface.bulkDelete(
+    await queryInterface.bulkDelete(
       options,
       {
         name: {
@@ -80,7 +80,7 @@ module.exports = {
       {}
     );
 
-    queryInterface.bulkDelete(options, { ownerId: demoUser.id }, {});
+    await queryInterface.bulkDelete(options, { ownerId: demoUser.id }, {});
   },
 
   fakeSheets,

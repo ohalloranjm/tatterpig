@@ -1,7 +1,6 @@
 'use strict';
 
-const { User, Label, Sheet } = require('../models');
-const { fakeSheets } = require('./20241002025726-demo-sheet');
+const { User, Label } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -65,6 +64,33 @@ const fakeLabels = [
   ],
 ];
 
+const demoLabels = [
+  {
+    name: 'Strength',
+    dataType: 'number',
+  },
+  {
+    name: 'Cuteness',
+    dataType: 'number',
+  },
+  {
+    name: 'Hit Points',
+    dataType: 'number',
+  },
+  {
+    name: 'Max HP',
+    dataType: 'number',
+  },
+  {
+    name: 'Primary weapon',
+    dataType: 'string',
+  },
+  {
+    name: 'Unstable',
+    dataType: 'boolean',
+  },
+];
+
 const allLabels = [];
 
 fakeLabels.forEach(array => {
@@ -76,16 +102,24 @@ module.exports = {
     const owner = await User.findOne({ where: { username: 'tomorrowind' } });
     const ownerId = owner.id;
 
-    const finalLabels = allLabels.map(l => ({ ...l, ownerId }));
-    await Label.bulkCreate(finalLabels, { validate: true });
+    const finalLabels1 = allLabels.map(l => ({ ...l, ownerId }));
+
+    const demoUser = await User.findOne({ where: { username: 'demo' } });
+    const finalLabels2 = demoLabels.map(l => ({ ...l, ownerId: demoUser.id }));
+
+    await Label.bulkCreate([...finalLabels1, ...finalLabels2], {
+      validate: true,
+    });
   },
 
   async down(queryInterface, Sequelize) {
     options.tableName = 'Labels';
     const owner = await User.findOne({ where: { username: 'tomorrowind' } });
     const ownerId = owner.id;
+    const demoUser = await User.findOne({ where: { username: 'demo' } });
+
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(
+    await queryInterface.bulkDelete(
       options,
       {
         name: {
@@ -95,6 +129,8 @@ module.exports = {
       },
       {}
     );
+
+    await queryInterface.bulkDelete(options, { ownerId: demoUser.id }, {});
   },
 
   fakeLabels,
