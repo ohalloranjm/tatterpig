@@ -89,9 +89,11 @@
 .sdh-settings {
   grid-area: sdh-settings;
   margin-top: 10px;
+}
+
+.sds-buttons {
   display: flex;
-  /* width: 100%; */
-  justify-content: space-around;
+  gap: 5px;
 }
 
 .sdh-description {

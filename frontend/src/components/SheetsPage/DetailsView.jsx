@@ -18,7 +18,7 @@ import SheetFormView from './SheetFormView';
 export default function SheetDetailsView({ sheet, edit }) {
   const [searchParams] = useSearchParams();
   const [addValue, setAddValue] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [settingsView, setSettingsView] = useState(null);
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -39,6 +39,33 @@ export default function SheetDetailsView({ sheet, edit }) {
     );
     if (confirmDelete)
       submit(null, { method: 'delete', action: `/sheets?id=${sheet.id}` });
+  };
+
+  const settingsViewLookup = {
+    buttons: (
+      <div className='sds-buttons'>
+        {/* reorder labels button */}
+        <button type='button'>
+          <FontAwesomeIcon icon={faUpDown} /> Reorder
+        </button>
+
+        {/* public/private toggle button */}
+        {sheet.public ? (
+          <button type='button' onClick={() => changePublic(false)}>
+            <FontAwesomeIcon icon={faEyeSlash} /> Make Private
+          </button>
+        ) : (
+          <button type='button' onClick={() => changePublic(true)}>
+            <FontAwesomeIcon icon={faEye} /> Publish
+          </button>
+        )}
+
+        {/* delete sheet button */}
+        <button type='button' className='grayed-out' onClick={deleteSheet}>
+          <FontAwesomeIcon icon={faTrash} /> Delete Sheet
+        </button>
+      </div>
+    ),
   };
 
   const changePublic = newValue => {
@@ -66,27 +93,9 @@ export default function SheetDetailsView({ sheet, edit }) {
         <div className='sheet-details-header'>
           <h1 className='sdh-title'>{sheet.name}</h1>
 
-          {showSettings && (
+          {settingsView && (
             <div className='sdh-settings'>
-              {sheet.public ? (
-                <button type='button' onClick={() => changePublic(false)}>
-                  <FontAwesomeIcon icon={faEyeSlash} /> Make Private
-                </button>
-              ) : (
-                <button type='button' onClick={() => changePublic(true)}>
-                  <FontAwesomeIcon icon={faEye} /> Publish
-                </button>
-              )}
-              <button type='button'>
-                <FontAwesomeIcon icon={faUpDown} /> Reorder
-              </button>
-              <button
-                type='button'
-                className='grayed-out'
-                onClick={deleteSheet}
-              >
-                <FontAwesomeIcon icon={faTrash} /> Delete Sheet
-              </button>
+              {settingsViewLookup[settingsView]}
             </div>
           )}
 
@@ -97,7 +106,12 @@ export default function SheetDetailsView({ sheet, edit }) {
             type='button'
             className='icon sdh-toggle-settings'
             disabled={searchParams.has('edit')}
-            onClick={() => setShowSettings(prev => !prev)}
+            onClick={() =>
+              setSettingsView(prev => {
+                if (prev === 'buttons') return null;
+                return 'buttons';
+              })
+            }
           >
             <FontAwesomeIcon icon={faGear} />
           </button>
