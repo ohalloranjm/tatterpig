@@ -61,6 +61,28 @@ export default function SheetDetailsView({ sheet, edit }) {
       ) : (
         <div className='sheet-details-header'>
           <h1 className='sdh-title'>{sheet.name}</h1>
+
+          {showSettings && (
+            <div className='sdh-settings'>
+              {sheet.public ? (
+                <button type='button' onClick={() => changePublic(false)}>
+                  Make Private
+                </button>
+              ) : (
+                <button type='button' onClick={() => changePublic(true)}>
+                  Publish
+                </button>
+              )}
+              <button
+                type='button'
+                className='grayed-out'
+                onClick={deleteSheet}
+              >
+                Delete Sheet
+              </button>
+            </div>
+          )}
+
           <p className='sdh-description'>{sheet.description}</p>
 
           {/* settings button - opens the settings menu */}
@@ -121,23 +143,6 @@ export default function SheetDetailsView({ sheet, edit }) {
         Add Label
       </button>
       {addValue && <ValueForm sheet={sheet} />}
-
-      {showSettings && (
-        <div className='sd-bottom-buttons'>
-          {sheet.public ? (
-            <button type='button' onClick={() => changePublic(false)}>
-              Make Private
-            </button>
-          ) : (
-            <button type='button' onClick={() => changePublic(true)}>
-              Publish
-            </button>
-          )}
-          <button type='button' className='grayed-out' onClick={deleteSheet}>
-            Delete Sheet
-          </button>
-        </div>
-      )}
     </div>
   );
 }

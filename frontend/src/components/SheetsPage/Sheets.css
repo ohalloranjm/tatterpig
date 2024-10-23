@@ -58,6 +58,7 @@
   grid-template-columns: auto 50px 50px;
   grid-template-areas:
     'sdh-title sdh-button1 sdh-button2'
+    'sdh-settings sdh-settings sdh-settings'
     'sdh-description sdh-description sdh-description';
 }
 
@@ -83,6 +84,14 @@
 .sdh-cancel-edit {
   grid-area: sdh-button2;
   font-size: 1.4em;
+}
+
+.sdh-settings {
+  width: fit-content;
+  margin: auto;
+  margin-top: 10px;
+  border-top: 1px solid var(--one);
+  grid-area: sdh-settings;
 }
 
 .sdh-description {
@@ -196,13 +205,6 @@ button.boolean-icon:hover {
 
 .sdal-errors {
   grid-area: sdal-errors;
-}
-
-.sd-bottom-buttons {
-  width: fit-content;
-  margin: auto;
-  margin-top: 10px;
-  border-top: 1px solid var(--one);
 }
 
 .sd-bottom-buttons > button {
