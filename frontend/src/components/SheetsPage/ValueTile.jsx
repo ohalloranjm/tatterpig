@@ -16,7 +16,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
-export default function SheetLabelTile({ label, order, aboveId, belowId }) {
+export default function SheetLabelTile({
+  label,
+  order,
+  aboveId,
+  belowId,
+  reorder,
+}) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const stringNumInputRef = useRef(null);
@@ -151,31 +157,6 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
 
-  const positionButtons = (
-    <>
-      {!!aboveId && (
-        <button
-          className='icon svt-button2'
-          type='button'
-          onClick={shiftUp}
-          disabled={searchParams.has('edit')}
-        >
-          <FontAwesomeIcon icon={faArrowUp} />
-        </button>
-      )}
-      {!!belowId && (
-        <button
-          className='icon svt-button3'
-          type='button'
-          onClick={shiftDown}
-          disabled={searchParams.has('edit')}
-        >
-          <FontAwesomeIcon icon={faArrowDown} />
-        </button>
-      )}
-    </>
-  );
-
   {
     /* edit view for number and string values */
   }
@@ -223,56 +204,86 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
 
-      {/* static view for number and string values */}
-      {!isBoolean && (
+      {reorder ? (
         <>
-          <p
-            className='svt-value'
-            onDoubleClick={() =>
-              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-            }
-          >
-            {label.value}
-          </p>
+          {!!aboveId && (
+            <button
+              className='icon svt-button1'
+              type='button'
+              onClick={shiftUp}
+              disabled={searchParams.has('edit')}
+            >
+              <FontAwesomeIcon icon={faArrowUp} />
+            </button>
+          )}
+          {!!belowId && (
+            <button
+              className='icon svt-button2'
+              type='button'
+              onClick={shiftDown}
+              disabled={searchParams.has('edit')}
+            >
+              <FontAwesomeIcon icon={faArrowDown} />
+            </button>
+          )}
+        </>
+      ) : (
+        <>
+          {/* static view for number and string values */}
+          {!isBoolean && (
+            <>
+              <p
+                className='svt-value'
+                onDoubleClick={() =>
+                  navigate(
+                    `/sheets?id=${sheetId}&edit=label&labelId=${labelId}`
+                  )
+                }
+              >
+                {label.value}
+              </p>
+              <button
+                type='button'
+                className='icon svt-button1'
+                onClick={() =>
+                  navigate(
+                    `/sheets?id=${sheetId}&edit=label&labelId=${labelId}`
+                  )
+                }
+                disabled={searchParams.has('edit')}
+              >
+                <FontAwesomeIcon icon={faPenToSquare} />
+              </button>
+            </>
+          )}
+
+          {/* dynamic view for boolean values */}
+          {isBoolean && (
+            <>
+              <button
+                type='button'
+                className='boolean-icon icon svt-button1'
+                ref={booleanInputRef}
+                onClick={changeBooleanValue}
+                onMouseEnter={() => setFilledCircle(label.value === 'false')}
+                onMouseLeave={() => setFilledCircle(label.value === 'true')}
+                disabled={searchParams.has('edit')}
+              >
+                <FontAwesomeIcon icon={booleanIcon} />
+              </button>
+            </>
+          )}
+
           <button
             type='button'
-            className='icon svt-button1'
-            onClick={() =>
-              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-            }
+            className='icon svt-button2'
+            onClick={removeLabel}
             disabled={searchParams.has('edit')}
           >
-            <FontAwesomeIcon icon={faPenToSquare} />
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         </>
       )}
-
-      {/* dynamic view for boolean values */}
-      {isBoolean && (
-        <>
-          <button
-            type='button'
-            className='boolean-icon icon svt-button1'
-            ref={booleanInputRef}
-            onClick={changeBooleanValue}
-            onMouseEnter={() => setFilledCircle(label.value === 'false')}
-            onMouseLeave={() => setFilledCircle(label.value === 'true')}
-            disabled={searchParams.has('edit')}
-          >
-            <FontAwesomeIcon icon={booleanIcon} />
-          </button>
-        </>
-      )}
-      {positionButtons}
-
-      <button
-        type='button'
-        className='icon svt-button4'
-        onClick={removeLabel}
-        disabled={searchParams.has('edit')}
-      >
-        <FontAwesomeIcon icon={faTrash} />
-      </button>
     </div>
   );
 }

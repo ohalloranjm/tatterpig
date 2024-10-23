@@ -112,8 +112,8 @@
 
 .sheet-value-tile {
   display: grid;
-  grid-template-columns: 1fr 1fr 25px 25px 25px 25px;
-  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2 svt-button3 svt-button4';
+  grid-template-columns: 1fr 1fr 25px 25px;
+  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2';
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
 }
@@ -147,6 +147,13 @@
 .svt-value {
   grid-area: svt-value;
   text-align: right;
+}
+
+p.svt-value {
+  padding-right: 15px;
+}
+
+input.svt-value {
   margin-right: 15px;
 }
 
