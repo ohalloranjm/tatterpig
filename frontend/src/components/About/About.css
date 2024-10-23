@@ -1,0 +1,18 @@
+@import url(../../css-global/vars.css);
+
+.about-joy {
+  margin: auto;
+  border-top: 1px solid var(--one);
+  border-left: 1px solid var(--one);
+  display: flex;
+  column-gap: 5px;
+  padding: 2px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--three);
+}
+
+.about-joy > div {
+  font-size: 0.8em;
+}

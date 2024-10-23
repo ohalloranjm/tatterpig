@@ -27,6 +27,10 @@ button.icon:hover {
   border: 0;
 }
 
+a.icon:hover {
+  color: var(--txt);
+}
+
 button.icon:disabled,
 button.icon:disabled:hover {
   background-color: inherit;
