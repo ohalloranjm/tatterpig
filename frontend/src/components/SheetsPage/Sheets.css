@@ -89,11 +89,20 @@
 .sdh-settings {
   grid-area: sdh-settings;
   margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 15px;
 }
 
 .sds-buttons {
   display: flex;
   gap: 5px;
+}
+
+.sds-message {
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--graytxt);
 }
 
 .sdh-description {

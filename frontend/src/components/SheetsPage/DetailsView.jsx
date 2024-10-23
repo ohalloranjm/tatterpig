@@ -45,7 +45,7 @@ export default function SheetDetailsView({ sheet, edit }) {
     buttons: (
       <div className='sds-buttons'>
         {/* reorder labels button */}
-        <button type='button'>
+        <button type='button' onClick={() => setSettingsView('reorder')}>
           <FontAwesomeIcon icon={faUpDown} /> Reorder
         </button>
 
@@ -65,6 +65,18 @@ export default function SheetDetailsView({ sheet, edit }) {
           <FontAwesomeIcon icon={faTrash} /> Delete Sheet
         </button>
       </div>
+    ),
+
+    reorder: (
+      <>
+        <div className='sds-message'>
+          <strong>Hint:</strong> You can always drag and drop labels to
+          rearrange them, even when the up and down buttons aren’t present.
+        </div>
+        <button className='button' onClick={() => setSettingsView(null)}>
+          Done Reordering
+        </button>
+      </>
     ),
   };
 
@@ -140,6 +152,7 @@ export default function SheetDetailsView({ sheet, edit }) {
               aboveId={aboveId}
               belowId={belowId}
               order={order}
+              reorder={settingsView === 'reorder'}
             />
           );
         })}
