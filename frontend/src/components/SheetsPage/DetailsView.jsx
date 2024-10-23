@@ -3,6 +3,7 @@ import ValueTile from './ValueTile';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faGear,
   faSquarePlus,
   faPenToSquare,
   faSquareMinus,
@@ -13,6 +14,7 @@ import SheetFormView from './SheetFormView';
 export default function SheetDetailsView({ sheet, edit }) {
   const [searchParams] = useSearchParams();
   const [addValue, setAddValue] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -60,10 +62,23 @@ export default function SheetDetailsView({ sheet, edit }) {
         <div className='sheet-details-header'>
           <h1 className='sdh-title'>{sheet.name}</h1>
           <p className='sdh-description'>{sheet.description}</p>
+
+          {/* settings button - opens the settings menu */}
+          <button
+            type='button'
+            className='icon'
+            disabled={searchParams.has('edit')}
+            onClick={() => setShowSettings(prev => !prev)}
+          >
+            <FontAwesomeIcon icon={faGear} />
+          </button>
+
+          {/* edit button - opens sheet name/description edit menu */}
           <button
             type='button'
             className='icon sdh-edit'
             onClick={() => navigate(`/sheets?id=${sheet.id}&edit=true`)}
+            disabled={searchParams.has('edit')}
           >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
@@ -107,20 +122,22 @@ export default function SheetDetailsView({ sheet, edit }) {
       </button>
       {addValue && <ValueForm sheet={sheet} />}
 
-      <div className='sd-bottom-buttons'>
-        {sheet.public ? (
-          <button type='button' onClick={() => changePublic(false)}>
-            Make Private
+      {showSettings && (
+        <div className='sd-bottom-buttons'>
+          {sheet.public ? (
+            <button type='button' onClick={() => changePublic(false)}>
+              Make Private
+            </button>
+          ) : (
+            <button type='button' onClick={() => changePublic(true)}>
+              Publish
+            </button>
+          )}
+          <button type='button' className='grayed-out' onClick={deleteSheet}>
+            Delete Sheet
           </button>
-        ) : (
-          <button type='button' onClick={() => changePublic(true)}>
-            Publish
-          </button>
-        )}
-        <button type='button' className='grayed-out' onClick={deleteSheet}>
-          Delete Sheet
-        </button>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
