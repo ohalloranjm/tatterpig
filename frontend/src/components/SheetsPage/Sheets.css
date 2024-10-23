@@ -87,11 +87,11 @@
 }
 
 .sdh-settings {
-  width: fit-content;
-  margin: auto;
-  margin-top: 10px;
-  border-top: 1px solid var(--one);
   grid-area: sdh-settings;
+  margin-top: 10px;
+  display: flex;
+  /* width: 100%; */
+  justify-content: space-around;
 }
 
 .sdh-description {

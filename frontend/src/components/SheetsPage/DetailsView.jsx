@@ -7,6 +7,9 @@ import {
   faSquarePlus,
   faPenToSquare,
   faSquareMinus,
+  faEye,
+  faEyeSlash,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
 import SheetFormView from './SheetFormView';
@@ -66,11 +69,11 @@ export default function SheetDetailsView({ sheet, edit }) {
             <div className='sdh-settings'>
               {sheet.public ? (
                 <button type='button' onClick={() => changePublic(false)}>
-                  Make Private
+                  <FontAwesomeIcon icon={faEyeSlash} /> Make Private
                 </button>
               ) : (
                 <button type='button' onClick={() => changePublic(true)}>
-                  Publish
+                  <FontAwesomeIcon icon={faEye} /> Publish
                 </button>
               )}
               <button
@@ -78,7 +81,7 @@ export default function SheetDetailsView({ sheet, edit }) {
                 className='grayed-out'
                 onClick={deleteSheet}
               >
-                Delete Sheet
+                <FontAwesomeIcon icon={faTrash} /> Delete Sheet
               </button>
             </div>
           )}
