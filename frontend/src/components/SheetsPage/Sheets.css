@@ -74,6 +74,11 @@
   font-size: 1.4em;
 }
 
+.sdh-toggle-settings {
+  grid-area: sdh-button1;
+  font-size: 1.4em;
+}
+
 .sdh-edit,
 .sdh-cancel-edit {
   grid-area: sdh-button2;

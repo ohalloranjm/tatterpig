@@ -66,7 +66,7 @@ export default function SheetDetailsView({ sheet, edit }) {
           {/* settings button - opens the settings menu */}
           <button
             type='button'
-            className='icon'
+            className='icon sdh-toggle-settings'
             disabled={searchParams.has('edit')}
             onClick={() => setShowSettings(prev => !prev)}
           >
