@@ -55,7 +55,10 @@ export default function SheetDetailsView({ sheet, edit }) {
             <FontAwesomeIcon icon={faEyeSlash} /> Make Private
           </button>
         ) : (
-          <button type='button' onClick={() => changePublic(true)}>
+          <button
+            type='button'
+            onClick={() => setSettingsView('confirmPublish')}
+          >
             <FontAwesomeIcon icon={faEye} /> Publish
           </button>
         )}
@@ -69,32 +72,43 @@ export default function SheetDetailsView({ sheet, edit }) {
 
     reorder: (
       <>
-        <div className='sds-message'>
+        <p className='sds-message'>
           <strong>Hint:</strong> You can always drag and drop labels to
           rearrange them, even when the up and down buttons aren’t present.
-        </div>
-        <button className='button' onClick={() => setSettingsView(null)}>
+        </p>
+        <button type='button' onClick={() => setSettingsView(null)}>
           Done Reordering
+        </button>
+      </>
+    ),
+
+    confirmPublish: (
+      <>
+        <p className='sds-message'>
+          Are you sure you want to publish this sheet? Other users will be able
+          to discover and view it. Only you will be able to edit it.
+        </p>
+        <button
+          type='button'
+          onClick={() => {
+            setSettingsView(null);
+            changePublic(true);
+          }}
+        >
+          Confirm
         </button>
       </>
     ),
   };
 
   const changePublic = newValue => {
-    const message = newValue
-      ? 'Are you sure you want to publish this sheet? Other users will be able to discover and view it. Only you will be able to edit it.'
-      : 'Are you sure you want to make this sheet private? Other users will no longer be able to discover and view it.';
-
-    const confirmChange = window.confirm(message);
-    if (confirmChange) {
-      const { name, description } = sheet;
-      const body = { name, description, public: newValue };
-      submit(body, {
-        method: 'PUT',
-        action: `/sheets?id=${sheet.id}`,
-        encType: 'application/json',
-      });
-    }
+    const { name, description } = sheet;
+    const body = { name, description, public: newValue };
+    submit(body, {
+      method: 'PUT',
+      action: `/sheets?id=${sheet.id}`,
+      encType: 'application/json',
+    });
   };
 
   return (
