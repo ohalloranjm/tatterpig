@@ -31,20 +31,45 @@ const fakeSheets = [
   },
 ];
 
+const demoSheets = [
+  {
+    name: 'Dan Bloodaxe',
+    description: "Dan is fightin' man.",
+    public: true,
+  },
+  {
+    name: 'Space Wizard Template',
+    description:
+      'Blank character sheet for the very real game Space Wizards in Space.',
+  },
+  {
+    name: 'Friggilish Fyrewind',
+  },
+];
+
 module.exports = {
   async up(_queryInterface, _Sequelize) {
     const owner = await User.findOne({ where: { username: 'tomorrowind' } });
     const ownerId = owner.id;
     const finalSheets = fakeSheets.map(s => ({ ...s, ownerId }));
     await Sheet.bulkCreate(finalSheets, { validate: true });
+
+    const demoUser = await User.findOne({ where: { username: 'demo' } });
+    const finalDemoSheets = demoSheets.map(s => ({
+      ...s,
+      ownerId: demoUser.id,
+    }));
+    await Sheet.bulkCreate(finalDemoSheets, { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
     options.tableName = 'Sheets';
     const owner = await User.findOne({ where: { username: 'tomorrowind' } });
     const ownerId = owner.id;
+    const demoUser = await User.findOne({ where: { username: 'demo' } });
+
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(
+    queryInterface.bulkDelete(
       options,
       {
         name: {
@@ -54,6 +79,8 @@ module.exports = {
       },
       {}
     );
+
+    queryInterface.bulkDelete(options, { ownerId: demoUser.id }, {});
   },
 
   fakeSheets,
