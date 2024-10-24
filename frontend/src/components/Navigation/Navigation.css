@@ -35,6 +35,10 @@
   background-color: var(--three);
 }
 
+.user-settings-button {
+  font-size: 1.2em;
+}
+
 .logout-button {
   margin: 3px;
   font-size: 1em;
