@@ -222,7 +222,16 @@ button.boolean-icon:hover {
 
 .view-public-page {
   display: block;
-  margin: 30px auto -10px;
+  margin: 30px auto 0;
   width: fit-content;
   font-size: 1.2em;
+}
+
+.view-public-page > .icon {
+  font-size: 1em;
+}
+
+.view-public-page > .icon:hover {
+  background-color: inherit;
+  color: var(--txt);
 }

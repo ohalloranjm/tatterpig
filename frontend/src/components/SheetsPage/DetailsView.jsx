@@ -16,6 +16,7 @@ import {
   faEyeSlash,
   faTrash,
   faUpDown,
+  faLink,
 } from '@fortawesome/free-solid-svg-icons';
 import ValueForm from './ValueForm';
 import SheetFormView from './SheetFormView';
@@ -232,21 +233,24 @@ export default function SheetDetailsView({ sheet, edit }) {
       </div>
       {sheet.public && (
         <>
-          <Link to={`/publicsheets/${sheet.id}`} className='view-public-page'>
-            View Public Page
-          </Link>
-          <a
-            onClick={() =>
-              navigator.clipboard
-                .writeText(
-                  `https://tatterpig.onrender.com/publicsheets/${sheet.id}`
-                )
-                .then(() => console.log('success'))
-                .catch(() => console.log(':('))
-            }
-          >
-            Copy Link
-          </a>
+          <div className='view-public-page'>
+            <Link to={`/publicsheets/${sheet.id}`}>Public Page</Link>
+            <button
+              type='button'
+              className='icon'
+              onClick={() =>
+                navigator.clipboard
+                  .writeText(
+                    `https://tatterpig.onrender.com/publicsheets/${sheet.id}`
+                  )
+                  .then(() => console.log('success'))
+                  .catch(() => console.log(':('))
+              }
+            >
+              <FontAwesomeIcon icon={faLink} />
+            </button>
+          </div>
+          <p className='center'>Link successfully copied!</p>
         </>
       )}
     </>
