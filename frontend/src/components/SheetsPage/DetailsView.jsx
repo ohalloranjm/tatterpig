@@ -34,11 +34,7 @@ export default function SheetDetailsView({ sheet, edit }) {
   const order = sheet.SheetLabels.map(sl => sl.labelId);
 
   const deleteSheet = () => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this sheet?'
-    );
-    if (confirmDelete)
-      submit(null, { method: 'delete', action: `/sheets?id=${sheet.id}` });
+    submit(null, { method: 'delete', action: `/sheets?id=${sheet.id}` });
   };
 
   const settingsViewLookup = {
@@ -51,7 +47,10 @@ export default function SheetDetailsView({ sheet, edit }) {
 
         {/* public/private toggle button */}
         {sheet.public ? (
-          <button type='button' onClick={() => changePublic(false)}>
+          <button
+            type='button'
+            onClick={() => setSettingsView('confirmPrivate')}
+          >
             <FontAwesomeIcon icon={faEyeSlash} /> Make Private
           </button>
         ) : (
@@ -64,7 +63,11 @@ export default function SheetDetailsView({ sheet, edit }) {
         )}
 
         {/* delete sheet button */}
-        <button type='button' className='grayed-out' onClick={deleteSheet}>
+        <button
+          type='button'
+          className='grayed-out'
+          onClick={() => setSettingsView('confirmDelete')}
+        >
           <FontAwesomeIcon icon={faTrash} /> Delete Sheet
         </button>
       </div>
@@ -78,6 +81,35 @@ export default function SheetDetailsView({ sheet, edit }) {
         </p>
         <button type='button' onClick={() => setSettingsView(null)}>
           Done Reordering
+        </button>
+      </>
+    ),
+
+    confirmDelete: (
+      <>
+        <p className='sds-message sds-confirm-delete-message'>
+          Are you sure you want to delete this sheet?
+        </p>
+        <button type='button' onClick={deleteSheet}>
+          Yes, Delete This Sheet
+        </button>
+      </>
+    ),
+
+    confirmPrivate: (
+      <>
+        <p className='sds-message'>
+          Are you sure you want to make this sheet private? Other users will no
+          longer be able to discover and view it.
+        </p>
+        <button
+          type='button'
+          onClick={() => {
+            setSettingsView(null);
+            changePublic(false);
+          }}
+        >
+          Confirm
         </button>
       </>
     ),
