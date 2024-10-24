@@ -1,4 +1,9 @@
-import { useNavigate, useSearchParams, useSubmit } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useSearchParams,
+  useSubmit,
+} from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -144,85 +149,95 @@ export default function SheetDetailsView({ sheet, edit }) {
   };
 
   return (
-    <div className='sheet-view-details'>
-      {edit ? (
-        <SheetFormView sheet={sheet} />
-      ) : (
-        <div className='sheet-details-header'>
-          <h1 className='sdh-title'>{sheet.name}</h1>
+    <>
+      <div className='sheet-view-details'>
+        {edit ? (
+          <SheetFormView sheet={sheet} />
+        ) : (
+          <div className='sheet-details-header'>
+            <h1 className='sdh-title'>{sheet.name}</h1>
 
-          {settingsView && (
-            <div className='sdh-settings'>
-              {settingsViewLookup[settingsView]}
-            </div>
-          )}
+            {settingsView && (
+              <div className='sdh-settings'>
+                {settingsViewLookup[settingsView]}
+              </div>
+            )}
 
-          <p className='sdh-description'>{sheet.description}</p>
+            <p className='sdh-description'>{sheet.description}</p>
 
-          {/* settings button - opens the settings menu */}
-          <button
-            type='button'
-            className='icon sdh-toggle-settings'
-            disabled={searchParams.has('edit')}
-            onClick={() =>
-              setSettingsView(prev => {
-                if (prev === 'buttons') return null;
-                return 'buttons';
-              })
-            }
-          >
-            <FontAwesomeIcon icon={faGear} />
-          </button>
+            {/* settings button - opens the settings menu */}
+            <button
+              type='button'
+              className='icon sdh-toggle-settings'
+              disabled={searchParams.has('edit')}
+              onClick={() =>
+                setSettingsView(prev => {
+                  if (prev === 'buttons') return null;
+                  return 'buttons';
+                })
+              }
+            >
+              <FontAwesomeIcon icon={faGear} />
+            </button>
 
-          {/* edit button - opens sheet name/description edit menu */}
-          <button
-            type='button'
-            className='icon sdh-edit'
-            onClick={() => navigate(`/sheets?id=${sheet.id}&edit=true`)}
-            disabled={searchParams.has('edit')}
-          >
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </button>
+            {/* edit button - opens sheet name/description edit menu */}
+            <button
+              type='button'
+              className='icon sdh-edit'
+              onClick={() => navigate(`/sheets?id=${sheet.id}&edit=true`)}
+              disabled={searchParams.has('edit')}
+            >
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </button>
+          </div>
+        )}
+
+        {/* populate the labels and values, passing the order */}
+        <div className='sheet-details-values'>
+          {sheet.SheetLabels.map((a, i) => {
+            const aboveId = order[i - 1] ?? null;
+            const belowId = order[i + 1] ?? null;
+            return (
+              <ValueTile
+                key={a.id}
+                label={a}
+                aboveId={aboveId}
+                belowId={belowId}
+                order={order}
+                reorder={settingsView === 'reorder'}
+              />
+            );
+          })}
         </div>
-      )}
 
-      {/* populate the labels and values, passing the order */}
-      <div className='sheet-details-values'>
-        {sheet.SheetLabels.map((a, i) => {
-          const aboveId = order[i - 1] ?? null;
-          const belowId = order[i + 1] ?? null;
-          return (
-            <ValueTile
-              key={a.id}
-              label={a}
-              aboveId={aboveId}
-              belowId={belowId}
-              order={order}
-              reorder={settingsView === 'reorder'}
-            />
-          );
-        })}
-      </div>
-
-      <button
-        type='button'
-        className='sd-add-attribute-button'
-        onClick={() =>
-          navigate(
-            `/sheets?id=${sheet.id}${
-              searchParams.get('add') === 'label' ? '' : '&add=label'
-            }`
-          )
-        }
-      >
-        <FontAwesomeIcon
-          icon={
-            searchParams.get('add') === 'label' ? faSquareMinus : faSquarePlus
+        <button
+          type='button'
+          className='sd-add-attribute-button'
+          onClick={() =>
+            navigate(
+              `/sheets?id=${sheet.id}${
+                searchParams.get('add') === 'label' ? '' : '&add=label'
+              }`
+            )
           }
-        />{' '}
-        Add Label
-      </button>
-      {addValue && <ValueForm sheet={sheet} />}
-    </div>
+        >
+          <FontAwesomeIcon
+            icon={
+              searchParams.get('add') === 'label' ? faSquareMinus : faSquarePlus
+            }
+          />{' '}
+          Add Label
+        </button>
+        {addValue && <ValueForm sheet={sheet} />}
+      </div>
+      {sheet.public && (
+        <Link
+          to={`/publicsheets/${sheet.id}`}
+          className='view-and-edit-on-dashboard'
+        >
+          View Public Page
+        </Link>
+      )}
+    </>
   );
 }
