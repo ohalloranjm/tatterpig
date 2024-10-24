@@ -235,7 +235,7 @@ export default function SheetDetailsView({ sheet, edit }) {
       {sheet.public && (
         <>
           <div className='view-public-page'>
-            <Link to={`/publicsheets/${sheet.id}`}>Public Page</Link>
+            <Link to={`/publicsheets/${sheet.id}`}>Public View</Link>
             <button
               type='button'
               className='icon'

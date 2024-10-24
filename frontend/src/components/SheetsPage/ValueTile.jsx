@@ -29,6 +29,7 @@ export default function SheetLabelTile({
   const booleanInputRef = useRef(null);
 
   const [edit, setEdit] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [value, setValue] = useState(label.value ?? '');
   const [searchParams] = useSearchParams();
   const [divClass, setDivClass] = useState('sheet-value-tile');
@@ -45,6 +46,16 @@ export default function SheetLabelTile({
       setEdit(true);
     } else {
       setEdit(false);
+      if (
+        searchParams.get('edit') === 'confirmremove' &&
+        Number(searchParams.get('labelId')) === labelId
+      ) {
+        setConfirmDelete(true);
+        setDivClass('sheet-value-tile svt-confirm-delete');
+      } else {
+        setConfirmDelete(false);
+        setDivClass('sheet-value-tile');
+      }
     }
   }, [labelId, searchParams]);
 
@@ -62,12 +73,7 @@ export default function SheetLabelTile({
   const { dataType } = label;
   const isBoolean = dataType === 'boolean';
 
-  const removeLabel = () => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to remove the ${label.name} label from this sheet?`
-    );
-    if (confirmDelete) submit(null, { method: 'DELETE', action });
-  };
+  const removeLabel = () => submit(null, { method: 'DELETE', action });
 
   const editValue = e => {
     e.preventDefault();
@@ -227,6 +233,19 @@ export default function SheetLabelTile({
             </button>
           )}
         </>
+      ) : confirmDelete ? (
+        <>
+          <p>
+            Are you sure you want to remove the {label.name} label from this
+            sheet?
+          </p>
+          <button onClick={removeLabel} className='grayed-out'>
+            Remove
+          </button>
+          <button onClick={() => navigate(`/sheets?id=${sheetId}`)}>
+            Never Mind
+          </button>
+        </>
       ) : (
         <>
           {/* static view for number and string values */}
@@ -277,7 +296,11 @@ export default function SheetLabelTile({
           <button
             type='button'
             className='icon svt-button2'
-            onClick={removeLabel}
+            onClick={() =>
+              navigate(
+                `/sheets?id=${sheetId}&edit=confirmremove&labelId=${labelId}`
+              )
+            }
             disabled={searchParams.has('edit')}
           >
             <FontAwesomeIcon icon={faTrashCan} />

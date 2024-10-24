@@ -124,6 +124,10 @@
   padding-top: 8px;
 }
 
+.svt-confirm-delete {
+  grid-template-columns: 1fr 3fr 1fr 1fr;
+}
+
 .svt-name {
   font-weight: bold;
   grid-area: svt-name;
