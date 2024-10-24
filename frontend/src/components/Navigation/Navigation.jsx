@@ -32,7 +32,7 @@ function Navigation({ isLoaded }) {
     <div id='navigation'>
       <div className='nav-tabs'>
         {isLoaded && tabs}
-        <NavLink to='/public'>Browse</NavLink>
+        <NavLink to='/publicsheets'>Browse</NavLink>
       </div>
       {isLoaded && sessionUser && (
         <div>

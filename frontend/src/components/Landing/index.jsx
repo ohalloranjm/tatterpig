@@ -25,7 +25,8 @@ export default function Landing() {
               <ul className='tatterpig-whatdo'>
                 <li>Create an account to get started.</li>
                 <li>
-                  Browse <Link to='/public'>publically available sheets</Link>{' '}
+                  Browse{' '}
+                  <Link to='/publicsheets'>publically available sheets</Link>{' '}
                   for inspiration.
                 </li>
                 <li>Log in as a demo user to sample the site’s features.</li>

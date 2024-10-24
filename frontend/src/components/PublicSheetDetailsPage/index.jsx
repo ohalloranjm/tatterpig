@@ -31,7 +31,7 @@ export default function PublicSheetDetailsPage() {
         )}
       </div>
 
-      <Link to='/public' className='back-to-browse '>
+      <Link to='/publicsheets' className='back-to-browse '>
         Back to Browse
       </Link>
     </>
