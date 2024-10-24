@@ -138,7 +138,18 @@ select.ldh-datatype {
   text-align: right;
 }
 
-.delete-label-button {
+.label-detail-bottom > p {
+  color: var(--graytxt);
+  margin-top: 15px;
+  size: 0.9em;
+  text-align: center;
+}
+
+.label-detail-bottom > div {
+  display: flex;
+}
+
+.label-detail-bottom button {
   display: block;
   margin: 10px auto 0;
 }

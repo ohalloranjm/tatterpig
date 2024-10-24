@@ -53,12 +53,12 @@ const pages = [
     }),
   },
   {
-    path: '/public',
+    path: '/publicsheets',
     element: <PublicSheetsIndex />,
     loader: api.sheet.getPublic,
   },
   {
-    path: '/public/:sheetId',
+    path: '/publicsheets/:sheetId',
     element: <PublicSheetDetailsPage />,
     loader: api.sheet.getOne,
   },

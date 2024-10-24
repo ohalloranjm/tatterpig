@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import './Navigation.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
@@ -32,12 +32,15 @@ function Navigation({ isLoaded }) {
     <div id='navigation'>
       <div className='nav-tabs'>
         {isLoaded && tabs}
-        <NavLink to='/public'>Browse</NavLink>
+        <NavLink to='/publicsheets'>Browse</NavLink>
       </div>
       {isLoaded && sessionUser && (
         <div>
-          <button className='icon' onClick={() => navigate('/account')}>
-            <FontAwesomeIcon icon={faGear} />
+          <button
+            className='icon user-settings-button'
+            onClick={() => navigate('/account')}
+          >
+            <FontAwesomeIcon icon={faUserGear} />
           </button>
           <button className='logout-button' onClick={logout}>
             Log Out

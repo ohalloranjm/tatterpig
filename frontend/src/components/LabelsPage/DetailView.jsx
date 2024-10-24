@@ -1,23 +1,23 @@
-import { useNavigate, useSubmit } from 'react-router-dom';
+import { useNavigate, useSearchParams, useSubmit } from 'react-router-dom';
 import ValueTile from './ValueTile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import EditLabelInline from './EditLabelInline';
+import { useEffect, useState } from 'react';
 
 export default function LabelDetailView({ label, edit }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [searchParams] = useSearchParams();
+  useEffect(() => setConfirmDelete(false), [searchParams]);
+
   const deleteLabel = () => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this label? It will be removed from all associated sheets.'
-    );
-    if (confirmDelete) {
-      submit(null, {
-        method: 'delete',
-        action: `/labels?id=${label.id}`,
-      });
-    }
+    submit(null, {
+      method: 'delete',
+      action: `/labels?id=${label.id}`,
+    });
   };
 
   const subtitle =
@@ -39,7 +39,7 @@ export default function LabelDetailView({ label, edit }) {
             className='icon ldh-edit-toggle'
             onClick={() => navigate(`/labels?id=${label.id}&edit=true`)}
           >
-            <FontAwesomeIcon icon={faPencil} />
+            <FontAwesomeIcon icon={faPenToSquare} />
           </button>
         </div>
       )}
@@ -48,17 +48,37 @@ export default function LabelDetailView({ label, edit }) {
         <ValueTile key={sa.id} sheet={sa} />
       ))}
 
-      <div className='label-detail-bottom-buttons'>
-        <button
-          type='button'
-          className='delete-label-button grayed-out'
-          onClick={e => {
-            e.stopPropagation();
-            deleteLabel();
-          }}
-        >
-          Delete Label
-        </button>
+      <div className='label-detail-bottom'>
+        {confirmDelete ? (
+          <>
+            <p>
+              Are you sure you want to delete this label? It will be removed
+              from all associated sheets.
+            </p>
+            <div>
+              <button
+                onClick={e => {
+                  e.stopPropagation();
+                  deleteLabel();
+                }}
+                className='delete-label-button grayed-out'
+              >
+                Confirm Delete
+              </button>
+              <button onClick={() => setConfirmDelete(false)}>
+                Never Mind
+              </button>
+            </div>
+          </>
+        ) : (
+          <button
+            type='button'
+            onClick={() => setConfirmDelete(true)}
+            className='delete-label-button grayed-out'
+          >
+            Delete Label
+          </button>
+        )}
       </div>
     </>
   );

@@ -88,8 +88,8 @@ export default function Welcome() {
             <li>Edit as needed!</li>
             <li>
               If you’re stuck, check out{' '}
-              <Link to='/public'>publically available sheets</Link> to see how
-              other people are using Tatterpig.
+              <Link to='/publicsheets'>publically available sheets</Link> to see
+              how other people are using Tatterpig.
             </li>
           </ul>
         </div>

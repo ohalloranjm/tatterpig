@@ -34,4 +34,5 @@
 
 .session-form button.demo-login-button:hover {
   text-decoration: underline;
+  box-shadow: none;
 }

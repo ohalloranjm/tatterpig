@@ -6,36 +6,39 @@
   margin-bottom: 20px;
 }
 
-#navigation > div {
-  display: flex;
-  column-gap: 2px;
-}
-
 #navigation > div > a {
   color: var(--two);
   background-color: var(--one);
-  padding: 5px 10px 20px;
+  padding: 0 10px 8px;
   font-size: 1.2em;
-  border-bottom-right-radius: 40%;
-  border-bottom-left-radius: 40%;
+  border-bottom-right-radius: 30%;
+  border-bottom-left-radius: 30%;
+  margin-right: 4px;
+  display: inline-block;
+  box-shadow: 2px 0 2px var(--txt);
 }
 
-#navigation > div > a:hover {
-  text-decoration: none;
-  background-color: var(--three);
-  color: var(--txt);
-}
-
+#navigation > div > a:hover,
 #navigation > div > a.active {
-  color: var(--txt);
-  background-color: var(--two);
+  text-decoration: none;
+  padding-bottom: 18px;
 }
 
-#navigation > div > a.active:hover {
-  background-color: var(--three);
+.user-settings-button {
+  font-size: 1.2em;
+  margin-top: 2px;
+}
+
+button.user-settings-button:hover {
+  background-color: inherit;
+  color: var(--txt);
 }
 
 .logout-button {
   margin: 3px;
   font-size: 1em;
+}
+
+.logout-button:hover {
+  background-color: var(--three);
 }

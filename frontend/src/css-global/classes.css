@@ -25,6 +25,7 @@ button.icon:hover {
   background-color: var(--one);
   color: var(--two);
   border: 0;
+  box-shadow: none;
 }
 
 a.icon:hover {
@@ -49,13 +50,17 @@ button.grayed-out {
 
 button.grayed-out:hover {
   background-color: var(--light);
+  box-shadow: 2px 2px 2px var(--txt);
 }
 
 .big-link {
-  border: 5px solid var(--three);
+  border: 2px solid var(--three);
+  box-shadow: 2px 2px 2px var(--one);
 }
 
 .big-link:hover {
   cursor: pointer;
-  border: 5px solid var(--one);
+  /* border: 5px solid var(--one); */
+  background-color: var(--two);
+  /* border: 1px solid var(--two); */
 }

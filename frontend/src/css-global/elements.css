@@ -29,8 +29,9 @@ button {
 }
 
 button:hover {
-  background-color: var(--three);
+  background-color: var(--two);
   color: var(--one);
+  box-shadow: 2px 2px 2px var(--one);
 }
 
 img {

@@ -10,19 +10,26 @@ import {
   faX,
   faCheck,
   faPencil,
-  faTrash,
+  faTrashCan,
   faArrowUp,
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
-export default function SheetLabelTile({ label, order, aboveId, belowId }) {
+export default function SheetLabelTile({
+  label,
+  order,
+  aboveId,
+  belowId,
+  reorder,
+}) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const stringNumInputRef = useRef(null);
   const booleanInputRef = useRef(null);
 
   const [edit, setEdit] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [value, setValue] = useState(label.value ?? '');
   const [searchParams] = useSearchParams();
   const [divClass, setDivClass] = useState('sheet-value-tile');
@@ -39,6 +46,16 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
       setEdit(true);
     } else {
       setEdit(false);
+      if (
+        searchParams.get('edit') === 'confirmremove' &&
+        Number(searchParams.get('labelId')) === labelId
+      ) {
+        setConfirmDelete(true);
+        setDivClass('sheet-value-tile svt-confirm-delete');
+      } else {
+        setConfirmDelete(false);
+        setDivClass('sheet-value-tile');
+      }
     }
   }, [labelId, searchParams]);
 
@@ -56,12 +73,7 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   const { dataType } = label;
   const isBoolean = dataType === 'boolean';
 
-  const removeLabel = () => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to remove the ${label.name} label from this sheet?`
-    );
-    if (confirmDelete) submit(null, { method: 'DELETE', action });
-  };
+  const removeLabel = () => submit(null, { method: 'DELETE', action });
 
   const editValue = e => {
     e.preventDefault();
@@ -151,31 +163,6 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
   let svtNameClass = 'svt-name';
   if (isBoolean && label.value === 'false') svtNameClass += ' svt-name-false';
 
-  const positionButtons = (
-    <>
-      {!!aboveId && (
-        <button
-          className='icon svt-button3'
-          type='button'
-          onClick={shiftUp}
-          disabled={searchParams.has('edit')}
-        >
-          <FontAwesomeIcon icon={faArrowUp} />
-        </button>
-      )}
-      {!!belowId && (
-        <button
-          className='icon svt-button4'
-          type='button'
-          onClick={shiftDown}
-          disabled={searchParams.has('edit')}
-        >
-          <FontAwesomeIcon icon={faArrowDown} />
-        </button>
-      )}
-    </>
-  );
-
   {
     /* edit view for number and string values */
   }
@@ -207,9 +194,6 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         >
           <FontAwesomeIcon icon={faX} />
         </button>
-
-        {/* up and down buttons, should be disabled */}
-        {positionButtons}
       </form>
     );
 
@@ -226,60 +210,103 @@ export default function SheetLabelTile({ label, order, aboveId, belowId }) {
         <Link to={`/labels?id=${label.labelId}`}>{label.name}</Link>
       </p>
 
-      {/* static view for number and string values */}
-      {!isBoolean && (
+      {reorder ? (
         <>
-          <p
-            className='svt-value'
-            onDoubleClick={() =>
-              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-            }
-          >
-            {label.value}
+          {!!aboveId && (
+            <button
+              className='icon svt-button1'
+              type='button'
+              onClick={shiftUp}
+              disabled={searchParams.has('edit')}
+            >
+              <FontAwesomeIcon icon={faArrowUp} />
+            </button>
+          )}
+          {!!belowId && (
+            <button
+              className='icon svt-button2'
+              type='button'
+              onClick={shiftDown}
+              disabled={searchParams.has('edit')}
+            >
+              <FontAwesomeIcon icon={faArrowDown} />
+            </button>
+          )}
+        </>
+      ) : confirmDelete ? (
+        <>
+          <p>
+            Are you sure you want to remove the {label.name} label from this
+            sheet?
           </p>
-          <button
-            type='button'
-            className='icon svt-button1'
-            onClick={() =>
-              navigate(`/sheets?id=${sheetId}&edit=label&labelId=${labelId}`)
-            }
-          >
-            <FontAwesomeIcon icon={faPencil} />
+          <button onClick={removeLabel} className='grayed-out'>
+            Remove
           </button>
-          <button
-            type='button'
-            className='icon svt-button2'
-            onClick={removeLabel}
-          >
-            <FontAwesomeIcon icon={faTrash} />
+          <button onClick={() => navigate(`/sheets?id=${sheetId}`)}>
+            Never Mind
           </button>
         </>
-      )}
-
-      {/* dynamic view for boolean values */}
-      {isBoolean && (
+      ) : (
         <>
-          <button
-            type='button'
-            className='boolean-icon svt-button1'
-            ref={booleanInputRef}
-            onClick={changeBooleanValue}
-            onMouseEnter={() => setFilledCircle(label.value === 'false')}
-            onMouseLeave={() => setFilledCircle(label.value === 'true')}
-          >
-            <FontAwesomeIcon icon={booleanIcon} />
-          </button>
+          {/* static view for number and string values */}
+          {!isBoolean && (
+            <>
+              <p
+                className='svt-value'
+                onDoubleClick={() =>
+                  navigate(
+                    `/sheets?id=${sheetId}&edit=label&labelId=${labelId}`
+                  )
+                }
+              >
+                {label.value}
+              </p>
+              <button
+                type='button'
+                className='icon svt-button1'
+                onClick={() =>
+                  navigate(
+                    `/sheets?id=${sheetId}&edit=label&labelId=${labelId}`
+                  )
+                }
+                disabled={searchParams.has('edit')}
+              >
+                <FontAwesomeIcon icon={faPencil} />
+              </button>
+            </>
+          )}
+
+          {/* dynamic view for boolean values */}
+          {isBoolean && (
+            <>
+              <button
+                type='button'
+                className='boolean-icon icon svt-button1'
+                ref={booleanInputRef}
+                onClick={changeBooleanValue}
+                onMouseEnter={() => setFilledCircle(label.value === 'false')}
+                onMouseLeave={() => setFilledCircle(label.value === 'true')}
+                disabled={searchParams.has('edit')}
+              >
+                <FontAwesomeIcon icon={booleanIcon} />
+              </button>
+            </>
+          )}
 
           <button
             type='button'
             className='icon svt-button2'
-            onClick={removeLabel}
+            onClick={() =>
+              navigate(
+                `/sheets?id=${sheetId}&edit=confirmremove&labelId=${labelId}`
+              )
+            }
+            disabled={searchParams.has('edit')}
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTrashCan} />
           </button>
         </>
       )}
-      {positionButtons}
     </div>
   );
 }

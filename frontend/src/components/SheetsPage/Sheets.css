@@ -58,6 +58,7 @@
   grid-template-columns: auto 50px 50px;
   grid-template-areas:
     'sdh-title sdh-button1 sdh-button2'
+    'sdh-settings sdh-settings sdh-settings'
     'sdh-description sdh-description sdh-description';
 }
 
@@ -74,10 +75,34 @@
   font-size: 1.4em;
 }
 
+.sdh-toggle-settings {
+  grid-area: sdh-button1;
+  font-size: 1.4em;
+}
+
 .sdh-edit,
 .sdh-cancel-edit {
   grid-area: sdh-button2;
   font-size: 1.4em;
+}
+
+.sdh-settings {
+  grid-area: sdh-settings;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 15px;
+}
+
+.sds-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.sds-message {
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--graytxt);
 }
 
 .sdh-description {
@@ -87,11 +112,11 @@
 
 .sheet-value-tile {
   display: grid;
-  grid-template-columns: 1fr 1fr 25px 25px 25px 25px;
-  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2 svt-button3 svt-button4';
-  column-gap: 15px;
+  grid-template-columns: 1fr 1fr 25px 25px;
+  grid-template-areas: 'svt-name svt-value svt-button1 svt-button2';
   border-top: 1px dashed var(--one);
   padding: 10px 5px;
+  column-gap: 10px;
 }
 
 .svt-dragover {
@@ -99,9 +124,14 @@
   padding-top: 8px;
 }
 
+.svt-confirm-delete {
+  grid-template-columns: 1fr 3fr 1fr 1fr;
+}
+
 .svt-name {
   font-weight: bold;
   grid-area: svt-name;
+  margin-right: 15px;
 }
 
 .svt-name > a {
@@ -124,11 +154,19 @@
   text-align: right;
 }
 
+p.svt-value {
+  padding-right: 5px;
+}
+
+input.svt-value {
+  margin-right: 5px;
+}
+
 .svt-button1,
-.svt-button2,
-.svt-button3,
-.svt-button4 {
-  font-size: 0.7em;
+.svt-button2 {
+  font-size: 0.9em;
+  margin-top: -5px;
+  padding: 3px;
 }
 
 .svt-button1 {
@@ -139,19 +177,11 @@
   grid-area: svt-button2;
 }
 
-.svt-button3 {
-  grid-area: svt-button3;
-}
-
-.svt-button4 {
-  grid-area: svt-button4;
-}
-
 .boolean-icon,
-.boolean-icon:hover {
-  background-color: inherit;
+button.boolean-icon:hover {
   color: var(--one);
   border: 0;
+  background-color: inherit;
 }
 
 .sd-add-attribute-button {
@@ -190,13 +220,26 @@
   grid-area: sdal-errors;
 }
 
-.sd-bottom-buttons {
-  width: fit-content;
-  margin: auto;
-  margin-top: 10px;
-  border-top: 1px solid var(--one);
-}
-
 .sd-bottom-buttons > button {
   margin: 5px;
+}
+
+.view-public-page {
+  display: block;
+  margin: 30px auto 0;
+  width: fit-content;
+  font-size: 1.2em;
+}
+
+.view-public-page > .icon {
+  font-size: 1em;
+}
+
+.view-public-page > .icon:hover {
+  background-color: inherit;
+  color: var(--txt);
+}
+
+.view-public-link-successfully-copied {
+  font-size: 0.9em;
 }
