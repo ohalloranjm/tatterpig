@@ -231,12 +231,23 @@ export default function SheetDetailsView({ sheet, edit }) {
         {addValue && <ValueForm sheet={sheet} />}
       </div>
       {sheet.public && (
-        <Link
-          to={`/publicsheets/${sheet.id}`}
-          className='view-and-edit-on-dashboard'
-        >
-          View Public Page
-        </Link>
+        <>
+          <Link to={`/publicsheets/${sheet.id}`} className='view-public-page'>
+            View Public Page
+          </Link>
+          <a
+            onClick={() =>
+              navigator.clipboard
+                .writeText(
+                  `https://tatterpig.onrender.com/publicsheets/${sheet.id}`
+                )
+                .then(() => console.log('success'))
+                .catch(() => console.log(':('))
+            }
+          >
+            Copy Link
+          </a>
+        </>
       )}
     </>
   );

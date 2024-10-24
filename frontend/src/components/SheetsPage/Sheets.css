@@ -219,3 +219,10 @@ button.boolean-icon:hover {
 .sd-bottom-buttons > button {
   margin: 5px;
 }
+
+.view-public-page {
+  display: block;
+  margin: 30px auto -10px;
+  width: fit-content;
+  font-size: 1.2em;
+}
