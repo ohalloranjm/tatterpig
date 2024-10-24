@@ -235,3 +235,7 @@ button.boolean-icon:hover {
   background-color: inherit;
   color: var(--txt);
 }
+
+.view-public-link-successfully-copied {
+  font-size: 0.9em;
+}

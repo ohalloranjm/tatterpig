@@ -25,6 +25,7 @@ export default function SheetDetailsView({ sheet, edit }) {
   const [searchParams] = useSearchParams();
   const [addValue, setAddValue] = useState(false);
   const [settingsView, setSettingsView] = useState(null);
+  const [copiedPublicLink, setCopiedPublicLink] = useState(false);
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -238,19 +239,23 @@ export default function SheetDetailsView({ sheet, edit }) {
             <button
               type='button'
               className='icon'
-              onClick={() =>
+              onClick={() => {
+                setCopiedPublicLink(false);
                 navigator.clipboard
                   .writeText(
                     `https://tatterpig.onrender.com/publicsheets/${sheet.id}`
                   )
-                  .then(() => console.log('success'))
-                  .catch(() => console.log(':('))
-              }
+                  .then(() => setCopiedPublicLink(true));
+              }}
             >
               <FontAwesomeIcon icon={faLink} />
             </button>
           </div>
-          <p className='center'>Link successfully copied!</p>
+          {copiedPublicLink && (
+            <p className='center view-public-link-successfully-copied'>
+              Link successfully copied!
+            </p>
+          )}
         </>
       )}
     </>
