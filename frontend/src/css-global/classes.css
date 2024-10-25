@@ -60,7 +60,5 @@ button.grayed-out:hover {
 
 .big-link:hover {
   cursor: pointer;
-  /* border: 5px solid var(--one); */
   background-color: var(--two);
-  /* border: 1px solid var(--two); */
 }
