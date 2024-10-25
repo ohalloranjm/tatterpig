@@ -1,46 +1,41 @@
-This is an app for tabletop RPG character sheet management. Create and edit 'sheets' to represent characters (or monsters, locations, etc.), then associate 'labels' with those sheets. Labels might be game stats, HP, temporary statuses, items, or really anything—this should be very flexible and modular, so that it's compatible with a wide range of TTRPG systems.
+# Tatterpig
 
-# Features
+Tatterpig is a modular, flexible tabletop RPG character sheet management app designed with Express.js and React.js.
 
-## Sheets
+![landing page](images/landing-page.png)
 
-- Users should be able to view all of the sheets they own
-- Users should be able to browse publicly available sheets
-- Users should be able to create a new sheet
-  - from a blank slate
-  - by copying an existing sheet
-- Users should be able to edit a sheet they own
-- Users should be able to delete a sheet they own
+[> Live here! <](https://tatterpig.onrender.com/)
 
-## Labels
+# Functionality
 
-- Users should be able to view all labels they own
-- Users should be able to add a new label to a sheet they own and assign it a value
-- Users should be able to attach an existing label they own to a sheet they own and assign it a value
-- Users should be able to change the value of any label on a sheet they
-- Users should be able to unattach an label from a sheet they own
-- Users should be able to edit the details of an label they own
-- Users should be able to delete an label they own
+Create and edit _sheets_ to represent characters, monsters, locations, or other game pieces, then create and associate _labels_ with those sheets to represent game stats, hit points, temporary statuses, items, or other game piece information. Reorder, edit, or delete labels from a sheet as suit your needs.
 
-## Stretch Goal: Shared Sheets
+![sheets detail page](images/sheet-details.png)
 
-- Users should be able to view all sheets that have been shared with them
-- For shared sheets that a user has edit privileges for, they should be able to:
-  - edit the sheet details
-  - add, attach, unattach, and change the values of that sheet's labels
+# Technologies
 
-## Stretch Goal: Actions
+Tatterpig's backend web API is built with [Express](http://expressjs.com/) and uses the [Sequelize](https://sequelize.org/) ORM for database management.
 
-- Users should be able to view all actions they own
-- Users should be able to view all actions that have been shared with them
-- Users should be able to create new actions
-- Users should be able to edit actions they own
-- Users should be able to delete actions
+Its frontend is designed with [React](https://react.dev/) and vanilla CSS. A [Redux](https://redux.js.org/) store is used for session management.
 
-## Stretch Goal: Rolls
+![code snippet showing part of a React router, including loader and action fields](images/code-snippet.png)
 
-- Users should be able to view all rolls they've made
-- Users should be able to view all rolls attached to sheets they own and sheets shared with them
-- Users should be able to generate new rolls from scratch
-- Users should be able to generate new rolls from actions
-- Users should be able to delete rolls they own
+# Code Along
+
+To run your own copy of Tatterpig locally, follow these steps:
+
+## Backend Setup
+
+1. `cd` into the `/backend` directory.
+1. Run `npm install` to install dependencies.
+1. Create a file named `.env` and populate it according to the `.env.example` file, filling in your own `JWT_SECRET`.
+1. Run `npm run migrate` to create your database and tables.
+1. Run `npm run seed` to populate your database with sample data.
+1. Run `npm start` to start listening for API requests.
+
+## Frontend Setup
+
+1. `cd` into the `/frontend` folder.
+1. Run `npm install` to install dependencies.
+1. Run `npm run dev` to launch the project locally.
+1. Open the `localhost` port in your browser (it will default to `localhost:5173` if possible) to view the site!
