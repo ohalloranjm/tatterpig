@@ -28,11 +28,6 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      ephemeral: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
       dataType: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -29,11 +29,6 @@ module.exports = {
           type: Sequelize.STRING(50),
           allowNull: false,
         },
-        ephemeral: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
         dataType: {
           type: Sequelize.STRING(10),
         },

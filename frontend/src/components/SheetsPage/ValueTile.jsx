@@ -101,7 +101,6 @@ export default function SheetLabelTile({
 
   const handleDrop = e => {
     const movedId = Number(e.dataTransfer.getData('text/plain'));
-    console.log(movedId);
     const newOrder = [];
     order.forEach(id => {
       if (id === labelId) newOrder.push(movedId);
