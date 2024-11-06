@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
-const { setTokenCookie } = require('../../utils/auth');
+const { setTokenCookie } = require('../../utils/functions');
 const { User } = require('../../database/models');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { validateRequest } = require('../../middleware');
 
 const validateLogin = [
   check('credential')
@@ -15,7 +15,7 @@ const validateLogin = [
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password.'),
-  handleValidationErrors,
+  validateRequest,
 ];
 
 // log in a user

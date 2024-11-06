@@ -1,13 +1,12 @@
 const express = require('express');
 const { Sheet, SheetLabel, Label } = require('../../database/models');
-const { requireAuth } = require('../../utils/auth');
+const { requireAuth, validateRequest } = require('../../middleware');
 const { AuthorizationError, NotFoundError } = require('../../utils/errors');
-const { formatSheetLabelsMutate } = require('../../utils/response-formatting');
-const { check } = require('express-validator');
 const {
-  handleValidationErrors,
+  formatSheetLabelsMutate,
   validateLabelValue,
-} = require('../../utils/validation');
+} = require('../../utils/functions');
+const { check } = require('express-validator');
 
 const router = express.Router();
 
@@ -28,7 +27,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 const validateUpdateSheetLabel = [
   check('value').exists().withMessage('Value is required'),
-  handleValidationErrors,
+  validateRequest,
 ];
 
 // change the value of a SheetLabel instance
@@ -147,7 +146,7 @@ const validateUpdateSheet = [
   check('name').exists().withMessage('Name is required'),
   check('description').exists().withMessage('Description is required'),
   check('public').exists().withMessage('Public is required'),
-  handleValidationErrors,
+  validateRequest,
 ];
 
 // update a sheet

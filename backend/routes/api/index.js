@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { restoreUser } = require('../../utils/auth.js');
+const { formatSequelizeErrors, restoreUser } = require('../../middleware');
 const labelsRouter = require('./labels.js');
 const sessionRouter = require('./session.js');
 const sheetsRouter = require('./sheets.js');
@@ -13,5 +13,6 @@ router.use('/labels', labelsRouter);
 router.use('/session', sessionRouter);
 router.use('/sheets', sheetsRouter);
 router.use('/users', usersRouter);
+router.use(formatSequelizeErrors);
 
 module.exports = router;

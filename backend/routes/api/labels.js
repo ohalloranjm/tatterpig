@@ -1,10 +1,9 @@
 const express = require('express');
-const { Label, Sheet, SheetLabel } = require('../../database/models');
-const { requireAuth } = require('../../utils/auth');
+const { Label, SheetLabel } = require('../../database/models');
+const { requireAuth, validateRequest } = require('../../middleware');
 const { AuthorizationError, NotFoundError } = require('../../utils/errors');
-const { formatLabelSheetsMutate } = require('../../utils/response-formatting');
+const { formatLabelSheetsMutate } = require('../../utils/functions');
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
@@ -47,7 +46,7 @@ const validateUpdateLabel = [
     .exists({ checkFalsy: true })
     .notEmpty()
     .withMessage('Data type is required'),
-  handleValidationErrors,
+  validateRequest,
 ];
 
 // update an label
