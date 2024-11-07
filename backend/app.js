@@ -5,11 +5,10 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const routes = require('./routes');
-const handleErrors = require('./error-handling');
-
 const { environment } = require('./config');
 const isProduction = environment === 'production';
+const routes = require('./routes');
+const { invalidRoute, logErrors, respondToErrors } = require('./middleware');
 
 const app = express();
 
@@ -43,6 +42,12 @@ app.use(
 
 // use routes
 app.use(routes);
-app.use(handleErrors);
+
+// catch invalid routes
+app.use(invalidRoute);
+
+// handle errors
+app.use(logErrors);
+app.use(respondToErrors);
 
 module.exports = app;
