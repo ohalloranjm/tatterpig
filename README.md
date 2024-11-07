@@ -45,7 +45,7 @@ Tatterpig's JSON-based backend API is built with [Express](http://expressjs.com/
 
 Authentication is handled with a JWT, via the [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) package. The token is set upon signing up (`POST /users`) or logging in (`POST /session`).
 
-The [`restoreUser` custom middleware](backend/middleware/authentication/restore-user.js) assigns a `user` property to the request object. If the JWT is valid, `req.user` is a Sequelize model instance representing the authenticated user; if it's missing or invalid, `req.user` is `null`. This allows any route to quickly reference the authenticated user—for example, [`GET /sheets/current`](backend/routes/api/sheets.js):
+The [`restoreUser` custom middleware](backend/middleware/authentication/restore-user.js) assigns a `user` property to the request object. If the JWT is valid, `req.user` is a Sequelize model instance representing the authenticated user; if it's missing or invalid, `req.user` is `null`. This allows any route to quickly reference the authenticated user—for example, [`GET /sheets/current`](backend/routes/api/sheets/get-current-sheets.js):
 
 ```js
 const ownerId = req.user.id;

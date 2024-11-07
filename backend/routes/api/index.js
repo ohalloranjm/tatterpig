@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { formatSequelizeErrors, restoreUser } = require('../../middleware');
-const labelsRouter = require('./labels.js');
-const sessionRouter = require('./session.js');
-const sheetsRouter = require('./sheets.js');
-const usersRouter = require('./users.js');
+const labelsRouter = require('./labels');
+const sessionRouter = require('./session');
+const sheetsRouter = require('./sheets');
+const usersRouter = require('./users');
 
 // if current user session is valid, set req.user to that user in the database
 // if not, set req.user to null
