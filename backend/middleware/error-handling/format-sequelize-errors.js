@@ -1,6 +1,7 @@
+// catch and format Sequelize errors
+
 const { ValidationError } = require('sequelize');
 
-// catch and format sequelize errors
 module.exports = {
   name: 'formatSequelizeErrors',
   middle(err, _req, _res, next) {

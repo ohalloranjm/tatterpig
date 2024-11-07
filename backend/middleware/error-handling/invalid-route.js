@@ -1,6 +1,7 @@
+// catch unhandled requests and forward to error handler
+
 const { NotFoundError } = require('../../utils/errors');
 
-// catch unhandled requests and forward to error handler
 module.exports = {
   name: 'invalidRoute',
 

@@ -1,4 +1,4 @@
-// get the current user
+// view the current user's details
 
 module.exports = (req, res) => {
   const { user } = req;

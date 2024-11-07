@@ -1,4 +1,4 @@
-// If there is no current user, return an error
+// if there is no current user, return an error
 
 module.exports = {
   name: 'requireAuth',

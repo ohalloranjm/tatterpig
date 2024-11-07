@@ -1,4 +1,4 @@
-// Sign up as a new user
+// sign up as a new user
 
 const { check } = require('express-validator');
 const { validateRequest } = require('../../../middleware');

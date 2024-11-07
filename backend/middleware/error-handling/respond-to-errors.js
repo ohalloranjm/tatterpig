@@ -1,7 +1,8 @@
+// format and respond to errors
+
 const { environment } = require('../../config');
 const isProduction = environment === 'production';
 
-// format and respond to errors
 module.exports = {
   name: 'respondToErrors',
 

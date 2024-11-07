@@ -1,7 +1,8 @@
+// format errors from express-validator middleware
+
 const { validationResult } = require('express-validator');
 const { BadRequestError } = require('../../utils/errors');
 
-// format errors from express-validator middleware
 module.exports = {
   name: 'validateRequest',
 

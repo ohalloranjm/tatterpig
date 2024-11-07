@@ -1,3 +1,5 @@
+// reorder the labels in a sheet
+
 const { requireAuth } = require('../../../middleware');
 const { Sheet, SheetLabel } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');

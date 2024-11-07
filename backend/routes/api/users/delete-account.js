@@ -1,4 +1,4 @@
-// Delete account
+// delete the current user's account
 
 const { requireAuth } = require('../../../middleware');
 
