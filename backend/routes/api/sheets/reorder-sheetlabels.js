@@ -1,13 +1,13 @@
 // reorder the labels in a sheet
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 const { Sheet, SheetLabel } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { sheetId } = req.params;
     const { order } = req.body;
 
@@ -25,6 +25,11 @@ module.exports = [
       index++;
     }
 
-    return res.json({ message: 'Success', sheet });
+    res.message = 'Successfully reordered sheet labels.';
+    res.data = { sheet };
+
+    next();
   },
+
+  successResponse,
 ];
