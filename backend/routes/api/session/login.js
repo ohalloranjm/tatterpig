@@ -1,7 +1,7 @@
 // log in a user
 
 const { check } = require('express-validator');
-const { validateRequest } = require('../../../middleware');
+const { validateRequest, successResponse } = require('../../../middleware');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie } = require('../../../utils/functions');
@@ -38,7 +38,9 @@ module.exports = [
       const err = new Error('Login failed');
       err.status = 401;
       err.title = 'Login failed';
-      err.errors = { credential: 'The provided credentials were invalid.' };
+      err.errors = user
+        ? { password: 'Incorrect password.' }
+        : { credential: 'Account not found.' };
       return next(err);
     }
 
@@ -50,8 +52,11 @@ module.exports = [
 
     await setTokenCookie(res, safeUser);
 
-    return res.json({
-      user: safeUser,
-    });
+    res.message = 'Successfully logged in.';
+    res.data = { user: safeUser };
+
+    next();
   },
+
+  successResponse,
 ];
