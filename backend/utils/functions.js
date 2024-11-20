@@ -60,11 +60,17 @@ const validateLabelValue = (value, { dataType }) => {
   switch (dataType) {
     case 'number':
       if (isNaN(value))
-        throw new BadRequestError({ value: 'Value must be a number' });
+        throw new BadRequestError(
+          { value: 'Value must be a number' },
+          'Wrong data type.'
+        );
       break;
     case 'boolean':
       if (!['true', 'false'].includes(value?.toLowerCase())) {
-        throw new BadRequestError({ value: 'Value must be true or false' });
+        throw new BadRequestError(
+          { value: 'Value must be true or false' },
+          'Wrong data type.'
+        );
       }
       value = value.toLowerCase();
   }

@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
             args: [1, 500],
             msg: 'Value must be 500 or fewer characters',
           },
+          notEmpty: {
+            args: true,
+            msg: 'Value cannot be empty',
+          },
         },
       },
       index: {

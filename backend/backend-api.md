@@ -98,7 +98,7 @@ The `dataType` field of a `SheetLabel` object may be one of `number`, `boolean`,
 
 omitted: public, create a sheet, update a sheet, delete a sheet,
 
-### Labels
+### Label
 
 ```json
 {
@@ -149,6 +149,22 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
         "updatedAt": "1970-01-01T00:00:00.000Z"
       }
     ]
+  }
+}
+```
+
+### SheetLabel
+
+```json
+{
+  "message": "Success",
+  "sheetLabel": {
+    "sheetId": 1,
+    "labelId": 1,
+    "value": "example-value",
+    "index": 0,
+    "updatedAt": "1970-01-01T00:00:00.000Z",
+    "createdAt": "1970-01-01T00:00:00.000Z"
   }
 }
 ```
@@ -345,84 +361,29 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 - Response— _200 Success: Deleted label_ with `data.label`
 - Response— _404 Not Found: Label not found_
 
-# Unedited
+### Associate a Label with a Sheet
 
-## SheetLabel Routes
-
-### Associate a Label with a Sheet | `POST /sheets/:sheetId/labels`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### Request Body
-
-```json
-{
-  "labelId": 1,
-  "value": "example-value"
-}
-```
-
-The `value` field is optional and nullable _unless_ the label has a `dataType` of `boolean`.
-
-#### 200: Success
-
-```json
-{
-  "message": "Success",
-  "sheetLabel": {
-    "sheetId": 1,
+- Endpoint: `POST /sheets/:sheetId/labels`
+- Requires authentication
+- Authorized users only
+- Request body (`value` may be missing or `null` _unless_ the label has a `dataType` of `boolean`):
+  ```json
+  {
     "labelId": 1,
-    "value": "example-value",
-    "index": 0,
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "createdAt": "1970-01-01T00:00:00.000Z"
+    "value": "example-value"
   }
-}
-```
+  ```
+- Response— _200 Success: Added label to sheet_ with `data.sheetLabel`
+- Response— _400 Bad Request: Wrong data type_ with one of the following `errors.value`:
+  - `Value must be a number` (if the `dataType` of the label is `number`)
+  - `Value must be true or false` (if the `dataType` of the label is `boolean`)
+- Response— _400 Bad Request: Model validation failed_ with one of the following `errors.value`:
+  - `Value cannot be empty`
+  - `Value must be 500 or fewer characters`
+- Response— _404 Not Found: Sheet not found_
+- Response— _404 Not Found: Label not found_ (takes precedence over _Sheet not found_ if neither record exists)
 
-#### 400: Bad Request (`value` is >500 characters long or is `""`)
-
-```json
-{
-  "title": "Validation Error",
-  "message": "Validation error: Value must be 500 or fewer characters",
-  "errors": {
-    "value": "Value must be 500 or fewer characters"
-  }
-}
-```
-
-#### 400: Bad Request (all other)
-
-```json
-{
-  "title": "Bad Request",
-  "message": "Bad request.",
-  "errors": {
-    "value": "Value is required",
-    "value": "Value must be a number",
-    "Value must be true or false"
-  }
-}
-```
-
-The `errors` > `value` field is one of the following:
-
-- `Value is required`
-- `Value must be a number` (if the `dataType` of the label is `number`)
-- `Value must be true or false` (if the `dataType` of the label is `boolean`)
-
-#### 404: Resource Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": ""
-}
-```
-
-The `message` field is one of `Label not found` (the label doesn't exist, and the sheet may or may not exist) or `Sheet not found` (the label exists, and the sheet doesn't).
+# Unedited
 
 ### Change the Value of a SheetLabel Instance | `PUT /sheets/:sheetId/labels/:labelId`
 
