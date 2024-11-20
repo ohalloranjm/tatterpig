@@ -68,9 +68,9 @@ Some routes are additionally labeled "Authorized users only", indicating that th
   - `username`: `Username cannot be an email.`
   - `password`: `Password must be 6 characters or more.`
 
-- Response— _400 Bad Request: Model validation failed_ with one or more of the following `errors`:
+- Response— _400 Bad Request: Model validation failed_ with one of the following `errors` (in order of precedence):
+  - `username` : `Username must be between 4 and 30 characters.`
   - `email`: `email must be unique`
-  - `username` : `Validation len on username failed` (username must be 30 or fewer characterss)
   - `username`: `username must be unique`
 
 ### Log In
