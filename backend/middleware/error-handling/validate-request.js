@@ -15,7 +15,7 @@ module.exports = {
         .array()
         .forEach(error => (errors[error.path] = error.msg));
 
-      throw new BadRequestError(errors);
+      throw new BadRequestError(errors, 'Request validation failed.');
     }
     next();
   },
