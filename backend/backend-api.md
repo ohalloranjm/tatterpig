@@ -45,6 +45,55 @@ For routes labeled "Authentication required", the request must have JWT cookie o
 
 Some routes are additionally labeled "Authorized users only", indicating that the logged-in user must have the correct permissions. If they do not, a _403 Not Authorization: You do not have permission to access this resource_ error is returned.
 
+## Data Objects
+
+### user
+
+- id (integer)
+- username (string)
+- email (string)
+
+### sheet
+
+```json
+{
+  "id": 1,
+  "ownerId": 1,
+  "name": "Example Sheet Name",
+  "description": "Example sheet description.",
+  "public": true,
+  "createdAt": "1970-01-01T00:00:00.000Z",
+  "updatedAt": "1970-01-01T00:00:00.000Z",
+  "SheetLabels": [
+    {
+      "labelId": 1,
+      "name": "Example Label Name",
+      "dataType": "string",
+      "labelOwnerId": 1,
+      "index": 0,
+      "value": "example-value",
+      "sheetId": 1,
+      "createdAt": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "1970-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+```json
+{
+  "id": 1,
+  "ownerId": 1,
+  "name": "Example Sheet Name",
+  "description": "Example sheet description.",
+  "public": true,
+  "createdAt": "1970-01-01T00:00:00.000Z",
+  "updatedAt": "1970-01-01T00:00:00.000Z"
+}
+```
+
+The `dataType` field of a `SheetsLabel` object may be one of `number`, `boolean`, or `string`.
+
 ## Routes
 
 ### Sign Up
@@ -96,7 +145,13 @@ Some routes are additionally labeled "Authorized users only", indicating that th
 ### Log Out
 
 - Endpoint: `DELETE /session`
-- Response— 200 Successs
+- Response— _200 Successs: Logged out_
+
+### View the Current User
+
+- Endpoint: `GET /session`
+- Response— _200 Success: Retrieved session details_ with `data.user`
+  - If no session is active, `data.user` is set to `null`
 
 ### Delete the Current User's Account
 
@@ -104,137 +159,24 @@ Some routes are additionally labeled "Authorized users only", indicating that th
 - Authentication required
 - Response— _200 Success: Deleted account_ with `data.user`
 
-## Data
+### View All Public Sheets
 
-### user
+- Endpoint: `GET /sheets`
+- Response— _200 Success: Retrieved sheets_ with `data.sheets`
 
-- id (integer)
-- username (string)
-- email (string)
+### View All Sheets Owned by the Current User
+
+- Endpoint: `GET /sheets/current`
+- Requires authentication
+- Response— _200 Success: Retrieved sheets_ with `data.sheets`
+
+### View the Details of a Specific Sheet
+
+- Endpoint: `GET /sheets/:sheetId`
+- Requires authorization if `sheet.public` is `false`
+- Response— _200 Success: Retrieved sheet_ with `data.sheet`
 
 # Unedited
-
-### Get the Current User | `GET /session`
-
-- **Requires authentication?** No
-- **Authorized users only?** No
-
-#### 200: Success (If Logged In)
-
-```json
-{
-  "user": {
-    "id": 1,
-    "email": "example@email.io",
-    "username": "example-username"
-  }
-}
-```
-
-#### 200: Successs (If Logged Out)
-
-```json
-{
-  "user": null
-}
-```
-
-## Sheet Routes
-
-### View All Public Sheets | `GET /sheets`
-
-- **Requires authentication?** No
-- **Authorized users only?** No
-
-#### 200: Success
-
-```json
-{
-  "sheets": [
-    {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Sheet Name",
-      "description": "Example sheet description.",
-      "public": true,
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    }
-  ]
-}
-```
-
-### View All Sheets Owned by the Current User | `GET /sheets/current`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** No
-
-#### 200: Sucess
-
-```json
-{
-  "sheets": [
-    {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Sheet Name",
-      "description": "Example sheet description.",
-      "public": true,
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z",
-      "SheetLabels": [
-        {
-          "labelId": 1,
-          "name": "Example Label Name",
-          "dataType": "string",
-          "labelOwnerId": 1,
-          "index": 0,
-          "value": "example-value",
-          "sheetId": 1,
-          "createdAt": "1970-01-01T00:00:00.000Z",
-          "updatedAt": "1970-01-01T00:00:00.000Z"
-        }
-      ]
-    }
-  ]
-}
-```
-
-The `dataType` field of a `SheetsLabel` object may be one of `number`, `boolean`, or `string`.
-
-### View the Details of a Specific Sheet | `GET /sheets/:sheetId`
-
-- **Requires authentication?** No
-- **Authorized users only?** Yes if the sheet is private, otherwise no
-
-#### 200: Success
-
-```json
-{
-  "sheet": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "Example Sheet Name",
-    "public": true,
-    "description": "Example sheet description.",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "SheetLabels": [
-      {
-        "sheetId": 1,
-        "labelId": 1,
-        "labelOwnerId": 1,
-        "dataType": "string",
-        "value": "example-value",
-        "index": 0,
-        "createdAt": "1970-01-01T00:00:00.000Z",
-        "updatedAt": "1970-01-01T00:00:00.000Z",
-        "name": "Strength"
-      }
-    ]
-  }
-}
-```
 
 ### Create a New Sheet | `POST /sheets`
 
