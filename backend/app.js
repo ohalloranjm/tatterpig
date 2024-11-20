@@ -8,7 +8,12 @@ const cookieParser = require('cookie-parser');
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 const routes = require('./routes');
-const { invalidRoute, logErrors, respondToErrors } = require('./middleware');
+const {
+  invalidRoute,
+  formatCsurfErrors,
+  logErrors,
+  respondToErrors,
+} = require('./middleware');
 
 const app = express();
 
@@ -47,6 +52,7 @@ app.use(routes);
 app.use(invalidRoute);
 
 // handle errors
+app.use(formatCsurfErrors);
 app.use(logErrors);
 app.use(respondToErrors);
 
