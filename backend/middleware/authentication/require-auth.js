@@ -5,7 +5,7 @@ module.exports = {
   middle(req, _res, next) {
     if (req.user) return next();
 
-    const err = new Error('Authentication required to access this resource');
+    const err = new Error('You must be logged in to access this resource.');
     err.title = 'Authentication Required';
     err.status = 401;
     return next(err);
