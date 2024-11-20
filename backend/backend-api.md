@@ -111,6 +111,36 @@ create a sheet:
 }
 ```
 
+update a sheet:
+
+```json
+{
+  "sheet": {
+    "id": 1,
+    "name": "New Sheet Name",
+    "description": "New sheet description.",
+    "public": true,
+    "ownerId": 21,
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z"
+  }
+}
+```
+
+delete a sheet:
+
+```json
+  "sheet": {
+    "id": 1,
+    "ownerId": 1,
+    "name": "Example Sheet Name",
+    "public": true,
+    "description": "Example sheet description.",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z"
+  }
+```
+
 ## Routes
 
 ### Sign Up
@@ -143,14 +173,12 @@ create a sheet:
 
 - Endpoint: `POST /session`
 - Request body:
-
   ```json
   {
     "credential": "example-email-or-username",
     "password": "example-password"
   }
   ```
-
 - Response— _201 Success: Logged in_ with `data.user`
 - Response— _400 Bad Request: Request validation failed_ with at least one of the following `errors`:
   - `credential`: `Please provide a valid email or username.`
@@ -211,127 +239,40 @@ create a sheet:
 - `description`: `Description cannot be empty`
 - `description`: `Description must be 2000 or fewer characters`
 
-# Unedited
+### Update a Sheet
 
-#### 400: Bad Request
-
-```json
-{
-  "title": "Validation Error",
-  "message": "",
-  "errors": {}
-}
-```
-
-The `errors` object can contain any of the following fields:
-
-The `message` field for this response is current exhibiting unexpected behavior, which should be fixed with the next backend update.
-
-### Update a Sheet | `PUT /sheets/:sheetId`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### Request Body
-
-```json
-{
-  "name": "New Sheet Name",
-  "description": "New sheet description.",
-  "public": true
-}
-```
-
-#### 200: Success
-
-```json
-{
-  "sheet": {
-    "id": 1,
+- Endpoint: `PUT /sheets/:sheetId`
+- Requires authentication
+- Authorized users only
+- Request body (`description` may be `null`):
+  ```json
+  {
     "name": "New Sheet Name",
     "description": "New sheet description.",
-    "public": true,
-    "ownerId": 21,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z"
+    "public": true
   }
-}
-```
+  ```
+- Response— _200 Succes: Updated sheet_ with `data.sheet` (omitting `SheetLabels`)
+- Response— _400 Bad Request: Request validation failed_ with any of the following `errors`:
+  - `name`: `Name is required`
+  - `description`: `Description is required`
+  - `public`: `Public is required`
+- Response— _400 Bad Request: Model validation failed_ with any of the following `errors`:
+  - `name`: `Name is required`
+  - `name`: `Name must be 50 or fewer characters`
+  - `description`: `Description cannot be empty`
+  - `description`: `Description must be 2000 or fewer characters`
+- Response— _404 Not Found: Sheet not found_
 
-#### 400: Bad Request (missing fields)
+### Delete a Sheet
 
-```json
-{
-  "title": "Bad Request",
-  "message": "Bad request.",
-  "errors": {}
-}
-```
+- Endpoint: `DELETE /sheets/:sheetId`
+- Requires authentication
+- Authorized users only
+- Response— _200 Success: Deleted sheet_ with `data.sheet` (omitting `SheetLabels`)
+- Response— _404 Not Found: Sheet not found_
 
-The `errors` object can contain any of the following fields:
-
-- `name`: `Name is required`
-- `description`: `Description is required`
-- `public`: `Public is required`
-
-#### 400: Bad Request (all other)
-
-```json
-{
-  "title": "Validation Error",
-  "message": "",
-  "errors": {}
-}
-```
-
-The `errors` object can contain any of the following fields:
-
-- `name`: `Name is required`
-- `name`: `Name must be 50 or fewer characters`
-- `name`: `Sheet.name cannot be null`
-- `description`: `Description must be 2000 or fewer characters`
-
-The `message` field for this response is current exhibiting unexpected behavior, which should be fixed with the next backend update.
-
-#### 404: Sheet Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": "Sheet not found"
-}
-```
-
-### Delete a Sheet | `DELETE /sheets/:sheetId`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### 200: Success
-
-```json
-{
-  "message": "Successfully deleted",
-  "sheet": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "Example Sheet Name",
-    "public": true,
-    "description": "Example sheet description.",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z"
-  }
-}
-```
-
-#### 404: Sheet Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": "Sheet not found"
-}
-```
+# Unedited
 
 ## Label Routes
 
@@ -846,4 +787,8 @@ The `message` field is one of `Sheet not found` or `Sheet label not found`.
 {
   "title": "Resource Not Found"
 }
+```
+
+```
+
 ```
