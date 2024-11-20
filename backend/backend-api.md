@@ -94,6 +94,23 @@ Some routes are additionally labeled "Authorized users only", indicating that th
 
 The `dataType` field of a `SheetsLabel` object may be one of `number`, `boolean`, or `string`.
 
+create a sheet:
+
+```json
+{
+  "message": "Successfully created sheet",
+  "sheet": {
+    "id": 1,
+    "name": "Example Sheet Name",
+    "description": "Example sheet description.",
+    "public": false,
+    "ownerId": 1,
+    "updatedAt": "1970-01-01T00:00:00.000Z",
+    "createdAt": "1970-01-01T00:00:00.000Z"
+  }
+}
+```
+
 ## Routes
 
 ### Sign Up
@@ -176,40 +193,25 @@ The `dataType` field of a `SheetsLabel` object may be one of `number`, `boolean`
 - Requires authorization if `sheet.public` is `false`
 - Response— _200 Success: Retrieved sheet_ with `data.sheet`
 
-# Unedited
+### Create a New Sheet
 
-### Create a New Sheet | `POST /sheets`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### Request Body
-
-```json
-{
-  "name": "Example Sheet Name",
-  "description": "Example sheet description."
-}
-```
-
-The `description` field may be missing or null.
-
-#### 201: Created
-
-```json
-{
-  "message": "Successfully created sheet",
-  "sheet": {
-    "id": 1,
+- Endpoint: `POST /sheets`
+- Requires authentication
+- Request body (`description` may be missing or null):
+  ```json
+  {
     "name": "Example Sheet Name",
-    "description": "Example sheet description.",
-    "public": false,
-    "ownerId": 1,
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "createdAt": "1970-01-01T00:00:00.000Z"
+    "description": "Example sheet description."
   }
-}
-```
+  ```
+- Response— _201 Success: Created sheet_ with `data.sheet` (omitting `SheetLabels`)
+- Response— _400 Bad Request: Model validation failed_ with any of the following `errors`:
+- `name`: `Name is required`
+- `name`: `Name must be 50 or fewer characters`
+- `description`: `Description cannot be empty`
+- `description`: `Description must be 2000 or fewer characters`
+
+# Unedited
 
 #### 400: Bad Request
 
@@ -222,11 +224,6 @@ The `description` field may be missing or null.
 ```
 
 The `errors` object can contain any of the following fields:
-
-- `name`: `Sheet.name cannot be null`
-- `name`: `Name is required`
-- `name`: `Name must be 50 or fewer characters`
-- `description`: `Description must be 2000 or fewer characters`
 
 The `message` field for this response is current exhibiting unexpected behavior, which should be fixed with the next backend update.
 

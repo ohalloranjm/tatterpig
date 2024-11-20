@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
             args: true,
             msg: 'Name is required',
           },
+          notNull: {
+            args: true,
+            msg: 'Name is required',
+          },
         },
       },
       public: {
@@ -39,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
           len: {
             args: [1, 2000],
             msg: 'Description must be 2000 or fewer characters',
+          },
+          notEmpty: {
+            args: true,
+            msg: 'Description cannot be empty',
           },
         },
       },
