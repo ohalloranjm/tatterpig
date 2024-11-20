@@ -19,7 +19,7 @@ module.exports = [
 
     formatLabelSheetsMutate(label.SheetLabels);
 
-    res.message = 'Successfully retrieved label.';
+    res.message = 'Retrieved label.';
     res.data = { label };
 
     next();

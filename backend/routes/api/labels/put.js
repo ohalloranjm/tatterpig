@@ -40,7 +40,7 @@ module.exports = [
 
     const updated = await label.update({ name, dataType });
 
-    res.message = 'Successfully updated label.';
+    res.message = 'Updated label.';
     if (removeValues) {
       for (const sheetLabel of updated.SheetLabels) {
         await sheetLabel.update({ value: null });

@@ -31,7 +31,7 @@ module.exports = [
 
     const updated = await sheet.update({ name, description, public });
 
-    res.message = 'Successfully updated sheet.';
+    res.message = 'Updated sheet.';
     res.data = { sheet: updated };
 
     next();

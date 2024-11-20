@@ -16,7 +16,7 @@ module.exports = [
 
     await sheet.destroy();
 
-    res.message = 'Successfully deleted sheet.';
+    res.message = 'Deleted sheet.';
     res.data = { sheet };
 
     next();

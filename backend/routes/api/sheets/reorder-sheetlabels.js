@@ -25,7 +25,7 @@ module.exports = [
       index++;
     }
 
-    res.message = 'Successfully reordered sheet labels.';
+    res.message = 'Reordered sheet labels.';
     res.data = { sheet };
 
     next();

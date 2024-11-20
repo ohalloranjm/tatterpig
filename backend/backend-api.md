@@ -93,6 +93,11 @@ Some routes are additionally labeled "Authorized users only", indicating that th
   - `credential`: `Account not found`
   - `password`: `Incorrect password`
 
+### Log Out
+
+- Endpoint: `DELETE /session`
+- Response— 200 Successs
+
 ### Delete the Current User's Account
 
 - Endpoint: `DELETE /users/current`
@@ -108,19 +113,6 @@ Some routes are additionally labeled "Authorized users only", indicating that th
 - email (string)
 
 # Unedited
-
-### Log Out | `DELETE /session`
-
-- **Requires authentication?** No
-- **Authorized users only?** No
-
-#### 200: Successs
-
-```json
-{
-  "message": "success"
-}
-```
 
 ### Get the Current User | `GET /session`
 

@@ -5,7 +5,7 @@ const { successResponse } = require('../../../middleware');
 module.exports = [
   (req, res, next) => {
     const { user } = req;
-    res.message = 'Successfully retrieved session details.';
+    res.message = 'Retrieved session details.';
 
     if (user) {
       const { id, email, username } = user;

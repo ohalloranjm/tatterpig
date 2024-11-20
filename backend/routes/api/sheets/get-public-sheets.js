@@ -7,7 +7,7 @@ module.exports = [
   async (_req, res, next) => {
     const sheets = await Sheet.findAll({ where: { public: true } });
 
-    res.message = 'Successfully retrieved sheets.';
+    res.message = 'Retrieved sheets.';
     res.data = { sheets };
 
     next();

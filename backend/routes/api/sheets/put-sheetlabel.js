@@ -35,7 +35,7 @@ module.exports = [
 
     await sheetLabel.update({ value });
 
-    res.message = 'Successfully updated sheet label.';
+    res.message = 'Updated sheet label.';
     res.data = { sheetLabel };
 
     next();

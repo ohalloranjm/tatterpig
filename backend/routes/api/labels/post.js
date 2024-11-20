@@ -11,7 +11,7 @@ module.exports = [
 
     const label = await user.createLabel({ name, dataType });
 
-    res.message = 'Successfully created label.';
+    res.message = 'Created label.';
     res.data = { label };
 
     next();

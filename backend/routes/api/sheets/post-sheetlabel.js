@@ -35,7 +35,7 @@ module.exports = [
 
     const sheetLabel = await sheet.createSheetLabel({ labelId, value, index });
 
-    res.message = 'Successfully added label to sheet.';
+    res.message = 'Added label to sheet.';
     res.data = { sheetLabel };
 
     next();

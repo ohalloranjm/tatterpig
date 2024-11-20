@@ -11,7 +11,7 @@ module.exports = [
 
     const sheet = await user.createSheet({ name, public, description });
 
-    res.message = 'Successfully created sheet.';
+    res.message = 'Created sheet.';
     res.data = { sheet };
 
     next();

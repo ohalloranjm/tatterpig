@@ -16,7 +16,7 @@ module.exports = [
 
     await label.destroy();
 
-    res.message = 'Successfully deleted label.';
+    res.message = 'Deleted label.';
     res.data = { label };
 
     next();

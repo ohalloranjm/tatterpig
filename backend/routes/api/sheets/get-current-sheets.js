@@ -18,7 +18,7 @@ module.exports = [
       formatSheetLabelsMutate(sheet.SheetLabels);
     }
 
-    res.message = 'Successfully retrieved sheets.';
+    res.message = 'Retrieved sheets.';
     res.data = { sheets };
 
     next();

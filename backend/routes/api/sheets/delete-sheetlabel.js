@@ -21,7 +21,7 @@ module.exports = [
 
     await sheetLabel.destroy();
 
-    res.message = 'Successfully deleted sheet label.';
+    res.message = 'Deleted sheet label.';
     res.data = { sheetLabel };
 
     next();
