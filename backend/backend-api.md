@@ -262,97 +262,33 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 - Requires authentication? Yes
 - Response— _200 Success: Retrieved labels_ with `data.labels`
 
+### View a Specific Label
+
+- Endpoint: `GET /labels/:labelId`
+- Requires authentication
+- Authorized users only
+- Response— _200 Success: Retrieved label_ with `data.label`
+- Response— _404 Not Found: Label not found_
+
+### Create a New Label
+
+- Endpoint: `POST /labels`
+- Requires authentication
+- Request body:
+  ```json
+  {
+    "name": "Example Name",
+    "dataType": "string"
+  }
+  ```
+- Response— _201: Created_ with `data.label`
+- Response— _400 Bad Request: Model validation failed_ with at least one of the following `errors`:
+  - `name`: `Name is required`
+  - `name`: `Name must be 50 or fewer characters`
+  - `dataType`: `Data type is required`
+  - `dataType`: `Data type must be one of string, number, or boolean`
+
 # Unedited
-
-### View the Details of a Specific Label | `GET /labels/:labelId`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### 200: Success
-
-```json
-{
-  "label": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "Example Label Name",
-    "dataType": "string",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "SheetLabels": [
-      {
-        "sheetId": 1,
-        "name": "Example Sheet Name",
-        "description": "Example sheet description.",
-        "public": true,
-        "sheetOwnerId": 21,
-        "index": 0,
-        "value": "example-value",
-        "labelId": 1,
-        "createdAt": "1970-01-01T00:00:00.000Z",
-        "updatedAt": "1970-01-01T00:00:00.000Z"
-      }
-    ]
-  }
-}
-```
-
-#### 404: Label Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": "Label not found"
-}
-```
-
-### Create a New Label | `POST /labels`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** No
-
-#### Request Body
-
-```json
-{}
-```
-
-#### 201: Created
-
-```json
-{
-  "message": "Successfully created label",
-  "label": {
-    "id": 1,
-    "name": "Example Label Name",
-    "dataType": "string",
-    "ownerId": 1,
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "createdAt": "1970-01-01T00:00:00.000Z"
-  }
-}
-```
-
-#### 400: Bad Request
-
-```json
-{
-  "title": "Validation Error",
-  "message": "",
-  "errors": {}
-}
-```
-
-The `errors` object can contain any of the following fields:
-
-- `name`: `Label.name cannot be null`
-- `name`: `Label name is required`
-- `name`: `Name must be 50 or fewer characters`
-- `dataType`: `Label.dataType cannot be null`
-- `dataType`: `Validation isIn on dataType failed` (if `dataType` is not one of `number`, `string`, or `boolean`)
-
-The `message` field for this response is current exhibiting unexpected behavior, which should be fixed with the next backend update.
 
 ### Update a Label | `PUT /labels/:labelId`
 
