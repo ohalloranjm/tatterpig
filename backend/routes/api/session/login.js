@@ -10,7 +10,6 @@ const { User } = require('../../../database/models');
 module.exports = [
   check('credential')
     .exists({ checkFalsy: true })
-    .notEmpty()
     .withMessage('Please provide a valid email or username.'),
 
   check('password')
@@ -52,7 +51,7 @@ module.exports = [
 
     await setTokenCookie(res, safeUser);
 
-    res.message = 'Successfully logged in.';
+    res.message = 'Logged in.';
     res.data = { user: safeUser };
 
     next();

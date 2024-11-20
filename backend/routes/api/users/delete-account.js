@@ -9,7 +9,7 @@ module.exports = [
     await req.user.destroy();
     res.clearCookie('token');
 
-    res.message = 'Successfully deleted account.';
+    res.message = 'Deleted account.';
 
     const { id, username, email } = req.user;
     res.data = { user: { id, username, email } };

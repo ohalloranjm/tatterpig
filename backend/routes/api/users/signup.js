@@ -15,7 +15,7 @@ module.exports = [
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
+    .withMessage('Username must be 4 characters or more.'),
 
   check('username').not().isEmail().withMessage('Username cannot be an email.'),
 
@@ -39,7 +39,7 @@ module.exports = [
 
     await setTokenCookie(res, safeUser);
 
-    res.message = 'Successfully created account.';
+    res.message = 'Created account.';
     res.data = { user: safeUser };
 
     next();
