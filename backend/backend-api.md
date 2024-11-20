@@ -53,26 +53,28 @@ Some routes are additionally labeled "Authorized users only", indicating that th
 - username (string)
 - email (string)
 
-### sheet
+### Sheet
+
+A `Sheet` object represents a stat sheet owned by a specific user. Example:
 
 ```json
 {
-  "id": 1,
+  "id": 5,
   "ownerId": 1,
-  "name": "Example Sheet Name",
-  "description": "Example sheet description.",
+  "name": "Dan Bloodaxe",
+  "description": "5th-level fighter with a heart of stone.",
   "public": true,
   "createdAt": "1970-01-01T00:00:00.000Z",
   "updatedAt": "1970-01-01T00:00:00.000Z",
   "SheetLabels": [
     {
-      "labelId": 1,
-      "name": "Example Label Name",
+      "labelId": 2,
+      "name": "Strength",
       "dataType": "string",
       "labelOwnerId": 1,
       "index": 0,
-      "value": "example-value",
-      "sheetId": 1,
+      "value": "19",
+      "sheetId": 5,
       "createdAt": "1970-01-01T00:00:00.000Z",
       "updatedAt": "1970-01-01T00:00:00.000Z"
     }
@@ -92,53 +94,35 @@ Some routes are additionally labeled "Authorized users only", indicating that th
 }
 ```
 
-The `dataType` field of a `SheetsLabel` object may be one of `number`, `boolean`, or `string`.
+The `dataType` field of a `SheetLabel` object may be one of `number`, `boolean`, or `string`.
 
-create a sheet:
+omitted: public, create a sheet, update a sheet, delete a sheet,
 
-```json
-{
-  "message": "Successfully created sheet",
-  "sheet": {
-    "id": 1,
-    "name": "Example Sheet Name",
-    "description": "Example sheet description.",
-    "public": false,
-    "ownerId": 1,
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "createdAt": "1970-01-01T00:00:00.000Z"
-  }
-}
-```
-
-update a sheet:
+### Labels
 
 ```json
 {
-  "sheet": {
-    "id": 1,
-    "name": "New Sheet Name",
-    "description": "New sheet description.",
-    "public": true,
-    "ownerId": 21,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z"
-  }
+  "id": 1,
+  "ownerId": 1,
+  "name": "Example Label Name",
+  "dataType": "string",
+  "createdAt": "1970-01-01T00:00:00.000Z",
+  "updatedAt": "1970-01-01T00:00:00.000Z",
+  "SheetLabels": [
+    {
+      "sheetId": 1,
+      "name": "Example Sheet Name",
+      "description": "Example sheet description.",
+      "public": true,
+      "sheetOwnerId": 21,
+      "index": 0,
+      "value": "example-value",
+      "labelId": 1,
+      "createdAt": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "1970-01-01T00:00:00.000Z"
+    }
+  ]
 }
-```
-
-delete a sheet:
-
-```json
-  "sheet": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "Example Sheet Name",
-    "public": true,
-    "description": "Example sheet description.",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z"
-  }
 ```
 
 ## Routes
@@ -272,45 +256,13 @@ delete a sheet:
 - Response— _200 Success: Deleted sheet_ with `data.sheet` (omitting `SheetLabels`)
 - Response— _404 Not Found: Sheet not found_
 
+### View All Labels Owned by the Current User
+
+- Endpoint: `GET /labels/current`
+- Requires authentication? Yes
+- Response— _200 Success: Retrieved labels_ with `data.labels`
+
 # Unedited
-
-## Label Routes
-
-### View All Labels Owned by the Current User | `GET /labels/current`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** No
-
-#### 200: Success
-
-```json
-{
-  "labels": [
-    {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Label Name",
-      "dataType": "string",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z",
-      "SheetLabels": [
-        {
-          "sheetId": 1,
-          "name": "Example Sheet Name",
-          "description": "Example sheet description.",
-          "public": true,
-          "sheetOwnerId": 21,
-          "index": 0,
-          "value": "example-value",
-          "labelId": 1,
-          "createdAt": "1970-01-01T00:00:00.000Z",
-          "updatedAt": "1970-01-01T00:00:00.000Z"
-        }
-      ]
-    }
-  ]
-}
-```
 
 ### View the Details of a Specific Label | `GET /labels/:labelId`
 
