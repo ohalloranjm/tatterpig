@@ -125,6 +125,34 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 }
 ```
 
+```json
+{
+  "message": "Success",
+  "label": {
+    "id": 1,
+    "ownerId": 1,
+    "name": "New Label Name",
+    "dataType": "number",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z",
+    "SheetLabels": [
+      {
+        "sheetId": 1,
+        "name": "Example Sheet Name",
+        "description": "Example sheet description.",
+        "public": true,
+        "sheetOwnerId": 21,
+        "index": 0,
+        "value": "example-value",
+        "labelId": 1,
+        "createdAt": "1970-01-01T00:00:00.000Z",
+        "updatedAt": "1970-01-01T00:00:00.000Z"
+      }
+    ]
+  }
+}
+```
+
 ## Routes
 
 ### Sign Up
@@ -288,125 +316,36 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
   - `dataType`: `Data type is required`
   - `dataType`: `Data type must be one of string, number, or boolean`
 
-# Unedited
+### Update a Label
 
-### Update a Label | `PUT /labels/:labelId`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### Request Body
-
-```json
-{
-  "name": "New Label Name",
-  "dataType": "number"
-}
-```
-
-#### 200: Success
-
-```json
-{
-  "message": "Success",
-  "label": {
-    "id": 1,
-    "ownerId": 1,
+- Endpoint: `PUT /labels/:labelId`
+- Requires authentication
+- Authorized users only
+- Request body:
+  ```json
+  {
     "name": "New Label Name",
-    "dataType": "number",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "SheetLabels": [
-      {
-        "sheetId": 1,
-        "name": "Example Sheet Name",
-        "description": "Example sheet description.",
-        "public": true,
-        "sheetOwnerId": 21,
-        "index": 0,
-        "value": "example-value",
-        "labelId": 1,
-        "createdAt": "1970-01-01T00:00:00.000Z",
-        "updatedAt": "1970-01-01T00:00:00.000Z"
-      }
-    ]
+    "dataType": "number"
   }
-}
-```
+  ```
+- Response— _200 Success: Updated label_ with `data.label` (including `SheetLabels`)
+- Response— _400 Bad Request: Request validation failed_ with at least one of the following `errors`:
+  - `name`: `Name is required`
+  - `dataType`: `Data type is required`
+- Response— _400 Bad Request: Model valiadtion failed_ with at least one of the following `errors`:
+  - `name`: `Name must be 50 or fewer characters`
+  - `dataType`: `Data type must be one of string, number, or boolean`
+- Response— _404 Not Found: Label not found_
 
-#### 400: Bad Request (missing, null, or empty fields)
+### Delete a Label
 
-```json
-{
-  "title": "Bad Request",
-  "message": "Bad request.",
-  "errors": {
-    "name": "Name is required",
-    "dataType": "Data type is required"
-  }
-}
-```
+- Endpoint: `DELETE /labels/:labelId`
+- Requires authentication
+- Authorized users only
+- Response— _200 Success: Deleted label_ with `data.label`
+- Response— _404 Not Found: Label not found_
 
-The `errors` object can contain either of the following fields:
-
-- `name`: `Name is required`
-- `dataType`: `Data type is required`
-
-#### 400: Bad Request (all other)
-
-```json
-{
-  "title": "Validation Error",
-  "message": "",
-  "errors": {}
-}
-```
-
-The `errors` object can contain either of the following fields:
-
-- `name`: `Name must be 50 or fewer characters`
-- `dataType`: `Validation isIn on dataType failed` (if `dataType` is not one of `number`, `string`, or `boolean`)
-
-The `message` field for this response is current exhibiting unexpected behavior, which should be fixed with the next backend update.
-
-#### 404: Label Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": "Label not found"
-}
-```
-
-### Delete a Label | `DELETE /labels/:labelId`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### 200: Success
-
-```json
-{
-  "message": "Successfully deleted",
-  "label": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "Example Label Name",
-    "dataType": "string",
-    "createdAt": "2024-10-23T17:48:14.697Z",
-    "updatedAt": "2024-10-23T17:48:14.697Z"
-  }
-}
-```
-
-#### 404: Label Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": "Label not found"
-}
-```
+# Unedited
 
 ## SheetLabel Routes
 
