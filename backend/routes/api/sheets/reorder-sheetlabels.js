@@ -1,15 +1,27 @@
 // reorder the labels in a sheet
 
-const { requireAuth, successResponse } = require('../../../middleware');
+const {
+  requireAuth,
+  validateRequest,
+  successResponse,
+} = require('../../../middleware');
 const { Sheet, SheetLabel } = require('../../../database/models');
 const {
   AuthorizationError,
   NotFoundError,
   BadRequestError,
 } = require('../../../utils/errors');
+const { check } = require('express-validator');
 
 module.exports = [
   requireAuth,
+
+  check('order')
+    .exists()
+    .isArray()
+    .withMessage('Order must be an array of label IDs.'),
+
+  validateRequest,
 
   async (req, res, next) => {
     const { sheetId } = req.params;
@@ -47,12 +59,12 @@ module.exports = [
       throw err;
     }
 
+    // change index values of each SheetLabel to reflect order
     let index = 0;
     for (const sheetLabelId of order) {
       const sheetLabel = sheet.SheetLabels.find(
         sl => sl.Label.dataValues.id === sheetLabelId
       );
-      console.log(sheetLabelId);
       if (!sheetLabel) throw new NotFoundError('Sheet label not found');
       await sheetLabel.update({ index });
       index++;

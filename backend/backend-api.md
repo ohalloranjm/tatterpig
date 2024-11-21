@@ -470,12 +470,14 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 - Endpoint: `PUT /sheets/:sheetId/labels`
 - Requires authentication
 - Authorized users only
-- Request body (`order` is an array of `labelId`s) (TODO: validate order)
+- Request body (`order` is an array of `labelId`s)
   ```json
   { "order": [1] }
   ```
+- Response— _400 Bad Request: Request validation failed_ with `errors.order` equal to `Order must be an array of label IDs.`
 - Response— _400 Bad Request: Sheet labels missing_ with `errors.order.missingLabelIds` equal to an array of Label IDs not found in the request
 - Response— _404 Not Found: Sheet labels not found_ with `errors.order.notFoundLabelIds` equal to an array of Label IDs in the request with no corresponding SheetLabel value
+- Response— _404 Not Found: Sheet not found_
 
 #### 200: Success
 
@@ -511,17 +513,6 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
   }
 }
 ```
-
-#### 404: Resource Not Found
-
-```json
-{
-  "title": "Resource Not Found",
-  "message": ""
-}
-```
-
-The `message` field is one of `Sheet not found` or `Sheet label not found`.
 
 ### Disassociate a Label from a Sheet
 
