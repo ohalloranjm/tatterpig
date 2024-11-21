@@ -1,5 +1,6 @@
 // reorder the labels in a sheet
 
+const { check } = require('express-validator');
 const {
   requireAuth,
   validateRequest,
@@ -11,7 +12,7 @@ const {
   NotFoundError,
   BadRequestError,
 } = require('../../../utils/errors');
-const { check } = require('express-validator');
+const { formatSheetLabelsMutate } = require('../../../utils/functions');
 
 module.exports = [
   requireAuth,
@@ -69,6 +70,8 @@ module.exports = [
       await sheetLabel.update({ index });
       index++;
     }
+
+    formatSheetLabelsMutate(sheet.SheetLabels);
 
     res.message = 'Reordered sheet labels.';
     res.data = { sheet };

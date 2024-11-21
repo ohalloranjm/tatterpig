@@ -449,7 +449,7 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 - Endpoint: `PUT /sheets/:sheetId/labels/:labelId`
 - Requires authentication
 - Authorized users only
-- Request body (`value` may be `null`)
+- Request body (`value` may be `null`):
   ```json
   {
     "value": "example-new-value"
@@ -474,45 +474,11 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
   ```json
   { "order": [1] }
   ```
+- Response— _200 Success: Reordered sheet labels_ with `data.sheet`
 - Response— _400 Bad Request: Request validation failed_ with `errors.order` equal to `Order must be an array of label IDs.`
 - Response— _400 Bad Request: Sheet labels missing_ with `errors.order.missingLabelIds` equal to an array of Label IDs not found in the request
 - Response— _404 Not Found: Sheet labels not found_ with `errors.order.notFoundLabelIds` equal to an array of Label IDs in the request with no corresponding SheetLabel value
 - Response— _404 Not Found: Sheet not found_
-
-#### 200: Success
-
-```json
-{
-  "message": "Success",
-  "sheet": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "Example Sheet Name",
-    "public": true,
-    "description": "Example sheet description.",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "SheetLabels": [
-      {
-        "sheetId": 1,
-        "labelId": 1,
-        "value": "example-value",
-        "index": 0,
-        "createdAt": "1970-01-01T00:00:00.000Z",
-        "updatedAt": "1970-01-01T00:00:00.000Z",
-        "Label": {
-          "id": 1,
-          "ownerId": 1,
-          "name": "Example Label Name",
-          "dataType": "string",
-          "createdAt": "1970-01-01T00:00:00.000Z",
-          "updatedAt": "1970-01-01T00:00:00.000Z"
-        }
-      }
-    ]
-  }
-}
-```
 
 ### Disassociate a Label from a Sheet
 
@@ -520,4 +486,4 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 - Requires authentication
 - Authorized users only
 - Response— _200 Success: Deleted sheet label_ with `data.sheetLabel`
-- Response— _400 Not Found: Sheet label not found_
+- Response— _404 Not Found: Sheet label not found_
