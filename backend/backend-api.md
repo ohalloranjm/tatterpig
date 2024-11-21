@@ -169,13 +169,75 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 }
 ```
 
+```json
+{
+  "message": "Success",
+  "sheetLabel": {
+    "sheetId": 1,
+    "labelId": 308,
+    "value": "example-new-value",
+    "index": 0,
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z",
+    "Sheet": {
+      "id": 1,
+      "ownerId": 1,
+      "name": "Example Sheet Name",
+      "public": true,
+      "description": "Example sheet description.",
+      "createdAt": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "1970-01-01T00:00:00.000Z"
+    },
+    "Label": {
+      "id": 1,
+      "ownerId": 1,
+      "name": "Example Label Name",
+      "dataType": "string",
+      "createdAt": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "1970-01-01T00:00:00.000Z"
+    }
+  }
+}
+```
+
+```json
+{
+  "message": "Successfully deleted",
+  "sheetLabel": {
+    "sheetId": 1,
+    "labelId": 1,
+    "value": "example-value",
+    "index": 0,
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z",
+    "Sheet": {
+      "id": 1,
+      "ownerId": 1,
+      "name": "Example Sheet Name",
+      "public": true,
+      "description": "Example sheet description.",
+      "createdAt": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "1970-01-01T00:00:00.000Z"
+    },
+    "Label": {
+      "id": 1,
+      "ownerId": 1,
+      "name": "Example Label Name",
+      "ephemeral": false,
+      "dataType": "string",
+      "createdAt": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "1970-01-01T00:00:00.000Z"
+    }
+  }
+}
+```
+
 ## Routes
 
 ### Sign Up
 
 - Endpoint: `POST /users`
 - Request body:
-
   ```json
   {
     "email": "example@email.io",
@@ -183,15 +245,12 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
     "password": "example-password"
   }
   ```
-
 - Response— _201 Success: Created account_ with `data.user`
 - Response— _400 Bad Request: Request validation failed_ with one or more of the following `errors`:
-
   - `email`: `Please provide a valid email.`
   - `username`: `Username must be 4 characters or more.`
   - `username`: `Username cannot be an email.`
   - `password`: `Password must be 6 characters or more.`
-
 - Response— _400 Bad Request: Model validation failed_ with one of the following `errors` (in order of precedence):
   - `username` : `Username must be between 4 and 30 characters.`
   - `email`: `email must be unique`
@@ -373,116 +432,50 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
     "value": "example-value"
   }
   ```
-- Response— _200 Success: Added label to sheet_ with `data.sheetLabel`
+- Response— _201 Success: Added label to sheet_ with `data.sheetLabel`
 - Response— _400 Bad Request: Wrong data type_ with one of the following `errors.value`:
   - `Value must be a number` (if the `dataType` of the label is `number`)
   - `Value must be true or false` (if the `dataType` of the label is `boolean`)
 - Response— _400 Bad Request: Model validation failed_ with one of the following `errors.value`:
   - `Value cannot be empty`
   - `Value must be 500 or fewer characters`
+  - `sheetId`: `sheetId must be unique` (if the label and sheet are already associated)
+  - `labeltId`: `labeltId must be unique` (if the label and sheet are already associated)
 - Response— _404 Not Found: Sheet not found_
 - Response— _404 Not Found: Label not found_ (takes precedence over _Sheet not found_ if neither record exists)
 
-# Unedited
+### Change the Value of a SheetLabel Instance
 
-### Change the Value of a SheetLabel Instance | `PUT /sheets/:sheetId/labels/:labelId`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### Request Body
-
-```json
-{
-  "value": "example-new-value"
-}
-```
-
-#### 200: Success
-
-```json
-{
-  "message": "Success",
-  "sheetLabel": {
-    "sheetId": 1,
-    "labelId": 308,
-    "value": "example-new-value",
-    "index": 0,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "Sheet": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Sheet Name",
-      "public": true,
-      "description": "Example sheet description.",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    },
-    "Label": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Label Name",
-      "dataType": "string",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    }
+- Endpoint: `PUT /sheets/:sheetId/labels/:labelId`
+- Requires authentication
+- Authorized users only
+- Request body (`value` may be `null`)
+  ```json
+  {
+    "value": "example-new-value"
   }
-}
-```
+  ```
+- Response— _200 Success: Updated sheet label_ with `data.sheetLabel`
+- Response— _400 Bad Request: Request validation failed_ with `errors.value` equal to `Value is required`
+- Response— _400 Bad Request: Wrong data type_ with one of the following `errors.value`:
+  - `Value must be a number` (if the `dataType` of the label is `number`)
+  - `Value must be true or false` (if the `dataType` of the label is `boolean`)
+- Response— _400 Bad Request: Model validation failed_ with one of the following `errors.value`:
+  - `Value cannot be empty`
+  - `Value must be 500 or fewer characters`
+- Response— _404 Not Found: Sheet label not found_
 
-#### 400: Bad Request (`value` is >500 characters long or is `""`)
+### Reorder a Sheet's Labels
 
-```json
-{
-  "title": "Validation Error",
-  "message": "Validation error: Value must be 500 or fewer characters",
-  "errors": {
-    "value": "Value must be 500 or fewer characters"
-  }
-}
-```
-
-#### 400: Bad Request (all other)
-
-```json
-{
-  "title": "Bad Request",
-  "message": "Bad request.",
-  "errors": {
-    "value": "Value is required",
-    "value": "Value must be a number",
-    "Value must be true or false"
-  }
-}
-```
-
-The `errors` > `value` field is one of the following:
-
-- `Value is required`
-- `Value must be a number` (if the `dataType` of the label is `number`)
-- `Value must be true or false` (if the `dataType` of the label is `boolean`)
-
-#### 404: Instance Not Found
-
-```json
-{
-  "title": "Resource Not Found"
-}
-```
-
-### Reorder a Sheet's Labels | `PUT /sheets/:sheetId/labels`
-
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### Request Body
-
-```json
-{ "order": [1] }
-```
-
-The `order` array should contain every `labelId` associated with the sheet, in the intended order.
+- Endpoint: `PUT /sheets/:sheetId/labels`
+- Requires authentication
+- Authorized users only
+- Request body (`order` is an array of `labelId`s) (TODO: validate order)
+  ```json
+  { "order": [1] }
+  ```
+- Response— _400 Bad Request: Sheet labels missing_ with `errors.order.missingLabelIds` equal to an array of Label IDs not found in the request
+- Response— _404 Not Found: Sheet labels not found_ with `errors.order.notFoundLabelIds` equal to an array of Label IDs in the request with no corresponding SheetLabel value
 
 #### 200: Success
 
@@ -530,53 +523,10 @@ The `order` array should contain every `labelId` associated with the sheet, in t
 
 The `message` field is one of `Sheet not found` or `Sheet label not found`.
 
-### Disassociate a Label from a Sheet | `DELETE /sheets/:sheetId/labels/:labelId`
+### Disassociate a Label from a Sheet
 
-- **Requires authentication?** Yes
-- **Authorized users only?** Yes
-
-#### 200: Success
-
-```json
-{
-  "message": "Successfully deleted",
-  "sheetLabel": {
-    "sheetId": 1,
-    "labelId": 1,
-    "value": "example-value",
-    "index": 0,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "Sheet": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Sheet Name",
-      "public": true,
-      "description": "Example sheet description.",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    },
-    "Label": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Label Name",
-      "ephemeral": false,
-      "dataType": "string",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    }
-  }
-}
-```
-
-#### 404: Instance Not Found
-
-```json
-{
-  "title": "Resource Not Found"
-}
-```
-
-```
-
-```
+- Endpoint: `DELETE /sheets/:sheetId/labels/:labelId`
+- Requires authentication
+- Authorized users only
+- Response— _200 Success: Deleted sheet label_ with `data.sheetLabel`
+- Response— _400 Not Found: Sheet label not found_

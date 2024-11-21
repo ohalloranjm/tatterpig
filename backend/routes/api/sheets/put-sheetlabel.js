@@ -26,7 +26,7 @@ module.exports = [
       include: [Sheet, Label],
     });
 
-    if (!sheetLabel) throw new NotFoundError();
+    if (!sheetLabel) throw new NotFoundError('Sheet label not found.');
     if (sheetLabel.Sheet.ownerId !== req.user.id) {
       throw new AuthorizationError();
     }
