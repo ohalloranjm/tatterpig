@@ -114,13 +114,11 @@ Unlike most data objects, it does not contain a `createdAt` or `updatedAt` field
   "updatedAt": "1970-01-01T00:00:00.000Z",
   "SheetLabels": [
     {
-      "labelId": 2,
+      "labelId": 49,
       "name": "Strength",
-      "dataType": "string",
-      "labelOwnerId": 1,
+      "dataType": "number",
       "index": 0,
       "value": "19",
-      "sheetId": 5,
       "createdAt": "1970-01-01T00:00:00.000Z",
       "updatedAt": "1970-01-01T00:00:00.000Z"
     }
@@ -128,51 +126,44 @@ Unlike most data objects, it does not contain a `createdAt` or `updatedAt` field
 }
 ```
 
-A `Sheet` object represents a stat sheet owned by a specific user. It contains the following fields:
+A Sheet object represents a stat sheet owned by a specific user. It contains the following fields:
 
 - `id` (integer): Unique database identifier
+- `ownerId`: Database identifier of the user who owns the sheet
 - `name` (string): Title of the sheet, 50 or fewer characters
 - `description` (string or null): Optional description of the sheet, 2000 or fewer characters
-- `ownerId`: Identifier corresponding to the user
 - `public` (boolean): Whether the sheet and its SheetLabels are visible to users other than the sheet owner
+- `createdAt` (string): ISO-8601 timestamp of the sheet's creation
+- `updatedAt` (string): ISO-8601 timestamp of the most recent update to any of the sheet's fields except `SheetLabels`
+- `SheetLabels` (array of objects): All labels associated with this sheet and their values
+  - `labelId` (integer): Database identifier of the label
+  - `name` (string): Name of the label, 50 or fewer charaters
+  - `dataType` (string): Data type of the label, one of `number`, `string`, or `boolean`
+  - `index` (integer): Place order of the label relative to the sheet's other labels
+  - `value` (string or null): Optional string representation of the label's value, 500 or fewer characters, coercable into a number if the label's `dataType` is `number` (e.g., `"50.1"`), either `"true"` or `"false"` if the label's `dataType` is `boolean`
+  - `createdAt` (string): ISO-8601 timestamp of when the label was associated with this sheet
+  - `updatedAt` (string): ISO-8601 timestamp of the most recent update to the `value` or `index` field
 
-Example:
-
-```json
-{
-  "id": 1,
-  "ownerId": 1,
-  "name": "Example Sheet Name",
-  "description": "Example sheet description.",
-  "public": true,
-  "createdAt": "1970-01-01T00:00:00.000Z",
-  "updatedAt": "1970-01-01T00:00:00.000Z"
-}
-```
-
-The `dataType` field of a `SheetLabel` object may be one of `number`, `boolean`, or `string`.
-
-omitted: public, create a sheet, update a sheet, delete a sheet,
+Note that some routes omit the `SheetLabels` field in their response (as indicated by the route's description).
 
 ### Label
 
 ```json
 {
-  "id": 1,
-  "ownerId": 1,
-  "name": "Example Label Name",
-  "dataType": "string",
+  "id": 49,
+  "ownerId": 23,
+  "name": "Strength",
+  "dataType": "number",
   "createdAt": "1970-01-01T00:00:00.000Z",
   "updatedAt": "1970-01-01T00:00:00.000Z",
   "SheetLabels": [
     {
-      "sheetId": 1,
-      "name": "Example Sheet Name",
-      "description": "Example sheet description.",
+      "sheetId": 5,
+      "name": "Dan Bloodaxe",
+      "description": "5th-level fighter with a heart of stone.",
       "public": true,
-      "sheetOwnerId": 21,
       "index": 0,
-      "value": "example-value",
+      "value": "19",
       "labelId": 1,
       "createdAt": "1970-01-01T00:00:00.000Z",
       "updatedAt": "1970-01-01T00:00:00.000Z"
@@ -181,33 +172,27 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 }
 ```
 
-```json
-{
-  "message": "Success",
-  "label": {
-    "id": 1,
-    "ownerId": 1,
-    "name": "New Label Name",
-    "dataType": "number",
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "SheetLabels": [
-      {
-        "sheetId": 1,
-        "name": "Example Sheet Name",
-        "description": "Example sheet description.",
-        "public": true,
-        "sheetOwnerId": 21,
-        "index": 0,
-        "value": "example-value",
-        "labelId": 1,
-        "createdAt": "1970-01-01T00:00:00.000Z",
-        "updatedAt": "1970-01-01T00:00:00.000Z"
-      }
-    ]
-  }
-}
-```
+A Label object represents a label, or custom field, owned by a specific user that can be attached to any number of sheets owned by that user. It contains the following fields:
+
+- `id` (integer): Unique database identifier
+- `ownerId`: Database identifier of the user who owns the label
+- `name` (string): Name of the label, 50 or fewer charaters
+- `dataType` (string): Data type of the label, one of `number`, `string`, or `boolean`
+- `createdAt` (string): ISO-8601 timestamp of the label's creation
+- `updatedAt` (string): ISO-8601 timestamp of the most recent update to any of the labels's fields except `SheetLabels`
+- `SheetLabels` (array of objects): All sheets this label has been associated with, plus the value in each case
+  - `sheetId` (integer): Database identifier of the label
+  - `name` (string): Title of the sheet, 50 or fewer characters
+  - `description` (string or null): Optional description of the sheet, 2000 or fewer characters
+  - `public` (boolean): Whether the sheet is visible to users other than the sheet owner
+  - `index` (integer): Place order of the label relative to the sheet's other labels
+  - `value` (string or null): Optional string representation of the label's value, 500 or fewer characters, coercable into a number if the label's `dataType` is `number` (e.g., `"50.1"`), either `"true"` or `"false"` if the label's `dataType` is `boolean`
+  - `createdAt` (string): ISO-8601 timestamp of when the label was associated with this sheet
+  - `updatedAt` (string): ISO-8601 timestamp of the most recent update to the `value` or `index` field
+
+Note that some routes omit the `SheetLabels` field in their response (as indicated by the route's description).
+
+<!-- note to self double check the above -->
 
 ### SheetLabel
 
@@ -526,7 +511,7 @@ omitted: public, create a sheet, update a sheet, delete a sheet,
 - Endpoint: `PUT /sheets/:sheetId/labels`
 - Requires authentication
 - Authorized users only
-- Request body (`order` is an array of `labelId`s)
+- Request body (`order` is an array of `labelId`s):
   ```json
   { "order": [1] }
   ```
