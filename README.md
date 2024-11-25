@@ -52,19 +52,29 @@ const ownerId = req.user.id;
 const sheets = await Sheet.findAll({ where: { ownerId } });
 ```
 
-### Error Handling
+### Response Formatting and Error Handling
 
-Error response bodies are JSON objects with the following fields:
+Every response has a JSON object body with `title` and `message` string fields, as well as an optional `data` object field for successful responses or an optional `errors` object field for error responses. Error responses in development also include a `stack` field for the stack trace.
 
-- `title` (string, required)
-- `message` (string, required)
-- `errors` (object, optional)
-- `stack` (string, required, development only)
-
-The raising and handling of errors throughout the Express app is designed to conform to this standard, and in particular to work with the [final error-handling middleware](backend/middleware/error-handling/respond-to-errors.js):
+The middleware chain for every route ends with a [custom middleware](backend/middleware/response-formatting/success-response.js) to make sure all successful responses conform to this standard:
 
 ```js
-handleErrors.push((err, _req, res, _next) => {
+function successResponse (req, res) {
+    const { message } = res;
+
+    const body = { title: 'Success', message };
+    if ('data' in res) body.data = res.data;
+
+    if (req.method === 'POST') res.status(201);
+
+    return res.json(body);
+  },
+```
+
+The [final error-handling middleware](backend/middleware/error-handling/respond-to-errors.js) likewise applies the standard formatting to error responses:
+
+```js
+function respondToErrors (err, _req, res, _next) => {
   res.status(err.status || 500);
   res.json({
     title: err.title || 'Server Error',
@@ -72,10 +82,10 @@ handleErrors.push((err, _req, res, _next) => {
     errors: err.errors,
     stack: isProduction ? null : err.stack,
   });
-});
+};
 ```
 
-The [custom `AuthorizationError`](backend/utils/errors.js), for example, is for situations when a user attempts to access a resource without the correct permissions. When a `new AuthorizationError()` is caught by the final handler, the resulting response will have a status code of 403 and the following body:
+Error-raising throughout the backend is designed to work with the `respondToErrors` function. The [custom `AuthorizationError`](backend/utils/errors.js), for example, is for situations when a user attempts to access a resource without the correct permissions. When a `new AuthorizationError()` is caught by the final handler, the resulting response will have a status code of 403 and the following body:
 
 ```json
 {
@@ -84,11 +94,11 @@ The [custom `AuthorizationError`](backend/utils/errors.js), for example, is for 
 }
 ```
 
-For a full catalog of error responses, see the [backend API documentation](https://github.com/ohalloranjm/tatterpig/wiki/Backend-API).
+For a full catalog of responses, error and otherwise, see the [backend API documentation](https://github.com/ohalloranjm/tatterpig/wiki/Backend-API).
 
-### Response Formatting: SheetLabels Field
+#### SheetLabels Field
 
-Non-error response bodies consist largely of stringified Sequelize model instances. Not much formatting is needed—except when it comes to the `SheetLabels` field on `Sheet` and `Label` instances.
+The `SheetLabels` field on `Sheet` and `Label` instances requires additional formatting.
 
 Consider the `GET /sheets/:sheetId` route. Without any formatting, the response body would look something like this (several fields ommitted for concision):
 

@@ -1,18 +1,21 @@
 // create a new sheet
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { user, body } = req;
     const { name, public, description } = body;
 
     const sheet = await user.createSheet({ name, public, description });
 
-    res.status(201);
+    res.message = 'Created sheet.';
+    res.data = { sheet };
 
-    return res.json({ message: 'Successfully created sheet', sheet });
+    next();
   },
+
+  successResponse,
 ];

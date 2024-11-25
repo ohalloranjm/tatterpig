@@ -1,7 +1,11 @@
 // update a label
 
 const { check } = require('express-validator');
-const { requireAuth, validateRequest } = require('../../../middleware');
+const {
+  requireAuth,
+  validateRequest,
+  successResponse,
+} = require('../../../middleware');
 const { Label, SheetLabel } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
 
@@ -20,7 +24,7 @@ module.exports = [
 
   validateRequest,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { labelId } = req.params;
     const label = await Label.findByPk(labelId, {
       include: SheetLabel.scope('reversed'),
@@ -36,12 +40,18 @@ module.exports = [
 
     const updated = await label.update({ name, dataType });
 
+    res.message = 'Updated label.';
     if (removeValues) {
       for (const sheetLabel of updated.SheetLabels) {
         await sheetLabel.update({ value: null });
       }
+      res.message += ' All sheet label values cleared.';
     }
 
-    return res.json({ message: 'Success', label: updated });
+    res.data = { label: updated };
+
+    next();
   },
+
+  successResponse,
 ];

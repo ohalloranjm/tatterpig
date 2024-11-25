@@ -1,6 +1,10 @@
 // update a sheet
 
-const { requireAuth, validateRequest } = require('../../../middleware');
+const {
+  requireAuth,
+  validateRequest,
+  successResponse,
+} = require('../../../middleware');
 const { check } = require('express-validator');
 const { Sheet } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
@@ -16,7 +20,7 @@ module.exports = [
 
   validateRequest,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { sheetId } = req.params;
     const sheet = await Sheet.findByPk(sheetId);
 
@@ -26,6 +30,12 @@ module.exports = [
     const { name, description, public } = req.body;
 
     const updated = await sheet.update({ name, description, public });
-    return res.json({ sheet: updated });
+
+    res.message = 'Updated sheet.';
+    res.data = { sheet: updated };
+
+    next();
   },
+
+  successResponse,
 ];

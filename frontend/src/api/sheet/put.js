@@ -3,12 +3,13 @@ import { csrfFetch } from '../../store/csrf';
 import { parseQuery } from '../utils';
 
 export default async function putSheet({ request }) {
-  const data = await request.json();
+  const body = await request.json();
   const sheetId = parseQuery(request.url, 'id');
   const res = await csrfFetch(`/api/sheets/${sheetId}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
   });
-  const { sheet } = await res.json();
+  const { data } = await res.json();
+  const { sheet } = data;
   return redirect(`/sheets?id=${sheet.id}`);
 }

@@ -1,13 +1,13 @@
 // view all labels owned by the current user
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 const { Label, SheetLabel } = require('../../../database/models');
 const { formatLabelSheetsMutate } = require('../../../utils/functions');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { id: ownerId } = req.user;
     const labels = await Label.findAll({
       where: { ownerId },
@@ -18,6 +18,11 @@ module.exports = [
       formatLabelSheetsMutate(label.SheetLabels);
     }
 
-    return res.json({ labels });
+    res.message = 'Retrieved labels.';
+    res.data = { labels };
+
+    next();
   },
+
+  successResponse,
 ];

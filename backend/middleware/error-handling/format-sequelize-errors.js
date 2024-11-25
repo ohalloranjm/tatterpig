@@ -1,6 +1,7 @@
 // catch and format Sequelize errors
 
 const { ValidationError } = require('sequelize');
+const { BadRequestError } = require('../../utils/errors');
 
 module.exports = {
   name: 'formatSequelizeErrors',
@@ -10,9 +11,7 @@ module.exports = {
       for (let error of err.errors) {
         errors[error.path] = error.message;
       }
-      err.title = 'Validation Error';
-      err.errors = errors;
-      err.status = 400;
+      throw new BadRequestError(errors, 'Model validation failed.');
     }
     return next(err);
   },

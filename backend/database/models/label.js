@@ -24,7 +24,11 @@ module.exports = (sequelize, DataTypes) => {
           },
           notEmpty: {
             args: true,
-            msg: 'Label name is required',
+            msg: 'Name is required',
+          },
+          notNull: {
+            args: true,
+            msg: 'Name is required',
           },
         },
       },
@@ -32,7 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isIn: [['string', 'number', 'boolean']],
+          isIn: {
+            args: [['string', 'number', 'boolean']],
+            msg: 'Data type must be one of string, number, or boolean',
+          },
+          notNull: {
+            args: true,
+            msg: 'Data type is required',
+          },
         },
       },
     },

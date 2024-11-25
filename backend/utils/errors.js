@@ -11,7 +11,7 @@ class AuthorizationError extends Error {
 class NotFoundError extends Error {
   constructor(...params) {
     super(...params);
-    this.title = 'Resource Not Found';
+    this.title = 'Not Found';
     this.status = 404;
   }
 }

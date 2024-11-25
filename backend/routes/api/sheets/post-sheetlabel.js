@@ -1,6 +1,6 @@
 // associate a label with a sheet
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 const { Sheet, SheetLabel, Label } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
 const { validateLabelValue } = require('../../../utils/functions');
@@ -8,7 +8,7 @@ const { validateLabelValue } = require('../../../utils/functions');
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { sheetId } = req.params;
     const { labelId } = req.body;
 
@@ -25,6 +25,7 @@ module.exports = [
       value = validateLabelValue(value, label);
     }
 
+    // set index equal to the greatest existing index + 1
     const index =
       1 +
       sheet.SheetLabels.reduce(
@@ -34,7 +35,11 @@ module.exports = [
 
     const sheetLabel = await sheet.createSheetLabel({ labelId, value, index });
 
-    res.status(201);
-    return res.json({ message: 'Success', sheetLabel });
+    res.message = 'Added label to sheet.';
+    res.data = { sheetLabel };
+
+    next();
   },
+
+  successResponse,
 ];

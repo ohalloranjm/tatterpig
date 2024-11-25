@@ -1,13 +1,13 @@
 // delete a label
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 const { Label } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { labelId } = req.params;
     const label = await Label.findByPk(labelId);
 
@@ -16,6 +16,11 @@ module.exports = [
 
     await label.destroy();
 
-    return res.json({ message: 'Successfully deleted', label });
+    res.message = 'Deleted label.';
+    res.data = { label };
+
+    next();
   },
+
+  successResponse,
 ];

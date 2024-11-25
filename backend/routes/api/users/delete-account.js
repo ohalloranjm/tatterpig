@@ -1,17 +1,21 @@
 // delete the current user's account
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     await req.user.destroy();
     res.clearCookie('token');
-    delete req.user.dataValues.hashedPassword;
-    return res.json({
-      message: 'Successfully deleted account',
-      user: req.user,
-    });
+
+    res.message = 'Deleted account.';
+
+    const { id, username, email } = req.user;
+    res.data = { user: { id, username, email } };
+
+    next();
   },
+
+  successResponse,
 ];

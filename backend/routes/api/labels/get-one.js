@@ -1,6 +1,6 @@
 // view the details of a specific label
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 const { Label, SheetLabel } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
 const { formatLabelSheetsMutate } = require('../../../utils/functions');
@@ -8,7 +8,7 @@ const { formatLabelSheetsMutate } = require('../../../utils/functions');
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { labelId } = req.params;
     const label = await Label.findByPk(labelId, {
       include: SheetLabel.scope('reversed'),
@@ -19,6 +19,11 @@ module.exports = [
 
     formatLabelSheetsMutate(label.SheetLabels);
 
-    return res.json({ label });
+    res.message = 'Retrieved label.';
+    res.data = { label };
+
+    next();
   },
+
+  successResponse,
 ];

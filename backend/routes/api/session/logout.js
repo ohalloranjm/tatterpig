@@ -1,6 +1,13 @@
 // log out the current user
 
-module.exports = (_req, res) => {
-  res.clearCookie('token');
-  return res.json({ message: 'success' });
-};
+const { successResponse } = require('../../../middleware');
+
+module.exports = [
+  (_req, res, next) => {
+    res.clearCookie('token');
+    res.message = 'Logged out.';
+    next();
+  },
+
+  successResponse,
+];

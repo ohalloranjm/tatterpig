@@ -1,13 +1,13 @@
 // view all sheets owned by the current user
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 const { Sheet, SheetLabel } = require('../../../database/models');
 const { formatSheetLabelsMutate } = require('../../../utils/functions');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { id: ownerId } = req.user;
     const sheets = await Sheet.findAll({
       where: { ownerId },
@@ -18,6 +18,11 @@ module.exports = [
       formatSheetLabelsMutate(sheet.SheetLabels);
     }
 
-    return res.json({ sheets });
+    res.message = 'Retrieved sheets.';
+    res.data = { sheets };
+
+    next();
   },
+
+  successResponse,
 ];

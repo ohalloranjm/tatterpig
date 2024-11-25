@@ -1,18 +1,21 @@
 // create a new label
 
-const { requireAuth } = require('../../../middleware');
+const { requireAuth, successResponse } = require('../../../middleware');
 
 module.exports = [
   requireAuth,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { user, body } = req;
     const { name, dataType } = body;
 
     const label = await user.createLabel({ name, dataType });
 
-    res.status(201);
+    res.message = 'Created label.';
+    res.data = { label };
 
-    return res.json({ message: 'Successfully created label', label });
+    next();
   },
+
+  successResponse,
 ];

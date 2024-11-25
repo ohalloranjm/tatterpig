@@ -1,7 +1,11 @@
 // change the value of a SheetLabel instance
 
 const { check } = require('express-validator');
-const { requireAuth, validateRequest } = require('../../../middleware');
+const {
+  requireAuth,
+  validateRequest,
+  successResponse,
+} = require('../../../middleware');
 const { Sheet, SheetLabel, Label } = require('../../../database/models');
 const { AuthorizationError, NotFoundError } = require('../../../utils/errors');
 const { validateLabelValue } = require('../../../utils/functions');
@@ -13,7 +17,7 @@ module.exports = [
 
   validateRequest,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { sheetId, labelId } = req.params;
     let { value } = req.body;
 
@@ -22,7 +26,7 @@ module.exports = [
       include: [Sheet, Label],
     });
 
-    if (!sheetLabel) throw new NotFoundError();
+    if (!sheetLabel) throw new NotFoundError('Sheet label not found.');
     if (sheetLabel.Sheet.ownerId !== req.user.id) {
       throw new AuthorizationError();
     }
@@ -31,6 +35,11 @@ module.exports = [
 
     await sheetLabel.update({ value });
 
-    return res.json({ message: 'Success', sheetLabel });
+    res.message = 'Updated sheet label.';
+    res.data = { sheetLabel };
+
+    next();
   },
+
+  successResponse,
 ];

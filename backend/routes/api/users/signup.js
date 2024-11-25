@@ -1,7 +1,7 @@
 // sign up as a new user
 
 const { check } = require('express-validator');
-const { validateRequest } = require('../../../middleware');
+const { validateRequest, successResponse } = require('../../../middleware');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie } = require('../../../utils/functions');
 const { User } = require('../../../database/models');
@@ -15,7 +15,7 @@ module.exports = [
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
+    .withMessage('Username must be 4 characters or more.'),
 
   check('username').not().isEmail().withMessage('Username cannot be an email.'),
 
@@ -26,7 +26,7 @@ module.exports = [
 
   validateRequest,
 
-  async (req, res) => {
+  async (req, res, next) => {
     const { email, password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({ email, username, hashedPassword });
@@ -39,8 +39,11 @@ module.exports = [
 
     await setTokenCookie(res, safeUser);
 
-    return res.json({
-      user: safeUser,
-    });
+    res.message = 'Created account.';
+    res.data = { user: safeUser };
+
+    next();
   },
+
+  successResponse,
 ];
