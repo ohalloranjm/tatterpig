@@ -172,7 +172,7 @@ Note that some routes omit the `SheetLabels` field in their response (as indicat
 }
 ```
 
-A Label object represents a label, or custom field, owned by a specific user that can be attached to any number of sheets owned by that user. It contains the following fields:
+A Label object represents a custom field (label) owned by a specific user that can be added to (associated with) any number of sheets owned by that user. It contains the following fields:
 
 - `id` (integer): Unique database identifier
 - `ownerId`: Database identifier of the user who owns the label
@@ -180,8 +180,8 @@ A Label object represents a label, or custom field, owned by a specific user tha
 - `dataType` (string): Data type of the label, one of `number`, `string`, or `boolean`
 - `createdAt` (string): ISO-8601 timestamp of the label's creation
 - `updatedAt` (string): ISO-8601 timestamp of the most recent update to any of the labels's fields except `SheetLabels`
-- `SheetLabels` (array of objects): All sheets this label has been associated with, plus the value in each case
-  - `sheetId` (integer): Database identifier of the label
+- `SheetLabels` (array of objects): All sheets this label has been associated with, plus the label's value and index for each sheet
+  - `sheetId` (integer): Database identifier of the sheet
   - `name` (string): Title of the sheet, 50 or fewer characters
   - `description` (string or null): Optional description of the sheet, 2000 or fewer characters
   - `public` (boolean): Whether the sheet is visible to users other than the sheet owner
@@ -192,86 +192,55 @@ A Label object represents a label, or custom field, owned by a specific user tha
 
 Note that some routes omit the `SheetLabels` field in their response (as indicated by the route's description).
 
-<!-- note to self double check the above -->
-
 ### SheetLabel
 
 ```json
 {
-  "message": "Success",
-  "sheetLabel": {
-    "sheetId": 1,
-    "labelId": 1,
-    "value": "example-value",
-    "index": 0,
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "createdAt": "1970-01-01T00:00:00.000Z"
+  "sheetId": 5,
+  "labelId": 49,
+  "index": 0,
+  "value": "19",
+  "createdAt": "1970-01-01T00:00:00.000Z",
+  "updatedAt": "1970-01-01T00:00:00.000Z",
+  "Sheet": {
+    "ownerId": 23,
+    "name": "Dan Bloodaxe",
+    "public": true,
+    "description": "5th-level fighter with a heart of stone.",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z"
+  },
+  "Label": {
+    "ownerId": 23,
+    "name": "Strength",
+    "dataType": "number",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "updatedAt": "1970-01-01T00:00:00.000Z"
   }
 }
 ```
 
-```json
-{
-  "message": "Success",
-  "sheetLabel": {
-    "sheetId": 1,
-    "labelId": 308,
-    "value": "example-new-value",
-    "index": 0,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "Sheet": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Sheet Name",
-      "public": true,
-      "description": "Example sheet description.",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    },
-    "Label": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Label Name",
-      "dataType": "string",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    }
-  }
-}
-```
+A SheetLabel object represents the association between one label and one sheet. It contains the following fields:
 
-```json
-{
-  "message": "Successfully deleted",
-  "sheetLabel": {
-    "sheetId": 1,
-    "labelId": 1,
-    "value": "example-value",
-    "index": 0,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": "1970-01-01T00:00:00.000Z",
-    "Sheet": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Sheet Name",
-      "public": true,
-      "description": "Example sheet description.",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    },
-    "Label": {
-      "id": 1,
-      "ownerId": 1,
-      "name": "Example Label Name",
-      "ephemeral": false,
-      "dataType": "string",
-      "createdAt": "1970-01-01T00:00:00.000Z",
-      "updatedAt": "1970-01-01T00:00:00.000Z"
-    }
-  }
-}
-```
+- `sheetId` (integer): Database identifier of the associated sheet
+- `labelId` (integer): Database identifier of the associated label
+- `index` (integer): Place order of the label relative to the sheet's other labels
+- `value` (string or null): Optional string representation of the label's value, 500 or fewer characters, coercable into a number if the label's `dataType` is `number` (e.g., `"50.1"`), either `"true"` or `"false"` if the label's `dataType` is `boolean`
+- `createdAt` (string): ISO-8601 timestamp of when the label and sheet were associated
+- `updatedAt` (string): ISO-8601 timestamp of the most recent update to the `value` or `index` field
+- `Sheet` (object): Data pertaining to the associated sheet
+  - `ownerId`: Database identifier of the user who owns the sheet
+  - `name` (string): Title of the sheet, 50 or fewer characters
+  - `description` (string or null): Optional description of the sheet, 2000 or fewer characters
+  - `public` (boolean): Whether the sheet and its SheetLabels are visible to users other than the sheet owner
+  - `createdAt` (string): ISO-8601 timestamp of the sheet's creation
+  - `updatedAt` (string): ISO-8601 timestamp of the most recent update to any of the sheet's fields
+- `Label` (object): Data pertaining to the associated label
+  - `ownerId`: Database identifier of the user who owns the label (redundant with `sheetLabel.Sheet.ownerId`)
+  - `name` (string): Name of the label, 50 or fewer charaters
+  - `dataType` (string): Data type of the label, one of `number`, `string`, or `boolean`
+  - `createdAt` (string): ISO-8601 timestamp of the label's creation
+  - `updatedAt` (string): ISO-8601 timestamp of the most recent update to any of the labels's fields
 
 ## Routes
 
@@ -425,7 +394,7 @@ Note that some routes omit the `SheetLabels` field in their response (as indicat
     "dataType": "string"
   }
   ```
-- Response— _201: Created_ with `data.label`
+- Response— _201: Created_ with `data.label` (omitting `SheetLabels`)
 - Response— _400 Bad Request: Model validation failed_ with at least one of the following `errors`:
   - `name`: `Name is required`
   - `name`: `Name must be 50 or fewer characters`
@@ -444,7 +413,8 @@ Note that some routes omit the `SheetLabels` field in their response (as indicat
     "dataType": "number"
   }
   ```
-- Response— _200 Success: Updated label_ with `data.label` (including `SheetLabels`)
+- Response— _200 Success: Updated label_ with `data.label` (if `dataType` stays constant)
+- Response— _200 Success: Updated label. All sheet label values cleared_ with `data.label` (if `dataType` changes)
 - Response— _400 Bad Request: Request validation failed_ with at least one of the following `errors`:
   - `name`: `Name is required`
   - `dataType`: `Data type is required`
@@ -458,7 +428,7 @@ Note that some routes omit the `SheetLabels` field in their response (as indicat
 - Endpoint: `DELETE /labels/:labelId`
 - Requires authentication
 - Authorized users only
-- Response— _200 Success: Deleted label_ with `data.label`
+- Response— _200 Success: Deleted label_ with `data.label` (omitting `SheetLabels`)
 - Response— _404 Not Found: Label not found_
 
 ### Associate a Label with a Sheet
