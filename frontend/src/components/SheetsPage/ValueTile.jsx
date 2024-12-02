@@ -101,6 +101,7 @@ export default function SheetLabelTile({
 
   const handleDrop = e => {
     const movedId = Number(e.dataTransfer.getData('text/plain'));
+    if (isNaN(movedId)) return setDivClass('sheet-value-tile');
     const newOrder = [];
     order.forEach(id => {
       if (id === labelId) newOrder.push(movedId);
