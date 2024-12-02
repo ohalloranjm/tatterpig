@@ -26,6 +26,7 @@ export default function SheetDetailsView({ sheet, edit }) {
   const [addValue, setAddValue] = useState(false);
   const [settingsView, setSettingsView] = useState(null);
   const [copiedPublicLink, setCopiedPublicLink] = useState(false);
+  const [dropBottomClass, setDropBottomClass] = useState('sd-drop-bottom');
   const submit = useSubmit();
   const navigate = useNavigate();
 
@@ -150,6 +151,34 @@ export default function SheetDetailsView({ sheet, edit }) {
     });
   };
 
+  const handleDragOver = e => {
+    e.preventDefault();
+    setDropBottomClass('sd-drop-bottom-dragover');
+  };
+  const handleDragLeave = e => {
+    e.preventDefault();
+    setDropBottomClass('sd-drop-bottom');
+  };
+  const handleDrop = e => {
+    const moveId = Number(e.dataTransfer.getData('text/plain'));
+    const newOrder = [];
+    order.forEach(id => {
+      if (id !== moveId) newOrder.push(id);
+    });
+    newOrder.push(moveId);
+
+    submit(
+      { order: newOrder },
+      {
+        action: `/sheets?sheetId=${sheet.id}&reorder=true`,
+        method: 'PUT',
+        encType: 'application/json',
+      }
+    );
+
+    setDropBottomClass('sd-drop-bottom');
+  };
+
   return (
     <>
       <div className='sheet-view-details'>
@@ -210,11 +239,17 @@ export default function SheetDetailsView({ sheet, edit }) {
               />
             );
           })}
+          <div
+            className={dropBottomClass}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          ></div>
         </div>
 
         <button
           type='button'
-          className='sd-add-attribute-button'
+          className='sd-add-label-button'
           onClick={() =>
             navigate(
               `/sheets?id=${sheet.id}${
