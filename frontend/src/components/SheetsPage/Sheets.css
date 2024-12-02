@@ -184,9 +184,18 @@ button.boolean-icon:hover {
   background-color: inherit;
 }
 
-.sd-add-attribute-button {
+.sd-drop-bottom {
+  height: 15px;
+}
+
+.sd-drop-bottom-dragover {
+  height: 12px;
+  border-top: 3px solid var(--one);
+}
+
+.sd-add-label-button {
   display: block;
-  margin: 15px auto 20px;
+  margin: 0 auto 20px;
   font-size: 1.1em;
 }
 
