@@ -62,8 +62,7 @@ export default function ValueForm({ sheet }) {
     }
 
     // construct frontend api route
-    let action = `/sheets?id=${sheet.id}&add=label`;
-    if (newLabel) action += '&label=new';
+    let action = `/sheets?id=${sheet.id}&add=label&newLabel=${newLabel}`;
 
     // submit
     submit(body, {
