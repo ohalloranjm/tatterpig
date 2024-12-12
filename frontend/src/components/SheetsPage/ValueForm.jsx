@@ -8,6 +8,9 @@ export default function ValueForm({ sheet }) {
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
 
+  // filtered labels
+  const [labelName, setLabelName] = useState('');
+
   const [selectedLabel, setSelectedLabel] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
@@ -54,6 +57,19 @@ export default function ValueForm({ sheet }) {
 
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
+      <input
+        placeholder='Label name'
+        value={labelName}
+        onChange={e => setLabelName(e.target.value)}
+      />
+
+      <p>
+        {labels
+          .filter(l => l.name.includes(labelName))
+          .map(l => l.name)
+          .join(', ')}
+      </p>
+
       <select
         value={selectedLabel}
         ref={labelInputRef}
