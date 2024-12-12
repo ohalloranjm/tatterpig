@@ -85,9 +85,7 @@ export default function ValueForm({ sheet }) {
     />
   );
 
-  let valueField = (
-    <input className='sdal-value-field' placeholder='Value' disabled={true} />
-  );
+  let valueField = null;
   if (dataType === 'boolean') {
     valueField = (
       <div className='sdal-value-field sdal-value-boolean'>
@@ -111,9 +109,46 @@ export default function ValueForm({ sheet }) {
     );
   }
 
+  let rightComponent = (
+    <button
+      type='button'
+      onClick={() => {
+        setNewLabel(true);
+        setNewDataType('number');
+      }}
+      disabled={!!selectedLabel}
+      className='sdal-new-label-button'
+    >
+      New Label
+    </button>
+  );
+
+  if (newLabel) {
+    rightComponent = (
+      <select
+        value={newDataType}
+        onChange={e => setNewDataType(e.target.value)}
+      >
+        {['number', 'string', 'boolean'].map(dt => (
+          <option key={dt} value={dt}>
+            {dt.slice(0, 1).toUpperCase() + dt.slice(1)}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  if (selectedLabel) {
+    rightComponent = <button type='submit'>Submit</button>;
+  }
+
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
-      <div className='sdal-name-line'>
+      <div
+        className={`sdal-name-line${
+          !newLabel && !selectedLabel ? ' sdal-step-1' : ''
+        }`}
+      >
         <div>
           {/* display back button for step 2 */}
           {(newLabel || selectedLabel) && (
@@ -130,36 +165,11 @@ export default function ValueForm({ sheet }) {
           )}
 
           {nameField}
-
-          {valueField}
         </div>
 
-        {/* New Label button, if clicked opens options for creating a new label */}
-        {newLabel ? (
-          <>
-            <select
-              value={newDataType}
-              onChange={e => setNewDataType(e.target.value)}
-            >
-              {['number', 'string', 'boolean'].map(dt => (
-                <option key={dt} value={dt}>
-                  {dt.slice(0, 1).toUpperCase() + dt.slice(1)}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : (
-          <button
-            type='button'
-            onClick={() => {
-              setNewLabel(true);
-              setNewDataType('number');
-            }}
-            disabled={!!selectedLabel}
-          >
-            New Label
-          </button>
-        )}
+        {valueField}
+
+        {rightComponent}
       </div>
 
       {/* if New Label is not clicked, display filtered list of labels */}
@@ -184,17 +194,14 @@ export default function ValueForm({ sheet }) {
 
       <p className='error sdal-errors'>{errors?.value}</p>
 
-      {/* value input fields and submit button, show up if existing label or New Label is clicked */}
-      {(!!selectedLabel || newLabel) && (
+      {newLabel && (
         <>
+          <div className='sdal-dictionary'>{dictionary[dataType]}</div>
+
           <button type='submit' className='sdal-submit'>
             Submit
           </button>
         </>
-      )}
-
-      {newLabel && (
-        <div className='sdal-dictionary'>{dictionary[dataType]}</div>
       )}
     </form>
   );

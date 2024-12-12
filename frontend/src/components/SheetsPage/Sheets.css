@@ -205,21 +205,36 @@ button.boolean-icon:hover {
 
 .sdal-name-line {
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 1fr 1fr 100px;
+  grid-template-areas: 'sdal-name sdal-value sdal-new';
   gap: 10px;
+}
+
+.sdal-step-1 {
+  grid-template-areas: 'sdal-name sdal-name sdal-new';
 }
 
 .sdal-name-line > div:first-child {
   display: flex;
+  gap: 5px;
+  grid-area: sdal-name;
 }
 
 .sdal-name-field {
   width: 100%;
 }
 
-.sdal-locked-name-line {
-  display: grid;
-  grid-template-columns: auto 1fr;
+.sdal-value-field {
+  grid-area: sdal-value;
+}
+
+.sdal-value-boolean {
+  font-size: 0.8em;
+  color: var(--one);
+}
+
+.sdal-new-label-button {
+  grid-area: sdal-new;
 }
 
 .sdal-name-prompts {
@@ -237,13 +252,9 @@ button.boolean-icon:hover {
   margin-bottom: 5px;
 }
 
-.sdal-value-boolean {
-  font-size: 0.8em;
-  color: var(--one);
-}
-
 .sdal-submit {
   width: fit-content;
+  display: block;
   margin: 10px auto;
 }
 
