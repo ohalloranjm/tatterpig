@@ -75,7 +75,7 @@ export default function ValueForm({ sheet }) {
 
   // configure name and value fields for the first line of the form
   const nameField = selectedLabel ? (
-    <div>{validChoices.find(vc => vc.id === selectedLabel)}</div>
+    <div>{validChoices.find(vc => vc.id === selectedLabel).name}</div>
   ) : (
     <input
       placeholder='Label name'
@@ -109,8 +109,8 @@ export default function ValueForm({ sheet }) {
     <form className='sd-add-label' onSubmit={handleSubmit}>
       <div className='sdal-name-line'>
         <div>
-          {/* display back button for newLabel view */}
-          {newLabel && (
+          {/* display back button for step 2 */}
+          {(newLabel || selectedLabel) && (
             <button
               type='button'
               className='icon'
@@ -129,7 +129,7 @@ export default function ValueForm({ sheet }) {
         </div>
 
         {/* New Label button, if clicked opens options for creating a new label */}
-        {/* {newLabel && ? (
+        {newLabel ? (
           <>
             <select
               value={newDataType}
@@ -153,7 +153,7 @@ export default function ValueForm({ sheet }) {
           >
             New Label
           </button>
-        )} */}
+        )}
       </div>
 
       {/* if New Label is not clicked, display filtered list of labels */}
@@ -179,29 +179,7 @@ export default function ValueForm({ sheet }) {
         </div>
       )}
 
-      {/* special display for confirming an existing label */}
-      {/* {!!selectedLabel && (
-        <>
-          <div className='sdal-locked-name-line'>
-            <button
-              type='button'
-              className='icon'
-              onClick={() => {
-                setSelectedLabel('');
-                setNewLabel(false);
-              }}
-            >
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
-            <p>{labelName}</p>
-          </div>
-          {dataType === 'boolean' && (
-            <p className='sdal-value sdal-value-boolean'>(boolean)</p>
-          )}
-
-          <p className='error sdal-errors'>{errors?.value}</p>
-        </>
-      )} */}
+      <p className='error sdal-errors'>{errors?.value}</p>
 
       {/* value input fields and submit button, show up if existing label or New Label is clicked */}
       {(!!selectedLabel || newLabel) && (
