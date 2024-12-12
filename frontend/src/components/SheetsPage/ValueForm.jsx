@@ -57,6 +57,7 @@ export default function ValueForm({ sheet }) {
     const body = value === null ? {} : { value };
     if (newLabel) {
       body.name = labelName;
+      body.dataType = dataType;
     } else {
       body.labelId = +selectedLabel;
     }
