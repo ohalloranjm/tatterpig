@@ -231,6 +231,14 @@ button.boolean-icon:hover {
   margin: 10px 0;
 }
 
+.sdal-dictionary {
+  font-size: 0.9em;
+}
+
+.sdal-dictionary p {
+  margin-bottom: 5px;
+}
+
 .sdal-value-boolean {
   font-size: 0.8em;
   color: var(--one);
