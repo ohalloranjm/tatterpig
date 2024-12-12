@@ -199,17 +199,35 @@ button.boolean-icon:hover {
   font-size: 1.1em;
 }
 
-.sd-add-label {
+/* .sd-add-label {
   display: grid;
   grid-template-columns: 1fr 1fr 25px;
   grid-template-areas: 'sdal-label sdal-value sdal-submit' 'sdal-errors sdal-errors sdal-errors';
   column-gap: 10px;
   margin-bottom: 25px;
+} */
+
+.sd-add-label {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 25px;
 }
 
-.sdal-label {
-  grid-area: sdal-label;
+.sdal-name-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
+
+.sdal-name-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+/* .sdal-label {
+  grid-area: sdal-label;
+} */
 
 .sdal-value {
   grid-area: sdal-value;

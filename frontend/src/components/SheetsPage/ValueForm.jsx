@@ -8,7 +8,7 @@ export default function ValueForm({ sheet }) {
   const submit = useSubmit();
   const { errors } = useActionData() ?? {};
 
-  // filtered labels
+  // controlled label name input
   const [labelName, setLabelName] = useState('');
 
   const [selectedLabel, setSelectedLabel] = useState('');
@@ -25,6 +25,7 @@ export default function ValueForm({ sheet }) {
     if (toFocus) toFocus.current.focus();
   }, [selectedLabel]);
 
+  // filter out labels already attached to the sheet
   const { SheetLabels: invalidChoices } = sheet;
   const validChoices = labels.filter(
     a => !invalidChoices.some(ic => ic.labelId === a.id)
@@ -57,43 +58,28 @@ export default function ValueForm({ sheet }) {
 
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
-      <input
-        placeholder='Label name'
-        value={labelName}
-        onChange={e => setLabelName(e.target.value)}
-      />
+      <div className='sdal-name-line'>
+        <input
+          placeholder='Label name'
+          value={labelName}
+          onChange={e => setLabelName(e.target.value)}
+        />
+        <button>New Label</button>
+      </div>
 
-      <p>
-        {labels
-          .filter(l => l.name.includes(labelName))
-          .map(l => l.name)
-          .join(', ')}
-      </p>
-
-      <select
-        value={selectedLabel}
-        ref={labelInputRef}
-        onChange={e => {
-          setSelectedLabel(e.target.value);
-          setNumberValue('');
-          setStringValue('');
-        }}
-        onKeyDown={e => {
-          e.preventDefault();
-          if (
-            ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)
-          ) {
-            e.target.showPicker();
-          }
-        }}
-      >
-        <option value={0}>-</option>
-        {validChoices.map(vc => (
-          <option key={vc.id} value={vc.id}>
-            {vc.name}
-          </option>
-        ))}
-      </select>
+      <div className='sdal-name-prompts'>
+        {validChoices
+          .filter(vc => vc.name.toLowerCase().includes(labelName.toLowerCase()))
+          .map(l => (
+            <button
+              className='sdal-name-prompt'
+              onClick={() => setSelectedLabel(l.id)}
+              key={l.id}
+            >
+              {l.name}
+            </button>
+          ))}
+      </div>
 
       {!!selectedLabel && (
         <>
