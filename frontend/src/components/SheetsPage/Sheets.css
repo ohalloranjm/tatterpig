@@ -199,14 +199,6 @@ button.boolean-icon:hover {
   font-size: 1.1em;
 }
 
-/* .sd-add-label {
-  display: grid;
-  grid-template-columns: 1fr 1fr 25px;
-  grid-template-areas: 'sdal-label sdal-value sdal-submit' 'sdal-errors sdal-errors sdal-errors';
-  column-gap: 10px;
-  margin-bottom: 25px;
-} */
-
 .sd-add-label {
   display: grid;
   grid-template-columns: 1fr;
@@ -218,6 +210,11 @@ button.boolean-icon:hover {
   grid-template-columns: 1fr auto;
 }
 
+.sdal-locked-name-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
 .sdal-name-prompts {
   display: flex;
   flex-wrap: wrap;
@@ -225,26 +222,9 @@ button.boolean-icon:hover {
   margin: 10px 0;
 }
 
-/* .sdal-label {
-  grid-area: sdal-label;
-} */
-
-/* .sdal-value {
-  grid-area: sdal-value;
-  text-align: right;
-} */
-
 .sdal-value-boolean {
   font-size: 0.8em;
   color: var(--one);
-}
-
-/* .sdal-submit {
-  grid-area: sdal-submit;
-} */
-
-.sdal-errors {
-  grid-area: sdal-errors;
 }
 
 .sd-bottom-buttons > button {

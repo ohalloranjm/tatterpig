@@ -1,4 +1,4 @@
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 import { useActionData, useLoaderData, useSubmit } from 'react-router-dom';
@@ -89,7 +89,16 @@ export default function ValueForm({ sheet }) {
 
       {!!selectedLabel && (
         <>
-          <p>{validChoices.find(vc => vc.id === selectedLabel).name}</p>
+          <div className='sdal-locked-name-line'>
+            <button
+              type='button'
+              className='icon'
+              onClick={() => setSelectedLabel('')}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+            <p>{validChoices.find(vc => vc.id === selectedLabel).name}</p>
+          </div>
           {dataType === 'number' && (
             <input
               placeholder='Number Value'
