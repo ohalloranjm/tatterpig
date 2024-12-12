@@ -58,31 +58,38 @@ export default function ValueForm({ sheet }) {
 
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
-      <div className='sdal-name-line'>
-        <input
-          placeholder='Label name'
-          value={labelName}
-          onChange={e => setLabelName(e.target.value)}
-        />
-        <button>New Label</button>
-      </div>
-
-      <div className='sdal-name-prompts'>
-        {validChoices
-          .filter(vc => vc.name.toLowerCase().includes(labelName.toLowerCase()))
-          .map(l => (
-            <button
-              className='sdal-name-prompt'
-              onClick={() => setSelectedLabel(l.id)}
-              key={l.id}
-            >
-              {l.name}
-            </button>
-          ))}
-      </div>
+      {!selectedLabel && (
+        <>
+          <div className='sdal-name-line'>
+            <input
+              placeholder='Label name'
+              value={labelName}
+              onChange={e => setLabelName(e.target.value)}
+            />
+            <button type='button'>New Label</button>
+          </div>
+          <div className='sdal-name-prompts'>
+            {validChoices
+              .filter(vc =>
+                vc.name.toLowerCase().includes(labelName.toLowerCase())
+              )
+              .map(l => (
+                <button
+                  type='button'
+                  className='sdal-name-prompt'
+                  onClick={() => setSelectedLabel(l.id)}
+                  key={l.id}
+                >
+                  {l.name}
+                </button>
+              ))}
+          </div>
+        </>
+      )}
 
       {!!selectedLabel && (
         <>
+          <p>{validChoices.find(vc => vc.id === selectedLabel).name}</p>
           {dataType === 'number' && (
             <input
               placeholder='Number Value'

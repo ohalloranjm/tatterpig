@@ -229,19 +229,19 @@ button.boolean-icon:hover {
   grid-area: sdal-label;
 } */
 
-.sdal-value {
+/* .sdal-value {
   grid-area: sdal-value;
   text-align: right;
-}
+} */
 
 .sdal-value-boolean {
   font-size: 0.8em;
   color: var(--one);
 }
 
-.sdal-submit {
+/* .sdal-submit {
   grid-area: sdal-submit;
-}
+} */
 
 .sdal-errors {
   grid-area: sdal-errors;
