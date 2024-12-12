@@ -222,6 +222,16 @@ button.boolean-icon:hover {
   margin: 10px 0;
 }
 
+.sdal-select-data-type {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.sdal-select-data-type label input {
+  width: fit-content;
+  margin-right: 5px;
+}
+
 .sdal-value-boolean {
   font-size: 0.8em;
   color: var(--one);

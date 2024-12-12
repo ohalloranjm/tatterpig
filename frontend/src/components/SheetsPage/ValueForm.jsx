@@ -12,6 +12,9 @@ export default function ValueForm({ sheet }) {
   const [labelName, setLabelName] = useState('');
 
   const [selectedLabel, setSelectedLabel] = useState('');
+  const [newLabel, setNewLabel] = useState(false);
+  const [newDataType, setNewDataType] = useState(null);
+
   const [numberValue, setNumberValue] = useState('');
   const [stringValue, setStringValue] = useState('');
 
@@ -25,13 +28,15 @@ export default function ValueForm({ sheet }) {
     if (toFocus) toFocus.current.focus();
   }, [selectedLabel]);
 
-  // filter out labels already attached to the sheet
+  // filter out labels already associated with the sheet
   const { SheetLabels: invalidChoices } = sheet;
   const validChoices = labels.filter(
     a => !invalidChoices.some(ic => ic.labelId === a.id)
   );
 
-  const dataType = validChoices.find(vc => vc.id === +selectedLabel)?.dataType;
+  // identify data type of selected label, if any
+  const dataType =
+    newDataType || validChoices.find(vc => vc.id === +selectedLabel)?.dataType;
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -58,7 +63,7 @@ export default function ValueForm({ sheet }) {
 
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
-      {!selectedLabel && (
+      {(!selectedLabel && !newLabel && (
         <>
           <div className='sdal-name-line'>
             <input
@@ -66,7 +71,9 @@ export default function ValueForm({ sheet }) {
               value={labelName}
               onChange={e => setLabelName(e.target.value)}
             />
-            <button type='button'>New Label</button>
+            <button type='button' onClick={() => setNewLabel(true)}>
+              New Label
+            </button>
           </div>
           <div className='sdal-name-prompts'>
             {validChoices
@@ -77,7 +84,10 @@ export default function ValueForm({ sheet }) {
                 <button
                   type='button'
                   className='sdal-name-prompt'
-                  onClick={() => setSelectedLabel(l.id)}
+                  onClick={() => {
+                    setSelectedLabel(l.id);
+                    setLabelName(validChoices.find(vc => vc.id === l.id).name);
+                  }}
                   key={l.id}
                 >
                   {l.name}
@@ -85,20 +95,43 @@ export default function ValueForm({ sheet }) {
               ))}
           </div>
         </>
+      )) || (
+        <div className='sdal-locked-name-line'>
+          <button
+            type='button'
+            className='icon'
+            onClick={() => {
+              setSelectedLabel('');
+              setNewLabel(false);
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <p>{labelName}</p>
+        </div>
+      )}
+
+      {newLabel && (
+        <>
+          <div className='sdal-select-data-type'>
+            {['number', 'string', 'boolean'].map(dt => (
+              <label key={dt} className='center'>
+                <input
+                  type='radio'
+                  name='dataType'
+                  value={dt}
+                  checked={dt === dataType}
+                  onChange={() => setNewDataType(dt)}
+                />
+                {dt.slice(0, 1).toUpperCase() + dt.slice(1)}
+              </label>
+            ))}
+          </div>
+        </>
       )}
 
       {!!selectedLabel && (
         <>
-          <div className='sdal-locked-name-line'>
-            <button
-              type='button'
-              className='icon'
-              onClick={() => setSelectedLabel('')}
-            >
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
-            <p>{validChoices.find(vc => vc.id === selectedLabel).name}</p>
-          </div>
           {dataType === 'number' && (
             <input
               placeholder='Number Value'
