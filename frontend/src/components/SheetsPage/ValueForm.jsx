@@ -73,90 +73,114 @@ export default function ValueForm({ sheet }) {
     });
   };
 
+  // configure name and value fields for the first line of the form
+  const nameField = selectedLabel ? (
+    <div>{validChoices.find(vc => vc.id === selectedLabel)}</div>
+  ) : (
+    <input
+      placeholder='Label name'
+      className='sdal-name-field'
+      value={labelName}
+      onChange={e => setLabelName(e.target.value)}
+    />
+  );
+
+  let valueField = <input placeholder='Value' disabled={true} />;
+  if (dataType === 'boolean') {
+    valueField = <div>Defaults to boolean</div>;
+  } else if (newLabel || selectedLabel) {
+    valueField = (
+      <input
+        placeholder={dataType === 'number' ? 'Number Value' : 'Text Value'}
+        type={dataType === 'number' ? 'number' : 'text'}
+        value={dataType === 'number' ? numberValue : stringValue}
+        onChange={e =>
+          (dataType === 'number' ? setNumberValue : setStringValue)(
+            e.target.value
+          )
+        }
+        className='sdal-value'
+        ref={valueInputRef}
+      />
+    );
+  }
+
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
-      {/* display unless an existing label is selected  */}
-      {!selectedLabel && (
-        <>
-          <div className='sdal-name-line'>
-            <div>
-              {newLabel && (
-                <button
-                  type='button'
-                  className='icon'
-                  onClick={() => {
-                    setSelectedLabel('');
-                    setNewLabel(false);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faArrowLeft} />
-                </button>
-              )}
-              <input
-                placeholder='Label name'
-                className='sdal-name-field'
-                value={labelName}
-                onChange={e => setLabelName(e.target.value)}
-              />
-            </div>
+      <div className='sdal-name-line'>
+        <div>
+          {/* display back button for newLabel view */}
+          {newLabel && (
+            <button
+              type='button'
+              className='icon'
+              onClick={() => {
+                setSelectedLabel('');
+                setNewLabel(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+          )}
 
-            {/* New Label button, if clicked opens options for creating a new label */}
-            {newLabel ? (
-              <>
-                <select
-                  value={newDataType}
-                  onChange={e => setNewDataType(e.target.value)}
-                >
-                  {['number', 'string', 'boolean'].map(dt => (
-                    <option key={dt} value={dt}>
-                      {dt.slice(0, 1).toUpperCase() + dt.slice(1)}
-                    </option>
-                  ))}
-                </select>
-                <div className='sdal-dictionary'>{dictionary[dataType]}</div>
-              </>
-            ) : (
+          {nameField}
+
+          {valueField}
+        </div>
+
+        {/* New Label button, if clicked opens options for creating a new label */}
+        {/* {newLabel && ? (
+          <>
+            <select
+              value={newDataType}
+              onChange={e => setNewDataType(e.target.value)}
+            >
+              {['number', 'string', 'boolean'].map(dt => (
+                <option key={dt} value={dt}>
+                  {dt.slice(0, 1).toUpperCase() + dt.slice(1)}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : (
+          <button
+            type='button'
+            onClick={() => {
+              setNewLabel(true);
+              setNewDataType('number');
+            }}
+            disabled={!!selectedLabel}
+          >
+            New Label
+          </button>
+        )} */}
+      </div>
+
+      {/* if New Label is not clicked, display filtered list of labels */}
+      {!newLabel && !selectedLabel && (
+        <div className='sdal-name-prompts'>
+          {validChoices
+            .filter(vc =>
+              vc.name.toLowerCase().includes(labelName.toLowerCase())
+            )
+            .map(l => (
               <button
                 type='button'
+                className='sdal-name-prompt'
                 onClick={() => {
-                  setNewLabel(true);
-                  setNewDataType('number');
+                  setSelectedLabel(l.id);
+                  setLabelName(validChoices.find(vc => vc.id === l.id).name);
                 }}
+                key={l.id}
               >
-                New Label
+                {l.name}
               </button>
-            )}
-          </div>
-
-          {/* if New Label is not clicked, display filtered list of labels */}
-          {!newLabel && (
-            <div className='sdal-name-prompts'>
-              {validChoices
-                .filter(vc =>
-                  vc.name.toLowerCase().includes(labelName.toLowerCase())
-                )
-                .map(l => (
-                  <button
-                    type='button'
-                    className='sdal-name-prompt'
-                    onClick={() => {
-                      setSelectedLabel(l.id);
-                      setLabelName(
-                        validChoices.find(vc => vc.id === l.id).name
-                      );
-                    }}
-                    key={l.id}
-                  >
-                    {l.name}
-                  </button>
-                ))}
-            </div>
-          )}
-        </>
+            ))}
+        </div>
       )}
 
       {/* special display for confirming an existing label */}
-      {!!selectedLabel && (
+      {/* {!!selectedLabel && (
         <>
           <div className='sdal-locked-name-line'>
             <button
@@ -177,34 +201,19 @@ export default function ValueForm({ sheet }) {
 
           <p className='error sdal-errors'>{errors?.value}</p>
         </>
-      )}
+      )} */}
 
       {/* value input fields and submit button, show up if existing label or New Label is clicked */}
       {(!!selectedLabel || newLabel) && (
         <>
-          {dataType === 'number' && (
-            <input
-              placeholder='Number Value'
-              type='number'
-              value={numberValue}
-              onChange={e => setNumberValue(e.target.value)}
-              className='sdal-value'
-              ref={valueInputRef}
-            />
-          )}
-          {dataType === 'string' && (
-            <input
-              placeholder='Text Value'
-              value={stringValue}
-              onChange={e => setStringValue(e.target.value)}
-              className='sdal-value'
-              ref={valueInputRef}
-            />
-          )}
           <button type='submit' className='sdal-submit'>
             Submit
           </button>
         </>
+      )}
+
+      {newLabel && (
+        <div className='sdal-dictionary'>{dictionary[dataType]}</div>
       )}
     </form>
   );

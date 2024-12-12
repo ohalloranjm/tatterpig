@@ -200,8 +200,6 @@ button.boolean-icon:hover {
 }
 
 .sd-add-label {
-  display: grid;
-  grid-template-columns: 1fr;
   margin-bottom: 25px;
 }
 
@@ -242,6 +240,11 @@ button.boolean-icon:hover {
 .sdal-value-boolean {
   font-size: 0.8em;
   color: var(--one);
+}
+
+.sdal-submit {
+  width: fit-content;
+  margin: 10px auto;
 }
 
 .sd-bottom-buttons > button {
