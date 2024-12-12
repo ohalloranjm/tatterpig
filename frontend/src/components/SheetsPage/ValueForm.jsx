@@ -71,7 +71,13 @@ export default function ValueForm({ sheet }) {
               value={labelName}
               onChange={e => setLabelName(e.target.value)}
             />
-            <button type='button' onClick={() => setNewLabel(true)}>
+            <button
+              type='button'
+              onClick={() => {
+                setNewLabel(true);
+                setNewDataType('number');
+              }}
+            >
               New Label
             </button>
           </div>
@@ -114,18 +120,16 @@ export default function ValueForm({ sheet }) {
       {newLabel && (
         <>
           <div className='sdal-select-data-type'>
-            {['number', 'string', 'boolean'].map(dt => (
-              <label key={dt} className='center'>
-                <input
-                  type='radio'
-                  name='dataType'
-                  value={dt}
-                  checked={dt === dataType}
-                  onChange={() => setNewDataType(dt)}
-                />
-                {dt.slice(0, 1).toUpperCase() + dt.slice(1)}
-              </label>
-            ))}
+            <select
+              value={newDataType}
+              onChange={e => setNewDataType(e.target.value)}
+            >
+              {['number', 'string', 'boolean'].map(dt => (
+                <option key={dt} value={dt}>
+                  {dt}
+                </option>
+              ))}
+            </select>
           </div>
         </>
       )}
