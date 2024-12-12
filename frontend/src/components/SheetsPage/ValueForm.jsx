@@ -85,9 +85,15 @@ export default function ValueForm({ sheet }) {
     />
   );
 
-  let valueField = <input placeholder='Value' disabled={true} />;
+  let valueField = (
+    <input className='sdal-value-field' placeholder='Value' disabled={true} />
+  );
   if (dataType === 'boolean') {
-    valueField = <div>Defaults to boolean</div>;
+    valueField = (
+      <div className='sdal-value-field sdal-value-boolean'>
+        Defaults to true
+      </div>
+    );
   } else if (newLabel || selectedLabel) {
     valueField = (
       <input
@@ -99,7 +105,7 @@ export default function ValueForm({ sheet }) {
             e.target.value
           )
         }
-        className='sdal-value'
+        className='sdal-value-field'
         ref={valueInputRef}
       />
     );
@@ -167,10 +173,7 @@ export default function ValueForm({ sheet }) {
               <button
                 type='button'
                 className='sdal-name-prompt'
-                onClick={() => {
-                  setSelectedLabel(l.id);
-                  setLabelName(validChoices.find(vc => vc.id === l.id).name);
-                }}
+                onClick={() => setSelectedLabel(l.id)}
                 key={l.id}
               >
                 {l.name}
