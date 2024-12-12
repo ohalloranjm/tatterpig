@@ -63,79 +63,94 @@ export default function ValueForm({ sheet }) {
 
   return (
     <form className='sd-add-label' onSubmit={handleSubmit}>
-      {(!selectedLabel && !newLabel && (
+      {!selectedLabel && (
         <>
           <div className='sdal-name-line'>
-            <input
-              placeholder='Label name'
-              value={labelName}
-              onChange={e => setLabelName(e.target.value)}
-            />
-            <button
-              type='button'
-              onClick={() => {
-                setNewLabel(true);
-                setNewDataType('number');
-              }}
-            >
-              New Label
-            </button>
-          </div>
-          <div className='sdal-name-prompts'>
-            {validChoices
-              .filter(vc =>
-                vc.name.toLowerCase().includes(labelName.toLowerCase())
-              )
-              .map(l => (
+            <div>
+              {newLabel && (
                 <button
                   type='button'
-                  className='sdal-name-prompt'
+                  className='icon'
                   onClick={() => {
-                    setSelectedLabel(l.id);
-                    setLabelName(validChoices.find(vc => vc.id === l.id).name);
+                    setSelectedLabel('');
+                    setNewLabel(false);
                   }}
-                  key={l.id}
                 >
-                  {l.name}
+                  <FontAwesomeIcon icon={faArrowLeft} />
                 </button>
-              ))}
-          </div>
-        </>
-      )) || (
-        <div className='sdal-locked-name-line'>
-          <button
-            type='button'
-            className='icon'
-            onClick={() => {
-              setSelectedLabel('');
-              setNewLabel(false);
-            }}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </button>
-          <p>{labelName}</p>
-        </div>
-      )}
+              )}
+              <input
+                placeholder='Label name'
+                className='sdal-name-field'
+                value={labelName}
+                onChange={e => setLabelName(e.target.value)}
+              />
+            </div>
 
-      {newLabel && (
-        <>
-          <div className='sdal-select-data-type'>
-            <select
-              value={newDataType}
-              onChange={e => setNewDataType(e.target.value)}
-            >
-              {['number', 'string', 'boolean'].map(dt => (
-                <option key={dt} value={dt}>
-                  {dt}
-                </option>
-              ))}
-            </select>
+            {newLabel ? (
+              <select
+                value={newDataType}
+                onChange={e => setNewDataType(e.target.value)}
+              >
+                {['number', 'string', 'boolean'].map(dt => (
+                  <option key={dt} value={dt}>
+                    {dt}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <button
+                type='button'
+                onClick={() => {
+                  setNewLabel(true);
+                  setNewDataType('number');
+                }}
+              >
+                New Label
+              </button>
+            )}
           </div>
+          {!newLabel && (
+            <div className='sdal-name-prompts'>
+              {validChoices
+                .filter(vc =>
+                  vc.name.toLowerCase().includes(labelName.toLowerCase())
+                )
+                .map(l => (
+                  <button
+                    type='button'
+                    className='sdal-name-prompt'
+                    onClick={() => {
+                      setSelectedLabel(l.id);
+                      setLabelName(
+                        validChoices.find(vc => vc.id === l.id).name
+                      );
+                    }}
+                    key={l.id}
+                  >
+                    {l.name}
+                  </button>
+                ))}
+            </div>
+          )}
         </>
       )}
 
       {!!selectedLabel && (
         <>
+          <div className='sdal-locked-name-line'>
+            <button
+              type='button'
+              className='icon'
+              onClick={() => {
+                setSelectedLabel('');
+                setNewLabel(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+            <p>{labelName}</p>
+          </div>
           {dataType === 'number' && (
             <input
               placeholder='Number Value'

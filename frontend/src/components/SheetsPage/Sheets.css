@@ -207,7 +207,16 @@ button.boolean-icon:hover {
 
 .sdal-name-line {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 100px;
+  gap: 10px;
+}
+
+.sdal-name-line > div:first-child {
+  display: flex;
+}
+
+.sdal-name-field {
+  width: 100%;
 }
 
 .sdal-locked-name-line {
@@ -220,16 +229,6 @@ button.boolean-icon:hover {
   flex-wrap: wrap;
   gap: 5px;
   margin: 10px 0;
-}
-
-.sdal-select-data-type {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.sdal-select-data-type label input {
-  width: fit-content;
-  margin-right: 5px;
 }
 
 .sdal-value-boolean {
