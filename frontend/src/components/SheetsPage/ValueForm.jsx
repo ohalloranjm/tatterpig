@@ -148,7 +148,7 @@ export default function ValueForm({ sheet }) {
 
   if (selectedLabel) {
     rightComponent = (
-      <button type='submit' disabled={okToSubmit}>
+      <button type='submit' disabled={!okToSubmit}>
         Submit
       </button>
     );

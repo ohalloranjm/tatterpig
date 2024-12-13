@@ -16,9 +16,17 @@ export default async function postValue({ request }) {
     labelId = data.label.id;
   }
 
-  await csrfFetch(`/api/sheets/${sheetId}/labels`, {
-    method: 'POST',
-    body: JSON.stringify({ labelId, value }),
-  });
-  return redirect(`/sheets?id=${sheetId}`);
+  try {
+    await csrfFetch(`/api/sheets/${sheetId}/labels`, {
+      method: 'POST',
+      body: JSON.stringify({ labelId, value }),
+    });
+    return redirect(`/sheets?id=${sheetId}`);
+  } catch (err) {
+    // if the label is new and an error is thrown at this stage, delete the label in addition to deleting the error
+    if (newLabel) {
+      await csrfFetch(`/api/labels/${labelId}`, { method: 'DELETE' });
+    }
+    throw err;
+  }
 }
