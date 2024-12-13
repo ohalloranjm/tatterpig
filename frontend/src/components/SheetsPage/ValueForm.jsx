@@ -140,8 +140,14 @@ export default function ValueForm({ sheet }) {
     );
   }
 
+  const okToSubmit = Boolean((newLabel && labelName) || selectedLabel);
+
   if (selectedLabel) {
-    rightComponent = <button type='submit'>Submit</button>;
+    rightComponent = (
+      <button type='submit' disabled={okToSubmit}>
+        Submit
+      </button>
+    );
   }
 
   return (
@@ -200,7 +206,7 @@ export default function ValueForm({ sheet }) {
         <>
           <div className='sdal-dictionary'>{dictionary[dataType]}</div>
 
-          <button type='submit' className='sdal-submit'>
+          <button type='submit' disabled={!okToSubmit} className='sdal-submit'>
             Submit
           </button>
         </>
