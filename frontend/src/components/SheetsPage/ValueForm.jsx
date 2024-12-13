@@ -82,7 +82,11 @@ export default function ValueForm({ sheet }) {
       placeholder='Label name'
       className='sdal-name-field'
       value={labelName}
-      onChange={e => setLabelName(e.target.value)}
+      onChange={e => {
+        let newName = e.target.value;
+        if (newName.length > 50) newName = newName.slice(0, 50);
+        setLabelName(newName);
+      }}
       ref={nameInputRef}
     />
   );
