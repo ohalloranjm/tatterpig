@@ -95,7 +95,7 @@ export default function ValueForm({ sheet }) {
   if (dataType === 'boolean') {
     valueField = (
       <div className='sdal-value-field sdal-value-boolean'>
-        Defaults to true
+        (No input value needed)
       </div>
     );
   } else if (newLabel || selectedLabel) {
@@ -204,7 +204,7 @@ export default function ValueForm({ sheet }) {
         </div>
       )}
 
-      <p className='error sdal-errors'>{errors?.value}</p>
+      <p className='error sdal-errors center'>{errors?.value}</p>
 
       {newLabel && (
         <>

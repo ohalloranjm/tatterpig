@@ -259,6 +259,10 @@ button.boolean-icon:hover {
   margin-bottom: 5px;
 }
 
+.sdal-errors {
+  margin-top: 10px;
+}
+
 .sdal-submit {
   width: fit-content;
   display: block;
