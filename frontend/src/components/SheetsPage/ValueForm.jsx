@@ -30,7 +30,7 @@ export default function ValueForm({ sheet }) {
   useEffect(() => {
     let toFocus = nameInputRef;
     if (valueInputRef.current) toFocus = valueInputRef;
-    toFocus.current.focus();
+    if (toFocus.current) toFocus.current.focus();
   }, [selectedLabel, newLabel]);
 
   // filter out labels already associated with the sheet
