@@ -200,20 +200,38 @@ button.boolean-icon:hover {
 }
 
 .sd-add-label {
-  display: grid;
-  grid-template-columns: 1fr 1fr 25px;
-  grid-template-areas: 'sdal-label sdal-value sdal-submit' 'sdal-errors sdal-errors sdal-errors';
-  column-gap: 10px;
   margin-bottom: 25px;
 }
 
-.sdal-label {
-  grid-area: sdal-label;
+.sdal-name-line {
+  display: grid;
+  grid-template-columns: 1fr 1fr 100px;
+  grid-template-areas: 'sdal-name sdal-value sdal-new';
+  gap: 10px;
 }
 
-.sdal-value {
+.sdal-step-1 {
+  grid-template-areas: 'sdal-name sdal-name sdal-new';
+}
+
+.sdal-name-line > div:first-child {
+  display: flex;
+  gap: 5px;
+  grid-area: sdal-name;
+}
+
+.sdal-name-field {
+  width: 100%;
+}
+
+.sdal-locked-name {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.sdal-value-field {
   grid-area: sdal-value;
-  text-align: right;
 }
 
 .sdal-value-boolean {
@@ -221,12 +239,34 @@ button.boolean-icon:hover {
   color: var(--one);
 }
 
-.sdal-submit {
-  grid-area: sdal-submit;
+.sdal-new-label-button {
+  grid-area: sdal-new;
+}
+
+.sdal-name-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.sdal-dictionary {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.sdal-dictionary p {
+  margin-bottom: 5px;
 }
 
 .sdal-errors {
-  grid-area: sdal-errors;
+  margin-top: 10px;
+}
+
+.sdal-submit {
+  width: fit-content;
+  display: block;
+  margin: 10px auto;
 }
 
 .sd-bottom-buttons > button {

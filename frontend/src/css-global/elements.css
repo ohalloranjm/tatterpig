@@ -34,6 +34,17 @@ button:hover {
   box-shadow: 2px 2px 2px var(--one);
 }
 
+button:disabled {
+  background-color: gray;
+  border: none;
+}
+
+button:disabled:hover {
+  cursor: default;
+  box-shadow: inherit;
+  color: var(--two);
+}
+
 img {
   display: block;
   max-width: 100%;
