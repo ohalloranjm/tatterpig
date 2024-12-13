@@ -224,6 +224,12 @@ button.boolean-icon:hover {
   width: 100%;
 }
 
+.sdal-locked-name {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
 .sdal-value-field {
   grid-area: sdal-value;
 }
@@ -245,6 +251,7 @@ button.boolean-icon:hover {
 }
 
 .sdal-dictionary {
+  margin-top: 10px;
   font-size: 0.9em;
 }
 

@@ -24,14 +24,13 @@ export default function ValueForm({ sheet }) {
   const [stringValue, setStringValue] = useState('');
 
   // auto-focus
-  const labelInputRef = useRef(null);
+  const nameInputRef = useRef(null);
   const valueInputRef = useRef(null);
   useEffect(() => {
-    let toFocus;
-    if (selectedLabel && valueInputRef.current) toFocus = valueInputRef;
-    else if (!selectedLabel && labelInputRef.current) toFocus = labelInputRef;
-    if (toFocus) toFocus.current.focus();
-  }, [selectedLabel]);
+    let toFocus = nameInputRef;
+    if (valueInputRef.current) toFocus = valueInputRef;
+    toFocus.current.focus();
+  }, [selectedLabel, newLabel]);
 
   // filter out labels already associated with the sheet
   const { SheetLabels: invalidChoices } = sheet;
@@ -75,13 +74,16 @@ export default function ValueForm({ sheet }) {
 
   // configure name and value fields for the first line of the form
   const nameField = selectedLabel ? (
-    <div>{validChoices.find(vc => vc.id === selectedLabel).name}</div>
+    <div className='sdal-locked-name'>
+      {validChoices.find(vc => vc.id === selectedLabel).name}
+    </div>
   ) : (
     <input
       placeholder='Label name'
       className='sdal-name-field'
       value={labelName}
       onChange={e => setLabelName(e.target.value)}
+      ref={nameInputRef}
     />
   );
 
