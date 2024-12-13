@@ -26,6 +26,7 @@ export default function ValueForm({ sheet }) {
   // auto-focus
   const nameInputRef = useRef(null);
   const valueInputRef = useRef(null);
+  const firstSearchRef = useRef(null);
   useEffect(() => {
     let toFocus = nameInputRef;
     if (valueInputRef.current) toFocus = valueInputRef;
@@ -72,6 +73,11 @@ export default function ValueForm({ sheet }) {
     });
   };
 
+  const toggleNewLabelDisplay = () => {
+    setNewLabel(true);
+    setNewDataType('number');
+  };
+
   // configure name and value fields for the first line of the form
   const nameField = selectedLabel ? (
     <div className='sdal-locked-name'>
@@ -88,6 +94,17 @@ export default function ValueForm({ sheet }) {
         setLabelName(newName);
       }}
       ref={nameInputRef}
+      onKeyDown={e => {
+        if (!newLabel && !selectedLabel) {
+          if (e.code === 'Enter') {
+            e.preventDefault();
+            toggleNewLabelDisplay();
+          } else if (e.code === 'Tab') {
+            e.preventDefault();
+            firstSearchRef.current.focus();
+          }
+        }
+      }}
     />
   );
 
@@ -118,10 +135,7 @@ export default function ValueForm({ sheet }) {
   let rightComponent = (
     <button
       type='button'
-      onClick={() => {
-        setNewLabel(true);
-        setNewDataType('number');
-      }}
+      onClick={toggleNewLabelDisplay}
       disabled={!!selectedLabel}
       className='sdal-new-label-button'
     >
@@ -191,12 +205,20 @@ export default function ValueForm({ sheet }) {
             .filter(vc =>
               vc.name.toLowerCase().includes(labelName.toLowerCase())
             )
-            .map(l => (
+            .map((l, i) => (
               <button
                 type='button'
                 className='sdal-name-prompt'
                 onClick={() => setSelectedLabel(l.id)}
                 key={l.id}
+                ref={i ? null : firstSearchRef}
+                onKeyDown={e => {
+                  if (i) return;
+                  if (e.shiftKey && e.code === 'Tab') {
+                    e.preventDefault();
+                    nameInputRef.current.focus();
+                  }
+                }}
               >
                 {l.name}
               </button>
